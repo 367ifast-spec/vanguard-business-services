@@ -1,4 +1,3 @@
-import LoadingBar from "../../components/LoadingBar";
 import WhatsAppButton from "../../components/WhatsAppButton";
 import Navbar from "../../components/Navbar";
 import Hero from "../../components/Hero";
@@ -21,10 +20,10 @@ export default function Home() {
       <Hero />
       <Trusted />
       <About />
-       <Stats />
+      <Stats />
       <Services />
       <WhyChooseUs />
-           <Testimonials />
+      <Testimonials />
       <FAQ />
       <CTA />
       <Contact />

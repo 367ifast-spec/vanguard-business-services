@@ -1,10 +1,11 @@
 import { NextResponse } from "next/server";
 import { Resend } from "resend";
 
-const resend = new Resend(process.env.RESEND_API_KEY);
-
 export async function POST(req: Request) {
   try {
+    // Initialize Resend inside the POST function
+    const resend = new Resend(process.env.RESEND_API_KEY);
+
     const body = await req.json();
 
     const { name, email, company, service, message } = body;
@@ -30,11 +31,9 @@ export async function POST(req: Request) {
       `,
     });
 
-    console.log("========== RESEND ==========");
-    console.log(emailResult);
-    console.log("============================");
+    console.log("Email Result:", emailResult);
 
-    // Send Telegram
+    // Send Telegram Message
     const telegramResult = await fetch(
       `https://api.telegram.org/bot${process.env.TELEGRAM_BOT_TOKEN}/sendMessage`,
       {
@@ -68,12 +67,8 @@ ${message}
       success: true,
       message: "Message sent successfully.",
     });
-
   } catch (error) {
-
-    console.error("========== ERROR ==========");
-    console.error(error);
-    console.error("===========================");
+    console.error("API ERROR:", error);
 
     return NextResponse.json(
       {

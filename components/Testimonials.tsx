@@ -23,7 +23,6 @@ export default function Testimonials() {
   return (
     <section className="bg-[#05071d] py-24 text-white">
       <div className="mx-auto max-w-7xl px-6">
-
         <div className="text-center">
           <span className="text-sm font-semibold uppercase tracking-[0.3em] text-blue-400">
             CLIENT TESTIMONIALS
@@ -39,18 +38,17 @@ export default function Testimonials() {
         </div>
 
         <div className="mt-16 grid gap-8 md:grid-cols-2 lg:grid-cols-3">
-
           {testimonials.map((item) => (
             <div
               key={item.name}
               className="rounded-3xl border border-white/10 bg-white/5 p-8 transition duration-300 hover:-translate-y-2 hover:border-blue-500"
             >
-              <div className="mb-6 text-yellow-400 text-xl">
+              <div className="mb-6 text-xl text-yellow-400">
                 ★★★★★
               </div>
 
               <p className="leading-8 text-gray-300">
-                "{item.review}"
+                &ldquo;{item.review}&rdquo;
               </p>
 
               <div className="mt-8 border-t border-white/10 pt-6">
@@ -62,12 +60,9 @@ export default function Testimonials() {
                   {item.company}
                 </p>
               </div>
-
             </div>
           ))}
-
         </div>
-
       </div>
     </section>
   );
