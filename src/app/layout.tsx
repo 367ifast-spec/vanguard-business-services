@@ -54,7 +54,7 @@ export const metadata: Metadata = {
   },
 
   verification: {
-    google: "GOOGLE_VERIFICATION_CODE", // Replace with your actual Google Search Console verification code
+    google: "GOOGLE_VERIFICATION_CODE", // Replace with your Google Search Console verification code
   },
 
   openGraph: {
@@ -99,8 +99,8 @@ const organizationSchema = {
     {
       "@type": "ContactPoint",
       contactType: "Customer Support",
-      email: "vanguardbusinessservices37@gmail.com",
       telephone: "+1-917-735-9503",
+      email: "vanguardbusinessservices37@gmail.com",
       availableLanguage: ["English"],
     },
   ],
@@ -108,6 +108,27 @@ const organizationSchema = {
   sameAs: [
     "https://t.me/vanguardbusinessservices",
   ],
+};
+
+const websiteSchema = {
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  name: "Vanguard Business Services",
+  url: "https://vanguardbusinesservices.com",
+  description:
+    "Professional US LLC Registration, UK LTD Registration, Business Banking and Payment Solutions.",
+
+  publisher: {
+    "@type": "Organization",
+    name: "Vanguard Business Services",
+  },
+
+  potentialAction: {
+    "@type": "SearchAction",
+    target:
+      "https://vanguardbusinesservices.com/?q={search_term_string}",
+    "query-input": "required name=search_term_string",
+  },
 };
 
 export default function RootLayout({
@@ -126,6 +147,14 @@ export default function RootLayout({
           }}
         />
 
+        {/* Website Schema */}
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify(websiteSchema),
+          }}
+        />
+
         {children}
 
         {/* Google Analytics */}
@@ -138,8 +167,11 @@ export default function RootLayout({
             __html: `
               (function(c,l,a,r,i,t,y){
                   c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
-                  t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
-                  y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+                  t=l.createElement(r);
+                  t.async=1;
+                  t.src="https://www.clarity.ms/tag/"+i;
+                  y=l.getElementsByTagName(r)[0];
+                  y.parentNode.insertBefore(t,y);
               })(window, document, "clarity", "script", "xitcmdtf0d");
             `,
           }}
