@@ -44,7 +44,7 @@ export const metadata: Metadata = {
   referrer: "origin-when-cross-origin",
 
   alternates: {
-    canonical: "/",
+    canonical: "https://vanguardbusinesservices.com",
   },
 
   robots: {
@@ -62,6 +62,14 @@ export const metadata: Metadata = {
       "Professional Business Registration & Business Banking Solutions Worldwide.",
     url: "https://vanguardbusinesservices.com",
     siteName: "Vanguard Business Services",
+    images: [
+      {
+        url: "/opengraph-image.png",
+        width: 1200,
+        height: 630,
+        alt: "Vanguard Business Services",
+      },
+    ],
     locale: "en_US",
     type: "website",
   },
@@ -71,6 +79,7 @@ export const metadata: Metadata = {
     title: "Vanguard Business Services",
     description:
       "Professional US LLC Registration, UK LTD Registration, Business Banking & Payment Solutions.",
+    images: ["/opengraph-image.png"],
   },
 };
 
@@ -114,7 +123,6 @@ export default function RootLayout({
             __html: JSON.stringify(organizationSchema),
           }}
         />
-
         {children}
       </body>
     </html>
