@@ -1,3 +1,4 @@
+import { GoogleAnalytics } from "@next/third-parties/google";
 import type { Metadata } from "next";
 import "./globals.css";
 
@@ -53,7 +54,7 @@ export const metadata: Metadata = {
   },
 
   verification: {
-    google: "GOOGLE_VERIFICATION_CODE",google-site-verification: googlebc869ab4eafc492c.html
+    google: "GOOGLE_VERIFICATION_CODE",
   },
 
   openGraph: {
@@ -124,6 +125,7 @@ export default function RootLayout({
           }}
         />
         {children}
+        <GoogleAnalytics gaId="G-W0NVYS45EM" />
       </body>
     </html>
   );
