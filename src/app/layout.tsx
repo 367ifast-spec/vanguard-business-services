@@ -53,7 +53,7 @@ export const metadata: Metadata = {
   },
 
   verification: {
-    google: "GOOGLE_VERIFICATION_CODE",
+    google: "GOOGLE_VERIFICATION_CODE",google-site-verification: googlebc869ab4eafc492c.html
   },
 
   openGraph: {
