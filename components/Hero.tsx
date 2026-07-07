@@ -13,7 +13,7 @@ export default function Hero() {
         <div className="grid w-full gap-16 lg:grid-cols-2">
           <div>
             <span className="inline-flex rounded-full border border-blue-500/30 bg-blue-500/10 px-4 py-2 text-sm font-semibold text-blue-300">
-              🔥 TEST HERO 123 🔥
+              Trusted Global Business Partner
             </span>
 
             <h1 className="mt-8 text-5xl font-extrabold leading-tight md:text-6xl lg:text-7xl">
