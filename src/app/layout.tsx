@@ -1,5 +1,4 @@
 import { GoogleAnalytics } from "@next/third-parties/google";
-import { GoogleAnalytics } from "@next/third-parties/google";
 import type { Metadata } from "next";
 import "./globals.css";
 
@@ -55,7 +54,7 @@ export const metadata: Metadata = {
   },
 
   verification: {
-    google: "GOOGLE_VERIFICATION_CODE",
+    google: "GOOGLE_VERIFICATION_CODE", // Replace with your actual Google Search Console verification code
   },
 
   openGraph: {
@@ -119,28 +118,32 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
+        {/* Organization Schema */}
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
             __html: JSON.stringify(organizationSchema),
           }}
         />
+
         {children}
-        <GoogleAnalytics gaId="G-W0NVYS45EM" />
+
+        {/* Google Analytics */}
         <GoogleAnalytics gaId="G-W0NVYS45EM" />
 
-<script
-  type="text/javascript"
-  dangerouslySetInnerHTML={{
-    __html: `
-      (function(c,l,a,r,i,t,y){
-          c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
-          t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
-          y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
-      })(window, document, "clarity", "script", "xitcmdtf0d");
-    `,
-  }}
-/>
+        {/* Microsoft Clarity */}
+        <script
+          type="text/javascript"
+          dangerouslySetInnerHTML={{
+            __html: `
+              (function(c,l,a,r,i,t,y){
+                  c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+                  t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+                  y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+              })(window, document, "clarity", "script", "xitcmdtf0d");
+            `,
+          }}
+        />
       </body>
     </html>
   );
