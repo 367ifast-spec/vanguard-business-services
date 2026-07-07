@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://vanguardbusinessservices.com"),
+  metadataBase: new URL("https://vanguardbusinesservices.com"),
 
   title: {
     default: "Vanguard Business Services",
@@ -60,7 +60,7 @@ export const metadata: Metadata = {
     title: "Vanguard Business Services",
     description:
       "Professional Business Registration & Business Banking Solutions Worldwide.",
-    url: "https://vanguardbusinessservices.com",
+    url: "https://vanguardbusinesservices.com",
     siteName: "Vanguard Business Services",
     locale: "en_US",
     type: "website",
@@ -78,8 +78,8 @@ const organizationSchema = {
   "@context": "https://schema.org",
   "@type": "Organization",
   name: "Vanguard Business Services",
-  url: "https://vanguardbusinessservices.com",
-  logo: "https://vanguardbusinessservices.com/icon.png",
+  url: "https://vanguardbusinesservices.com",
+  logo: "https://vanguardbusinesservices.com/icon.png",
   description:
     "Professional US LLC Registration, UK LTD Registration, Business Banking, Payment Solutions and Business Consulting.",
 
