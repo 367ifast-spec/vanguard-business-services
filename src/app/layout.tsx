@@ -37,6 +37,16 @@ export const metadata: Metadata = {
 
   publisher: "Vanguard Business Services",
 
+  applicationName: "Vanguard Business Services",
+
+  category: "Business Services",
+
+  referrer: "origin-when-cross-origin",
+
+  alternates: {
+    canonical: "/",
+  },
+
   robots: {
     index: true,
     follow: true,
@@ -64,6 +74,32 @@ export const metadata: Metadata = {
   },
 };
 
+const organizationSchema = {
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  name: "Vanguard Business Services",
+  url: "https://vanguardbusinessservices.com",
+  logo: "https://vanguardbusinessservices.com/icon.png",
+  description:
+    "Professional US LLC Registration, UK LTD Registration, Business Banking, Payment Solutions and Business Consulting.",
+
+  email: "vanguardbusinessservices37@gmail.com",
+
+  contactPoint: [
+    {
+      "@type": "ContactPoint",
+      contactType: "Customer Support",
+      email: "vanguardbusinessservices37@gmail.com",
+      telephone: "+1-917-735-9503",
+      availableLanguage: ["English"],
+    },
+  ],
+
+  sameAs: [
+    "https://t.me/vanguardbusinessservices",
+  ],
+};
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -71,7 +107,16 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body>{children}</body>
+      <body>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify(organizationSchema),
+          }}
+        />
+
+        {children}
+      </body>
     </html>
   );
 }
