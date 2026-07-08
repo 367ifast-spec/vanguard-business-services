@@ -29,12 +29,7 @@ export const metadata: Metadata = {
     "Vanguard Business Services",
   ],
 
-  authors: [
-    {
-      name: "Vanguard Business Services",
-    },
-  ],
-
+  authors: [{ name: "Vanguard Business Services" }],
   creator: "Vanguard Business Services",
   publisher: "Vanguard Business Services",
   applicationName: "Vanguard Business Services",
@@ -59,7 +54,6 @@ export const metadata: Metadata = {
     siteName: "Vanguard Business Services",
     locale: "en_US",
     type: "website",
-
     images: [
       {
         url: "/opengraph-image.png",
@@ -85,9 +79,7 @@ const organizationSchema = {
   name: "Vanguard Business Services",
   url: "https://vanguardbusinessservices.com",
   logo: "https://vanguardbusinessservices.com/icon.png",
-
   email: "vanguardbusinessservices37@gmail.com",
-
   contactPoint: [
     {
       "@type": "ContactPoint",
@@ -97,7 +89,6 @@ const organizationSchema = {
       availableLanguage: ["English"],
     },
   ],
-
   sameAs: ["https://t.me/vanguardbusinessservices"],
 };
 
@@ -116,7 +107,6 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
-        {/* Organization Schema */}
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
@@ -124,7 +114,6 @@ export default function RootLayout({
           }}
         />
 
-        {/* Website Schema */}
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
@@ -168,7 +157,6 @@ export default function RootLayout({
 
         {children}
 
-        {/* Google Analytics */}
         <GoogleAnalytics gaId="G-W0NVYS45EM" />
 
         {/* Microsoft Clarity */}
@@ -186,6 +174,40 @@ export default function RootLayout({
             })(window,document,"clarity","script","xitcmdtf0d");
           `}
         </Script>
+
+        {/* LinkedIn Insight Tag */}
+        <Script id="linkedin-insight" strategy="afterInteractive">
+          {`
+            _linkedin_partner_id = "9626644";
+            window._linkedin_data_partner_ids = window._linkedin_data_partner_ids || [];
+            window._linkedin_data_partner_ids.push(_linkedin_partner_id);
+
+            (function(l){
+              if(!l){
+                window.lintrk = function(a,b){
+                  window.lintrk.q.push([a,b]);
+                };
+                window.lintrk.q=[];
+              }
+              var s=document.getElementsByTagName("script")[0];
+              var b=document.createElement("script");
+              b.type="text/javascript";
+              b.async=true;
+              b.src="https://snap.licdn.com/li.lms-analytics/insight.min.js";
+              s.parentNode.insertBefore(b,s);
+            })(window.lintrk);
+          `}
+        </Script>
+
+        <noscript>
+          <img
+            height="1"
+            width="1"
+            style={{ display: "none" }}
+            alt=""
+            src="https://px.ads.linkedin.com/collect/?pid=9626644&fmt=gif"
+          />
+        </noscript>
       </body>
     </html>
   );
