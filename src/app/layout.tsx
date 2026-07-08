@@ -1,19 +1,18 @@
+import StructuredData from "@/components/StructuredData";
 import Script from "next/script";
 import { GoogleAnalytics } from "@next/third-parties/google";
 import type { Metadata } from "next";
+
 import "./globals.css";
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://vanguardbusinessservices.com"),
-
   title: {
     default: "Vanguard Business Services",
     template: "%s | Vanguard Business Services",
   },
-
   description:
     "Professional US LLC Registration, UK LTD Registration, Business Banking, Payment Solutions, EIN Registration, and Business Consulting for entrepreneurs worldwide.",
-
   keywords: [
     "US LLC Registration",
     "UK LTD Registration",
@@ -28,24 +27,19 @@ export const metadata: Metadata = {
     "EIN Registration",
     "Vanguard Business Services",
   ],
-
   authors: [{ name: "Vanguard Business Services" }],
   creator: "Vanguard Business Services",
   publisher: "Vanguard Business Services",
   applicationName: "Vanguard Business Services",
   category: "Business Services",
-
   referrer: "origin-when-cross-origin",
-
   alternates: {
     canonical: "https://vanguardbusinessservices.com",
   },
-
   robots: {
     index: true,
     follow: true,
   },
-
   openGraph: {
     title: "Vanguard Business Services",
     description:
@@ -63,7 +57,6 @@ export const metadata: Metadata = {
       },
     ],
   },
-
   twitter: {
     card: "summary_large_image",
     title: "Vanguard Business Services",
@@ -71,32 +64,6 @@ export const metadata: Metadata = {
       "Professional US LLC Registration, UK LTD Registration, Business Banking & Payment Solutions.",
     images: ["/opengraph-image.png"],
   },
-};
-
-const organizationSchema = {
-  "@context": "https://schema.org",
-  "@type": "Organization",
-  name: "Vanguard Business Services",
-  url: "https://vanguardbusinessservices.com",
-  logo: "https://vanguardbusinessservices.com/icon.png",
-  email: "vanguardbusinessservices37@gmail.com",
-  contactPoint: [
-    {
-      "@type": "ContactPoint",
-      contactType: "Customer Support",
-      telephone: "+1-917-735-9503",
-      email: "vanguardbusinessservices37@gmail.com",
-      availableLanguage: ["English"],
-    },
-  ],
-  sameAs: ["https://t.me/vanguardbusinessservices"],
-};
-
-const websiteSchema = {
-  "@context": "https://schema.org",
-  "@type": "WebSite",
-  name: "Vanguard Business Services",
-  url: "https://vanguardbusinessservices.com",
 };
 
 export default function RootLayout({
@@ -107,39 +74,19 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{
-            __html: JSON.stringify(organizationSchema),
-          }}
-        />
+        
 
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{
-            __html: JSON.stringify(websiteSchema),
-          }}
-        />
-
-        {/* Facebook Meta Pixel */}
         <Script id="facebook-pixel" strategy="afterInteractive">
           {`
             !function(f,b,e,v,n,t,s)
             {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
             n.callMethod.apply(n,arguments):n.queue.push(arguments)};
-            if(!f._fbq)f._fbq=n;
-            n.push=n;
-            n.loaded=!0;
-            n.version='2.0';
-            n.queue=[];
-            t=b.createElement(e);
-            t.async=!0;
-            t.src=v;
+            if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+            n.queue=[];t=b.createElement(e);t.async=!0;t.src=v;
             s=b.getElementsByTagName(e)[0];
             s.parentNode.insertBefore(t,s);
             }(window, document,'script',
             'https://connect.facebook.net/en_US/fbevents.js');
-
             fbq('init', '1404267761512790');
             fbq('track', 'PageView');
           `}
@@ -159,15 +106,11 @@ export default function RootLayout({
 
         <GoogleAnalytics gaId="G-W0NVYS45EM" />
 
-        {/* Microsoft Clarity */}
         <Script id="microsoft-clarity" strategy="afterInteractive">
           {`
             (function(c,l,a,r,i,t,y){
-              c[a]=c[a]||function(){
-                (c[a].q=c[a].q||[]).push(arguments)
-              };
-              t=l.createElement(r);
-              t.async=1;
+              c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+              t=l.createElement(r);t.async=1;
               t.src="https://www.clarity.ms/tag/"+i;
               y=l.getElementsByTagName(r)[0];
               y.parentNode.insertBefore(t,y);
@@ -175,18 +118,14 @@ export default function RootLayout({
           `}
         </Script>
 
-        {/* LinkedIn Insight Tag */}
         <Script id="linkedin-insight" strategy="afterInteractive">
           {`
-            _linkedin_partner_id = "9626644";
-            window._linkedin_data_partner_ids = window._linkedin_data_partner_ids || [];
+            _linkedin_partner_id="9626644";
+            window._linkedin_data_partner_ids=window._linkedin_data_partner_ids||[];
             window._linkedin_data_partner_ids.push(_linkedin_partner_id);
-
             (function(l){
               if(!l){
-                window.lintrk = function(a,b){
-                  window.lintrk.q.push([a,b]);
-                };
+                window.lintrk=function(a,b){window.lintrk.q.push([a,b]);};
                 window.lintrk.q=[];
               }
               var s=document.getElementsByTagName("script")[0];
@@ -208,7 +147,9 @@ export default function RootLayout({
             src="https://px.ads.linkedin.com/collect/?pid=9626644&fmt=gif"
           />
         </noscript>
+         <StructuredData />
       </body>
     </html>
   );
 }
+
