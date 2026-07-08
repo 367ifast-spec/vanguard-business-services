@@ -1,4 +1,3 @@
-import StructuredData from "@/components/StructuredData";
 import Script from "next/script";
 import { GoogleAnalytics } from "@next/third-parties/google";
 import type { Metadata } from "next";
@@ -147,7 +146,7 @@ export default function RootLayout({
             src="https://px.ads.linkedin.com/collect/?pid=9626644&fmt=gif"
           />
         </noscript>
-         <StructuredData />
+      
       </body>
     </html>
   );
