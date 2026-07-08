@@ -1,34 +1,85 @@
+"use client";
+
+import { useState } from "react";
+
 export default function FAQ() {
   const faqs = [
     {
-      q: "How long does US LLC registration take?",
-      a: "Usually 1–5 business days depending on the state.",
+      question: "How long does company registration take?",
+      answer:
+        "Processing time depends on the jurisdiction and documentation. We guide you through each step and keep you informed throughout the process.",
     },
     {
-      q: "Do you help with UK LTD registration?",
-      a: "Yes, we provide complete UK LTD registration support.",
+      question: "Do you help international clients?",
+      answer:
+        "Yes. We assist entrepreneurs and businesses from many countries with company formation and related business services.",
     },
     {
-      q: "Can you help with payment gateway setup?",
-      a: "Yes, we assist with legal payment solution setup where applicable.",
+      question: "Can you help with business banking?",
+      answer:
+        "We provide guidance for eligible business banking solutions and help you understand the required documentation.",
+    },
+    {
+      question: "Do you provide ongoing support?",
+      answer:
+        "Yes. Our team continues to support clients with business-related questions after the initial setup.",
+    },
+    {
+      question: "How do I get started?",
+      answer:
+        "Simply contact us through our website. We'll discuss your business goals and recommend the most suitable solution.",
     },
   ];
 
-  return (
-    <section className="bg-[#0f172a] py-20 text-white">
-      <div className="mx-auto max-w-5xl px-6">
-        <h2 className="mb-10 text-center text-4xl font-bold">
-          Frequently Asked Questions
-        </h2>
+  const [open, setOpen] = useState<number | null>(0);
 
-        <div className="space-y-5">
+  return (
+    <section
+      id="faq"
+      className="relative bg-[#05071d] py-28 text-white"
+    >
+      <div className="mx-auto max-w-5xl px-6">
+        <div className="text-center">
+          <span className="rounded-full border border-blue-500/30 bg-blue-500/10 px-5 py-2 text-sm font-semibold uppercase tracking-[0.3em] text-blue-400">
+            FAQ
+          </span>
+
+          <h2 className="mt-8 text-5xl font-bold">
+            Frequently Asked Questions
+          </h2>
+
+          <p className="mx-auto mt-6 max-w-3xl text-lg text-gray-400">
+            Find answers to the most common questions about our business
+            registration and support services.
+          </p>
+        </div>
+
+        <div className="mt-16 space-y-5">
           {faqs.map((faq, index) => (
             <div
               key={index}
-              className="rounded-xl border border-gray-700 bg-[#121a2f] p-6"
+              className="overflow-hidden rounded-2xl border border-white/10 bg-white/5 backdrop-blur-xl"
             >
-              <h3 className="text-xl font-semibold">{faq.q}</h3>
-              <p className="mt-3 text-gray-300">{faq.a}</p>
+              <button
+                onClick={() =>
+                  setOpen(open === index ? null : index)
+                }
+                className="flex w-full items-center justify-between px-8 py-6 text-left"
+              >
+                <span className="text-lg font-semibold">
+                  {faq.question}
+                </span>
+
+                <span className="text-2xl text-blue-400">
+                  {open === index ? "−" : "+"}
+                </span>
+              </button>
+
+              {open === index && (
+                <div className="border-t border-white/10 px-8 py-6 text-gray-300 leading-8">
+                  {faq.answer}
+                </div>
+              )}
             </div>
           ))}
         </div>
