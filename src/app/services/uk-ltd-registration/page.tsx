@@ -176,6 +176,125 @@ export default function UKLTDRegistrationPage() {
   </div>
 
 </div>
+{/* Why Register a UK LTD? */}
+
+<div className="mt-24">
+
+  <h2 className="text-4xl font-bold">
+    Why Register a UK Limited Company?
+
+  </h2>
+
+  <p className="mt-8 text-lg leading-8 text-gray-300">
+    A UK Limited Company offers a professional business structure that is
+    widely recognized internationally. It can help entrepreneurs establish a
+    credible presence, separate personal and business responsibilities, and
+    support long-term business growth.
+  </p>
+
+  <p className="mt-6 text-lg leading-8 text-gray-300">
+    Whether you operate an online business, digital agency, SaaS company,
+    consulting firm, or eCommerce brand, registering a UK Limited Company can
+    provide a strong foundation for your business activities.
+  </p>
+
+  <div className="mt-14 grid gap-8 md:grid-cols-2">
+
+    <div className="rounded-3xl border border-white/10 bg-white/5 p-8">
+
+      <h3 className="text-2xl font-bold text-blue-400">
+        Key Benefits
+      </h3>
+
+      <ul className="mt-8 space-y-4 text-gray-300">
+        <li>✔ Professional Business Image</li>
+        <li>✔ Limited Liability Structure</li>
+        <li>✔ International Recognition</li>
+        <li>✔ Business Growth Opportunities</li>
+        <li>✔ Flexible Company Management</li>
+        <li>✔ Long-Term Business Support</li>
+      </ul>
+
+    </div>
+
+    <div className="rounded-3xl border border-white/10 bg-white/5 p-8">
+
+      <h3 className="text-2xl font-bold text-blue-400">
+        Ideal For
+      </h3>
+
+      <ul className="mt-8 space-y-4 text-gray-300">
+        <li>✔ Freelancers</li>
+        <li>✔ Agency Owners</li>
+        <li>✔ eCommerce Businesses</li>
+        <li>✔ SaaS Companies</li>
+        <li>✔ Consultants</li>
+        <li>✔ International Entrepreneurs</li>
+      </ul>
+
+    </div>
+
+  </div>
+
+</div>
+{/* Registration Process */}
+
+<div className="mt-24">
+
+  <h2 className="text-4xl font-bold">
+    Our UK LTD Registration Process
+  </h2>
+
+  <p className="mt-8 text-lg leading-8 text-gray-300">
+    We follow a structured registration process to help entrepreneurs establish
+    their UK Limited Company with confidence and professional guidance.
+  </p>
+
+  <div className="mt-14 grid gap-8 md:grid-cols-2 lg:grid-cols-4">
+
+    {[
+      [
+        "01",
+        "Consultation",
+        "Understand your business goals and recommend the appropriate company structure.",
+      ],
+      [
+        "02",
+        "Documentation",
+        "Assist with the required information and registration documents.",
+      ],
+      [
+        "03",
+        "Company Registration",
+        "Complete the UK LTD registration process professionally.",
+      ],
+      [
+        "04",
+        "Ongoing Support",
+        "Continue providing guidance after your company has been registered.",
+      ],
+    ].map(([step, title, description]) => (
+      <div
+        key={step}
+        className="rounded-3xl border border-white/10 bg-white/5 p-8"
+      >
+        <div className="text-5xl font-extrabold text-blue-500">
+          {step}
+        </div>
+
+        <h3 className="mt-6 text-2xl font-bold">
+          {title}
+        </h3>
+
+        <p className="mt-4 leading-7 text-gray-300">
+          {description}
+        </p>
+      </div>
+    ))}
+
+  </div>
+
+</div>
           </a>
         </section>
       </main>
