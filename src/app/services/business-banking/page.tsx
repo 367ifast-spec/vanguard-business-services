@@ -153,7 +153,51 @@ export default function BusinessBankingPage() {
               jurisdiction, and documentation requirements.
             </p>
           </div>
+{/* Frequently Asked Questions */}
 
+<div className="mt-24">
+
+  <h2 className="text-4xl font-bold">
+    Frequently Asked Questions
+  </h2>
+
+  <div className="mt-12 space-y-6">
+
+    {[
+      {
+        q: "Who can benefit from business banking guidance?",
+        a: "Our guidance is suitable for freelancers, startups, agencies, SaaS businesses, eCommerce companies, consultants, and international entrepreneurs.",
+      },
+      {
+        q: "Do you help with required documentation?",
+        a: "Yes. We provide guidance on preparing the information and documentation commonly required during the onboarding process.",
+      },
+      {
+        q: "Do you provide ongoing support?",
+        a: "Yes. We continue assisting clients with business-related guidance after the initial setup process.",
+      },
+      {
+        q: "Can international entrepreneurs use your services?",
+        a: "Yes. We support entrepreneurs from many countries based on their business goals and applicable requirements.",
+      },
+    ].map((faq) => (
+      <div
+        key={faq.q}
+        className="rounded-2xl border border-white/10 bg-white/5 p-6"
+      >
+        <h3 className="text-xl font-semibold text-blue-400">
+          {faq.q}
+        </h3>
+
+        <p className="mt-3 text-gray-300 leading-7">
+          {faq.a}
+        </p>
+      </div>
+    ))}
+
+  </div>
+
+</div>
           <div className="mt-12 flex flex-wrap gap-4">
             {/* Business Banking Benefits */}
 
