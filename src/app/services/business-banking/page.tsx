@@ -155,6 +155,58 @@ export default function BusinessBankingPage() {
           </div>
 
           <div className="mt-12 flex flex-wrap gap-4">
+            {/* Business Banking Benefits */}
+
+<div className="mt-20">
+
+  <h2 className="text-4xl font-bold">
+    Why Business Banking Matters
+  </h2>
+
+  <p className="mt-8 text-lg leading-8 text-gray-300">
+    A dedicated business banking solution helps separate business and personal finances,
+    improve financial organization, and support long-term business growth.
+  </p>
+
+  <div className="mt-14 grid gap-8 md:grid-cols-2">
+
+    <div className="rounded-3xl border border-white/10 bg-white/5 p-8">
+
+      <h3 className="text-2xl font-bold text-blue-400">
+        Key Benefits
+      </h3>
+
+      <ul className="mt-8 space-y-4 text-gray-300">
+        <li>✔ Better Financial Management</li>
+        <li>✔ Professional Business Image</li>
+        <li>✔ Easier Accounting</li>
+        <li>✔ Payment Processing Support</li>
+        <li>✔ Business Growth Opportunities</li>
+        <li>✔ International Business Readiness</li>
+      </ul>
+
+    </div>
+
+    <div className="rounded-3xl border border-white/10 bg-white/5 p-8">
+
+      <h3 className="text-2xl font-bold text-blue-400">
+        Ideal For
+      </h3>
+
+      <ul className="mt-8 space-y-4 text-gray-300">
+        <li>✔ Freelancers</li>
+        <li>✔ Agency Owners</li>
+        <li>✔ SaaS Businesses</li>
+        <li>✔ eCommerce Businesses</li>
+        <li>✔ Consultants</li>
+        <li>✔ International Entrepreneurs</li>
+      </ul>
+
+    </div>
+
+  </div>
+
+</div>
             <a
               href="/#contact"
               className="rounded-xl bg-blue-600 px-8 py-4 font-semibold transition hover:bg-blue-700"
