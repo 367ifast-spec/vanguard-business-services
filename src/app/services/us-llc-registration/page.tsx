@@ -434,6 +434,66 @@ export default function UsLLCRegistrationPage() {
 
   <h2 className="text-4xl font-bold">
     Who Should Register a US LLC?
+    {/* Registration Process */}
+<section className="border-y border-white/10 bg-[#081126]">
+  <div className="mx-auto max-w-7xl px-6 py-24">
+
+    <h2 className="text-4xl font-bold">
+      Our US LLC Registration Process
+    </h2>
+
+    <p className="mt-8 max-w-4xl text-lg leading-8 text-gray-300">
+      We follow a structured process designed to help entrepreneurs complete
+      their business registration efficiently while providing professional
+      guidance at every stage.
+    </p>
+
+    <div className="mt-16 grid gap-8 md:grid-cols-2 lg:grid-cols-4">
+
+      {[
+        [
+          "01",
+          "Business Consultation",
+          "We discuss your business goals and recommend the most suitable registration approach.",
+        ],
+        [
+          "02",
+          "Document Preparation",
+          "We guide you through the required information and documentation.",
+        ],
+        [
+          "03",
+          "Registration",
+          "Your business registration process is completed with professional support.",
+        ],
+        [
+          "04",
+          "Ongoing Assistance",
+          "We continue supporting your business with practical guidance after registration.",
+        ],
+      ].map(([step, title, description]) => (
+        <div
+          key={step}
+          className="rounded-3xl border border-white/10 bg-white/5 p-8"
+        >
+          <div className="text-5xl font-extrabold text-blue-500">
+            {step}
+          </div>
+
+          <h3 className="mt-6 text-2xl font-bold">
+            {title}
+          </h3>
+
+          <p className="mt-4 leading-7 text-gray-300">
+            {description}
+          </p>
+        </div>
+      ))}
+
+    </div>
+
+  </div>
+</section>
   </h2>
 
   <p className="mt-8 text-lg leading-8 text-gray-300">
