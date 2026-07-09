@@ -5,13 +5,16 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://vanguardbusinessservices.com"),
+  metadataBase: new URL("https://www.vanguardbusinesservices.com"),
+
   title: {
     default: "Vanguard Business Services",
     template: "%s | Vanguard Business Services",
   },
+
   description:
     "Professional US LLC Registration, UK LTD Registration, Business Banking, Payment Solutions, EIN Registration, and Business Consulting for entrepreneurs worldwide.",
+
   keywords: [
     "US LLC Registration",
     "UK LTD Registration",
@@ -23,27 +26,45 @@ export const metadata: Metadata = {
     "Stripe",
     "Wise Business",
     "Payoneer",
+    "PayPal Business",
     "EIN Registration",
     "Vanguard Business Services",
   ],
-  authors: [{ name: "Vanguard Business Services" }],
+
+  authors: [
+    {
+      name: "Vanguard Business Services",
+    },
+  ],
+
   creator: "Vanguard Business Services",
   publisher: "Vanguard Business Services",
   applicationName: "Vanguard Business Services",
   category: "Business Services",
+
   referrer: "origin-when-cross-origin",
+
   alternates: {
-    canonical: "https://vanguardbusinessservices.com",
+    canonical: "https://www.vanguardbusinesservices.com",
   },
+
   robots: {
     index: true,
     follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+      "max-video-preview": -1,
+    },
   },
+
   openGraph: {
     title: "Vanguard Business Services",
     description:
       "Professional Business Registration & Business Banking Solutions Worldwide.",
-    url: "https://vanguardbusinessservices.com",
+    url: "https://www.vanguardbusinesservices.com",
     siteName: "Vanguard Business Services",
     locale: "en_US",
     type: "website",
@@ -56,12 +77,19 @@ export const metadata: Metadata = {
       },
     ],
   },
+
   twitter: {
     card: "summary_large_image",
     title: "Vanguard Business Services",
     description:
       "Professional US LLC Registration, UK LTD Registration, Business Banking & Payment Solutions.",
     images: ["/opengraph-image.png"],
+  },
+
+  icons: {
+    icon: "/favicon.ico",
+    shortcut: "/favicon.ico",
+    apple: "/apple-touch-icon.png",
   },
 };
 
@@ -73,8 +101,6 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
-        
-
         <Script id="facebook-pixel" strategy="afterInteractive">
           {`
             !function(f,b,e,v,n,t,s)
@@ -146,9 +172,7 @@ export default function RootLayout({
             src="https://px.ads.linkedin.com/collect/?pid=9626644&fmt=gif"
           />
         </noscript>
-      
       </body>
     </html>
   );
 }
-

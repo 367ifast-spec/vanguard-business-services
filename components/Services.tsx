@@ -1,23 +1,100 @@
+import Link from "next/link";
+
 export default function Services() {
   const services = [
-    { icon: "🏢", title: "US LLC Registration", description: "Professional US LLC formation with complete guidance and ongoing business support." },
-    { icon: "🇬🇧", title: "UK LTD Registration", description: "Fast and compliant UK company registration for entrepreneurs worldwide." },
-    { icon: "🆔", title: "EIN Registration", description: "Assistance with obtaining your Employer Identification Number (EIN)." },
-    { icon: "🏦", title: "Business Banking", description: "Guidance for eligible business bank account setup and financial solutions." },
-    { icon: "💳", title: "Payment Gateway Setup", description: "Professional support for integrating online payment gateway solutions." },
-    { icon: "💰", title: "Wise Business", description: "Wise Business setup guidance for international business payments." },
-    { icon: "💵", title: "PayPal Business Setup", description: "Professional assistance with PayPal Business account configuration." },
-    { icon: "💸", title: "Payoneer Business", description: "Business payment solution guidance using Payoneer services." },
-    { icon: "🔗", title: "Stripe Integration", description: "Setup guidance for Stripe payment processing for online businesses." },
-    { icon: "👔", title: "LinkedIn Business Consulting", description: "Professional guidance for optimizing your LinkedIn business presence." },
-    { icon: "💬", title: "Telegram Business Setup", description: "Business communication and automation support." },
-    { icon: "📧", title: "Business Email Setup", description: "Professional business email using your company domain." },
+    {
+      icon: "🏢",
+      title: "US LLC Registration",
+      description:
+        "Professional US LLC formation with complete guidance and ongoing business support.",
+      href: "/services/us-llc-registration",
+    },
+    {
+      icon: "🇬🇧",
+      title: "UK LTD Registration",
+      description:
+        "Fast and compliant UK company registration for entrepreneurs worldwide.",
+      href: "/services/uk-ltd-registration",
+    },
+    {
+      icon: "🆔",
+      title: "EIN Registration",
+      description:
+        "Assistance with obtaining your Employer Identification Number (EIN).",
+      href: "/services/ein-registration",
+    },
+    {
+      icon: "🏦",
+      title: "Business Banking",
+      description:
+        "Guidance for eligible business bank account setup and financial solutions.",
+      href: "/services/business-banking",
+    },
+    {
+      icon: "💳",
+      title: "Payment Gateway Setup",
+      description:
+        "Professional support for integrating online payment gateway solutions.",
+      href: "#contact",
+    },
+    {
+      icon: "💰",
+      title: "Wise Business",
+      description:
+        "Wise Business setup guidance for international business payments.",
+      href: "/services/wise-business",
+    },
+    {
+      icon: "💵",
+      title: "PayPal Business Setup",
+      description:
+        "Professional assistance with PayPal Business account configuration.",
+      href: "/services/paypal-business",
+    },
+    {
+      icon: "💸",
+      title: "Payoneer Business",
+      description:
+        "Business payment solution guidance using Payoneer services.",
+      href: "/services/payoneer-business",
+    },
+    {
+      icon: "🔗",
+      title: "Stripe Integration",
+      description:
+        "Setup guidance for Stripe payment processing for online businesses.",
+      href: "/services/stripe-business",
+    },
+    {
+      icon: "👔",
+      title: "LinkedIn Business Consulting",
+      description:
+        "Professional guidance for optimizing your LinkedIn business presence.",
+      href: "#contact",
+    },
+    {
+      icon: "💬",
+      title: "Telegram Business Setup",
+      description:
+        "Business communication and automation support.",
+      href: "#contact",
+    },
+    {
+      icon: "📧",
+      title: "Business Email Setup",
+      description:
+        "Professional business email using your company domain.",
+      href: "#contact",
+    },
   ];
 
   return (
-    <section id="services" className="relative overflow-hidden bg-[#05071d] py-28 text-white">
+    <section
+      id="services"
+      className="relative overflow-hidden bg-[#05071d] py-28 text-white"
+    >
       <div className="absolute left-0 top-20 h-72 w-72 rounded-full bg-blue-600/10 blur-[120px]" />
-      <div className="absolute right-0 bottom-0 h-96 w-96 rounded-full bg-violet-600/10 blur-[160px]" />
+      <div className="absolute bottom-0 right-0 h-96 w-96 rounded-full bg-violet-600/10 blur-[160px]" />
 
       <div className="relative mx-auto max-w-7xl px-6">
         <div className="text-center">
@@ -30,7 +107,8 @@ export default function Services() {
           </h2>
 
           <p className="mx-auto mt-6 max-w-3xl text-lg leading-8 text-gray-400">
-            Everything you need to launch, grow and manage your global business.
+            Everything you need to launch, grow and manage your global
+            business.
           </p>
         </div>
 
@@ -44,20 +122,22 @@ export default function Services() {
                 {service.icon}
               </div>
 
-              <h3 className="mt-8 text-xl font-bold">{service.title}</h3>
+              <h3 className="mt-8 text-xl font-bold">
+                {service.title}
+              </h3>
 
-              <p className="mt-5 text-gray-400 leading-7">
+              <p className="mt-5 leading-7 text-gray-400">
                 {service.description}
               </p>
 
               <div className="mt-8 h-px bg-gradient-to-r from-blue-500/50 to-transparent" />
 
-              <a
-                href="#contact"
+              <Link
+                href={service.href}
                 className="mt-6 inline-flex items-center gap-2 font-semibold text-blue-400 transition group-hover:gap-3"
               >
                 Learn More →
-              </a>
+              </Link>
             </div>
           ))}
         </div>

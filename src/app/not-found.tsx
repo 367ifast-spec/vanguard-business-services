@@ -1,4 +1,15 @@
+import type { Metadata } from "next";
 import Link from "next/link";
+
+export const metadata: Metadata = {
+  title: "404 - Page Not Found",
+  description:
+    "The page you are looking for could not be found on Vanguard Business Services.",
+  robots: {
+    index: false,
+    follow: false,
+  },
+};
 
 export default function NotFound() {
   return (
@@ -13,16 +24,25 @@ export default function NotFound() {
         </h2>
 
         <p className="mt-6 text-lg leading-8 text-gray-400">
-          Sorry, the page you are looking for doesn't exist or may have
-          been moved.
+          Sorry, the page you are looking for doesn't exist, may have been
+          moved, or the URL may be incorrect.
         </p>
 
-        <Link
-          href="/"
-          className="mt-10 inline-block rounded-xl bg-blue-600 px-8 py-4 font-semibold transition hover:bg-blue-700"
-        >
-          Back to Home
-        </Link>
+        <div className="mt-10 flex flex-wrap justify-center gap-4">
+          <Link
+            href="/"
+            className="rounded-xl bg-blue-600 px-8 py-4 font-semibold transition hover:bg-blue-700"
+          >
+            Back to Home
+          </Link>
+
+          <Link
+            href="/#contact"
+            className="rounded-xl border border-blue-600 px-8 py-4 font-semibold text-blue-400 transition hover:bg-blue-600 hover:text-white"
+          >
+            Contact Us
+          </Link>
+        </div>
       </div>
     </main>
   );

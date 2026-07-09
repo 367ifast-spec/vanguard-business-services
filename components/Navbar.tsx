@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useEffect, useState } from "react";
 import { Menu, X, ArrowRight } from "lucide-react";
 import Logo from "./Logo";
@@ -23,17 +24,22 @@ export default function Navbar() {
       setScrolled(window.scrollY > 20);
 
       let current = "#home";
+
       navigation.forEach((item) => {
         const el = document.querySelector(item.href) as HTMLElement | null;
+
         if (el && window.scrollY >= el.offsetTop - 120) {
           current = item.href;
         }
       });
+
       setActive(current);
     };
 
     onScroll();
+
     window.addEventListener("scroll", onScroll);
+
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
@@ -48,11 +54,12 @@ export default function Navbar() {
       <div className="mx-auto flex h-20 max-w-7xl items-center justify-between px-6">
         <Logo />
 
-        <nav className="hidden lg:flex items-center gap-2 rounded-full border border-white/10 bg-white/5 p-2">
+        <nav className="hidden items-center gap-2 rounded-full border border-white/10 bg-white/5 p-2 lg:flex">
           {navigation.map((item) => (
-            <a
+            <Link
               key={item.name}
               href={item.href}
+              scroll
               className={`rounded-full px-4 py-2 text-sm font-medium transition ${
                 active === item.href
                   ? "bg-blue-600 text-white"
@@ -60,23 +67,24 @@ export default function Navbar() {
               }`}
             >
               {item.name}
-            </a>
+            </Link>
           ))}
         </nav>
 
         <div className="hidden lg:block">
-          <a
-            href="#contact"
+          <Link
+            href="/#contact"
             className="inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-blue-600 to-indigo-600 px-6 py-3 font-semibold text-white transition hover:scale-105"
           >
             Get Started
             <ArrowRight size={18} />
-          </a>
+          </Link>
         </div>
 
         <button
           onClick={() => setIsOpen(!isOpen)}
           className="rounded-xl border border-white/10 bg-white/5 p-3 lg:hidden"
+          aria-label="Toggle navigation menu"
         >
           {isOpen ? <X size={24} /> : <Menu size={24} />}
         </button>
@@ -86,9 +94,10 @@ export default function Navbar() {
         <div className="border-t border-white/10 bg-[#040714]/95 lg:hidden">
           <nav className="flex flex-col px-6 py-6">
             {navigation.map((item) => (
-              <a
+              <Link
                 key={item.name}
                 href={item.href}
+                scroll
                 onClick={() => {
                   setActive(item.href);
                   setIsOpen(false);
@@ -100,17 +109,17 @@ export default function Navbar() {
                 }`}
               >
                 {item.name}
-              </a>
+              </Link>
             ))}
 
-            <a
-              href="#contact"
+            <Link
+              href="/#contact"
               onClick={() => setIsOpen(false)}
               className="mt-6 inline-flex items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-blue-600 to-indigo-600 px-6 py-3 font-semibold text-white"
             >
               Get Started
               <ArrowRight size={18} />
-            </a>
+            </Link>
           </nav>
         </div>
       )}

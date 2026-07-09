@@ -1,0 +1,150 @@
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "UK LTD Registration",
+  description:
+    "Register your UK Limited Company with professional guidance from Vanguard Business Services. Fast, reliable, and tailored support for entrepreneurs worldwide.",
+  keywords: [
+    "UK LTD Registration",
+    "UK Company Formation",
+    "Limited Company Registration",
+    "UK Business Registration",
+    "Start UK Business",
+    "Vanguard Business Services",
+  ],
+  alternates: {
+    canonical:
+      "https://www.vanguardbusinessservices.com/services/uk-ltd-registration",
+  },
+  openGraph: {
+    title: "UK LTD Registration | Vanguard Business Services",
+    description:
+      "Professional UK LTD company registration and business formation services for entrepreneurs worldwide.",
+    url: "https://www.vanguardbusinessservices.com/services/uk-ltd-registration",
+    siteName: "Vanguard Business Services",
+    type: "website",
+    images: [
+      {
+        url: "/opengraph-image.png",
+        width: 1200,
+        height: 630,
+        alt: "UK LTD Registration",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "UK LTD Registration | Vanguard Business Services",
+    description:
+      "Professional UK LTD company registration and business formation services.",
+    images: ["/opengraph-image.png"],
+  },
+};
+
+export default function UKLTDRegistrationPage() {
+  const schema = {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "BreadcrumbList",
+        "@id":
+          "https://www.vanguardbusinessservices.com/services/uk-ltd-registration#breadcrumb",
+        itemListElement: [
+          {
+            "@type": "ListItem",
+            position: 1,
+            name: "Home",
+            item: "https://www.vanguardbusinessservices.com",
+          },
+          {
+            "@type": "ListItem",
+            position: 2,
+            name: "Services",
+            item: "https://www.vanguardbusinessservices.com/#services",
+          },
+          {
+            "@type": "ListItem",
+            position: 3,
+            name: "UK LTD Registration",
+            item: "https://www.vanguardbusinessservices.com/services/uk-ltd-registration",
+          },
+        ],
+      },
+      {
+        "@type": "Service",
+        "@id":
+          "https://www.vanguardbusinessservices.com/services/uk-ltd-registration#service",
+        name: "UK LTD Registration",
+        serviceType: "UK LTD Registration",
+        provider: {
+          "@type": "Organization",
+          name: "Vanguard Business Services",
+          url: "https://www.vanguardbusinessservices.com",
+        },
+        areaServed: {
+          "@type": "Place",
+          name: "Worldwide",
+        },
+        description:
+          "Professional UK LTD registration service with expert guidance for entrepreneurs and international businesses.",
+      },
+    ],
+  };
+
+  return (
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(schema),
+        }}
+      />
+
+      <main className="min-h-screen bg-[#05071d] text-white">
+        <section className="mx-auto max-w-6xl px-6 py-28">
+          <span className="rounded-full bg-blue-600/20 px-4 py-2 text-sm font-semibold text-blue-400">
+            UK LTD Registration
+          </span>
+
+          <h1 className="mt-6 text-5xl font-bold">
+            Register Your UK Limited Company
+          </h1>
+
+          <p className="mt-8 max-w-3xl text-lg leading-8 text-gray-400">
+            Start your UK Limited Company with confidence. Vanguard Business
+            Services provides professional guidance throughout the registration
+            process, helping entrepreneurs establish a compliant UK business
+            quickly and efficiently.
+          </p>
+
+          <div className="mt-10 space-y-5 text-gray-300 leading-8">
+            <p>
+              Our team assists clients worldwide with UK company formation,
+              required documentation, compliance guidance, and ongoing business
+              support.
+            </p>
+
+            <p>
+              Whether you are a freelancer, agency owner, SaaS founder,
+              eCommerce seller, or international entrepreneur, we help simplify
+              the registration process while ensuring accuracy and efficiency.
+            </p>
+
+            <p>
+              We focus on providing reliable support, transparent communication,
+              and professional service from the beginning of your business
+              journey.
+            </p>
+          </div>
+
+          <a
+            href="/#contact"
+            className="mt-10 inline-block rounded-xl bg-blue-600 px-8 py-4 font-semibold transition hover:bg-blue-700"
+          >
+            Contact Us
+          </a>
+        </section>
+      </main>
+    </>
+  );
+}
