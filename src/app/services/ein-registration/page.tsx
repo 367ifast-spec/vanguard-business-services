@@ -136,8 +136,62 @@ export default function EINRegistrationPage() {
               from start to finish.
             </p>
           </div>
+{/* Why Your Business Needs an EIN */}
 
+<div className="mt-20">
+
+  <h2 className="text-4xl font-bold">
+    Why Your Business Needs an EIN
+  </h2>
+
+  <p className="mt-8 text-lg leading-8 text-gray-300">
+    An Employer Identification Number (EIN) is an important part of operating
+    many US businesses. It is commonly used for tax administration, opening
+    eligible business banking services, working with payment providers, and
+    maintaining a professional business identity.
+  </p>
+
+  <div className="mt-14 grid gap-8 md:grid-cols-2">
+
+    <div className="rounded-3xl border border-white/10 bg-white/5 p-8">
+
+      <h3 className="text-2xl font-bold text-blue-400">
+        Key Benefits
+      </h3>
+
+      <ul className="mt-8 space-y-4 text-gray-300">
+        <li>✔ Business Tax Identification</li>
+        <li>✔ Banking Eligibility Support</li>
+        <li>✔ Payment Processor Applications</li>
+        <li>✔ Professional Business Identity</li>
+        <li>✔ Compliance Preparation</li>
+        <li>✔ Long-Term Business Growth</li>
+      </ul>
+
+    </div>
+
+    <div className="rounded-3xl border border-white/10 bg-white/5 p-8">
+
+      <h3 className="text-2xl font-bold text-blue-400">
+        Suitable For
+      </h3>
+
+      <ul className="mt-8 space-y-4 text-gray-300">
+        <li>✔ US LLC Owners</li>
+        <li>✔ UK LTD Owners Operating in the US</li>
+        <li>✔ Freelancers</li>
+        <li>✔ Agency Owners</li>
+        <li>✔ SaaS Businesses</li>
+        <li>✔ International Entrepreneurs</li>
+      </ul>
+
+    </div>
+
+  </div>
+
+</div>
           <div className="mt-12 flex flex-wrap gap-4">
+
             <a
               href="/#contact"
               className="rounded-xl bg-blue-600 px-8 py-4 font-semibold hover:bg-blue-700 transition"
