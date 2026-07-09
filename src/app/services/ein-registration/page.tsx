@@ -382,6 +382,63 @@ export default function EINRegistrationPage() {
   </div>
 
 </div>
+{/* Related Services */}
+
+<div className="mt-24">
+
+  <h2 className="text-4xl font-bold">
+    Related Business Services
+  </h2>
+
+  <p className="mt-6 max-w-3xl text-lg leading-8 text-gray-300">
+    Explore additional business formation and banking services designed to
+    support entrepreneurs at every stage of their business journey.
+  </p>
+
+  <div className="mt-12 grid gap-6 md:grid-cols-3">
+
+    <a
+      href="/services/us-llc-registration"
+      className="rounded-3xl border border-white/10 bg-white/5 p-8 transition hover:border-blue-500"
+    >
+      <h3 className="text-2xl font-bold text-blue-400">
+        US LLC Registration
+      </h3>
+
+      <p className="mt-4 text-gray-300">
+        Register your US LLC with professional guidance.
+      </p>
+    </a>
+
+    <a
+      href="/services/business-banking"
+      className="rounded-3xl border border-white/10 bg-white/5 p-8 transition hover:border-blue-500"
+    >
+      <h3 className="text-2xl font-bold text-blue-400">
+        Business Banking
+      </h3>
+
+      <p className="mt-4 text-gray-300">
+        Learn about business banking documentation and guidance.
+      </p>
+    </a>
+
+    <a
+      href="/services/uk-ltd-registration"
+      className="rounded-3xl border border-white/10 bg-white/5 p-8 transition hover:border-blue-500"
+    >
+      <h3 className="text-2xl font-bold text-blue-400">
+        UK LTD Registration
+      </h3>
+
+      <p className="mt-4 text-gray-300">
+        Start your UK Limited Company with expert assistance.
+      </p>
+    </a>
+
+  </div>
+
+</div>
           <div className="mt-12 flex flex-wrap gap-4">
 
             <a
