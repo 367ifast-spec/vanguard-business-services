@@ -14,8 +14,6 @@ export default function PaymentPage() {
 
         <p className="mt-6 max-w-3xl text-lg leading-8 text-gray-300">
           Complete your payment securely through NOWPayments.
-          Crypto payments are processed using a trusted third-party
-          payment gateway.
         </p>
 
         <div className="mt-12 rounded-2xl border border-white/10 bg-white/5 p-8">
@@ -23,12 +21,12 @@ export default function PaymentPage() {
             Demo Payment
           </h2>
 
-          <div className="mt-6 flex items-center justify-between border-b border-white/10 pb-4">
+          <div className="mt-6 flex items-center justify-between">
             <span>Service</span>
             <span>US LLC Registration</span>
           </div>
 
-          <div className="mt-4 flex items-center justify-between border-b border-white/10 pb-4">
+          <div className="mt-4 flex items-center justify-between">
             <span>Amount</span>
             <span>$650 USD</span>
           </div>
