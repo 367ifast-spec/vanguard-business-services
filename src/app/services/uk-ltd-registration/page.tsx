@@ -142,6 +142,40 @@ export default function UKLTDRegistrationPage() {
             className="mt-10 inline-block rounded-xl bg-blue-600 px-8 py-4 font-semibold transition hover:bg-blue-700"
           >
             Contact Us
+            {/* Statistics */}
+<div className="mt-16 grid gap-6 md:grid-cols-3">
+
+  <div className="rounded-2xl border border-white/10 bg-white/5 p-6 text-center">
+    <h2 className="text-4xl font-bold text-blue-400">
+      500+
+    </h2>
+
+    <p className="mt-2 text-gray-300">
+      Businesses Supported
+    </p>
+  </div>
+
+  <div className="rounded-2xl border border-white/10 bg-white/5 p-6 text-center">
+    <h2 className="text-4xl font-bold text-blue-400">
+      10+
+    </h2>
+
+    <p className="mt-2 text-gray-300">
+      Countries Served
+    </p>
+  </div>
+
+  <div className="rounded-2xl border border-white/10 bg-white/5 p-6 text-center">
+    <h2 className="text-4xl font-bold text-blue-400">
+      24/7
+    </h2>
+
+    <p className="mt-2 text-gray-300">
+      Professional Support
+    </p>
+  </div>
+
+</div>
           </a>
         </section>
       </main>
