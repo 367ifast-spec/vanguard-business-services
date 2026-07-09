@@ -11,21 +11,30 @@ export default function StructuredData() {
         url: baseUrl,
         logo: `${baseUrl}/logo.png`,
         image: `${baseUrl}/logo.png`,
+        description:
+          "Vanguard Business Services helps entrepreneurs worldwide with US LLC Registration, UK LTD Registration, Business Banking, Payment Gateway Setup, Stripe, PayPal Business, Wise Business, Payoneer, EIN Registration, and Registered Agent services.",
         email: "vanguardbusinessservices37@gmail.com",
         telephone: "+19177359503",
-        sameAs: [
-          "https://www.facebook.com/",
-          "https://www.linkedin.com/",
-          "https://x.com/",
-          "https://t.me/vanguardbusinessservices",
-        ],
+        contactPoint: {
+          "@type": "ContactPoint",
+          telephone: "+19177359503",
+          contactType: "Customer Support",
+          availableLanguage: ["English"],
+        },
+        sameAs: ["https://t.me/vanguardbusinessservices"],
       },
+
       {
         "@type": "ProfessionalService",
         "@id": `${baseUrl}/#professionalservice`,
         name: "Vanguard Business Services",
         url: baseUrl,
         image: `${baseUrl}/logo.png`,
+        description:
+          "Professional business formation and banking solutions for entrepreneurs worldwide.",
+        provider: {
+          "@id": `${baseUrl}/#organization`,
+        },
         telephone: "+19177359503",
         email: "vanguardbusinessservices37@gmail.com",
         areaServed: {
@@ -42,8 +51,11 @@ export default function StructuredData() {
           "PayPal Business",
           "Wise Business",
           "Payoneer",
+          "EIN Registration",
+          "Registered Agent",
         ],
       },
+
       {
         "@type": "LocalBusiness",
         "@id": `${baseUrl}/#localbusiness`,
@@ -55,6 +67,7 @@ export default function StructuredData() {
         priceRange: "$$",
         areaServed: "Worldwide",
       },
+
       {
         "@type": "WebSite",
         "@id": `${baseUrl}/#website`,
@@ -69,6 +82,7 @@ export default function StructuredData() {
           "query-input": "required name=search_term_string",
         },
       },
+
       {
         "@type": "WebPage",
         "@id": `${baseUrl}/#webpage`,
@@ -83,6 +97,19 @@ export default function StructuredData() {
         primaryImageOfPage: {
           "@id": `${baseUrl}/logo.png`,
         },
+      },
+
+      {
+        "@type": "BreadcrumbList",
+        "@id": `${baseUrl}/#breadcrumb`,
+        itemListElement: [
+          {
+            "@type": "ListItem",
+            position: 1,
+            name: "Home",
+            item: baseUrl,
+          },
+        ],
       },
     ],
   };

@@ -36,7 +36,6 @@ export default function Hero() {
             </p>
 
             <div className="mt-10 flex flex-wrap gap-4">
-
               <Link
                 href="/#contact"
                 className="rounded-xl bg-gradient-to-r from-blue-600 to-indigo-600 px-8 py-4 font-semibold shadow-lg transition hover:scale-105"
@@ -50,7 +49,6 @@ export default function Hero() {
               >
                 Explore Services
               </Link>
-
             </div>
 
             <div className="mt-14 grid grid-cols-3 gap-5">
@@ -77,7 +75,6 @@ export default function Hero() {
 
           {/* Right Side */}
           <aside className="rounded-3xl border border-white/10 bg-white/5 p-8 shadow-2xl backdrop-blur-xl">
-
             <h2 className="text-3xl font-bold">
               Business Solutions
             </h2>
@@ -117,7 +114,6 @@ export default function Hero() {
                 Empowering entrepreneurs with reliable business solutions.
               </p>
             </div>
-
           </aside>
 
         </div>
