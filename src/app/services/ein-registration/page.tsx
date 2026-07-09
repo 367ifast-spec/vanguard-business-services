@@ -294,6 +294,49 @@ export default function EINRegistrationPage() {
   </div>
 
 </div>
+{/* Who Can Benefit */}
+
+<div className="mt-24">
+
+  <h2 className="text-4xl font-bold">
+    Who Can Benefit from EIN Registration Guidance?
+  </h2>
+
+  <p className="mt-8 text-lg leading-8 text-gray-300">
+    Professional EIN registration guidance is valuable for entrepreneurs,
+    startups, agencies, software companies, eCommerce businesses, consultants,
+    and international founders establishing or operating a US business.
+  </p>
+
+  <div className="mt-14 grid gap-8 md:grid-cols-2 lg:grid-cols-3">
+
+    {[
+      "US LLC Owners",
+      "International Entrepreneurs",
+      "Freelancers",
+      "Agency Owners",
+      "SaaS Companies",
+      "eCommerce Businesses",
+    ].map((item) => (
+      <div
+        key={item}
+        className="rounded-3xl border border-white/10 bg-white/5 p-8"
+      >
+        <h3 className="text-xl font-bold text-blue-400">
+          {item}
+        </h3>
+
+        <p className="mt-4 leading-7 text-gray-300">
+          Guidance to help understand EIN requirements and prepare for business
+          operations with confidence.
+        </p>
+
+      </div>
+    ))}
+
+  </div>
+
+</div>
           <div className="mt-12 flex flex-wrap gap-4">
 
             <a
