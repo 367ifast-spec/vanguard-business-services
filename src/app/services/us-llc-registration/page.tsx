@@ -375,7 +375,87 @@ export default function UsLLCRegistrationPage() {
             </div>
 
           </div>
+{/* Why Register a US LLC */}
+<section className="border-y border-white/10 bg-[#081126]">
+  <div className="mx-auto max-w-7xl px-6 py-24">
 
+    <h2 className="text-4xl font-bold">
+      Why Register a US LLC?
+    </h2>
+
+    <p className="mt-8 text-lg leading-8 text-gray-300">
+      A United States Limited Liability Company (LLC) is one of the most
+      popular business structures for entrepreneurs because it combines
+      flexibility with liability protection. Whether you operate an online
+      business, software company, digital agency, eCommerce store or consulting
+      business, an LLC can provide a professional business identity and support
+      future growth.
+    </p>
+
+    <p className="mt-6 text-lg leading-8 text-gray-300">
+      Vanguard Business Services provides professional guidance throughout the
+      registration process, helping entrepreneurs prepare documentation,
+      understand requirements and confidently establish their business.
+    </p>
+
+    <div className="mt-14 grid gap-8 md:grid-cols-2">
+
+      <div className="rounded-3xl border border-white/10 bg-white/5 p-8">
+
+        <h3 className="text-2xl font-bold text-blue-400">
+          Key Advantages
+        </h3>
+
+        <ul className="mt-8 space-y-4 text-gray-300">
+
+          <li>✔ Limited Liability Protection</li>
+
+          <li>✔ Professional Business Image</li>
+
+          <li>✔ Flexible Business Management</li>
+
+          <li>✔ International Business Opportunities</li>
+
+          <li>✔ Business Banking Opportunities</li>
+
+          <li>✔ Payment Solution Compatibility</li>
+
+          <li>✔ Long-Term Business Growth</li>
+
+        </ul>
+
+      </div>
+
+      <div className="rounded-3xl border border-white/10 bg-white/5 p-8">
+
+        <h3 className="text-2xl font-bold text-blue-400">
+          Perfect For
+        </h3>
+
+        <ul className="mt-8 space-y-4 text-gray-300">
+
+          <li>✔ Freelancers</li>
+
+          <li>✔ Agency Owners</li>
+
+          <li>✔ SaaS Companies</li>
+
+          <li>✔ eCommerce Businesses</li>
+
+          <li>✔ Digital Entrepreneurs</li>
+
+          <li>✔ Consultants</li>
+
+          <li>✔ International Founders</li>
+
+        </ul>
+
+      </div>
+
+    </div>
+
+  </div>
+</section>
         </section>
       </main>
     </>
