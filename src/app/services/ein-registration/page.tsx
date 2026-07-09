@@ -190,6 +190,65 @@ export default function EINRegistrationPage() {
   </div>
 
 </div>
+{/* EIN Registration Process */}
+
+<div className="mt-24">
+
+  <h2 className="text-4xl font-bold">
+    Our EIN Registration Guidance Process
+  </h2>
+
+  <p className="mt-8 text-lg leading-8 text-gray-300">
+    We follow a structured process to help business owners understand the EIN
+    application requirements, prepare documentation, and complete the process
+    efficiently.
+  </p>
+
+  <div className="mt-14 grid gap-8 md:grid-cols-2 lg:grid-cols-4">
+
+    {[
+      [
+        "01",
+        "Consultation",
+        "Review your business structure and EIN requirements.",
+      ],
+      [
+        "02",
+        "Document Preparation",
+        "Guide you through the required information and supporting documents.",
+      ],
+      [
+        "03",
+        "Application Guidance",
+        "Assist you throughout the EIN application process.",
+      ],
+      [
+        "04",
+        "Ongoing Support",
+        "Continue providing guidance after your EIN is obtained.",
+      ],
+    ].map(([step, title, description]) => (
+      <div
+        key={step}
+        className="rounded-3xl border border-white/10 bg-white/5 p-8"
+      >
+        <div className="text-5xl font-extrabold text-blue-500">
+          {step}
+        </div>
+
+        <h3 className="mt-6 text-2xl font-bold">
+          {title}
+        </h3>
+
+        <p className="mt-4 leading-7 text-gray-300">
+          {description}
+        </p>
+      </div>
+    ))}
+
+  </div>
+
+</div>
           <div className="mt-12 flex flex-wrap gap-4">
 
             <a
