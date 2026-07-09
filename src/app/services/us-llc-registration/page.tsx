@@ -429,6 +429,48 @@ export default function UsLLCRegistrationPage() {
 
     <h2 className="text-4xl font-bold">
       Why Register a US LLC?
+      {/* Who Should Register a US LLC */}
+<section className="mx-auto max-w-7xl px-6 py-24">
+
+  <h2 className="text-4xl font-bold">
+    Who Should Register a US LLC?
+  </h2>
+
+  <p className="mt-8 text-lg leading-8 text-gray-300">
+    A US LLC is suitable for many types of businesses, including freelancers,
+    digital agencies, software companies, consultants, online stores,
+    eCommerce brands, SaaS businesses, and international entrepreneurs seeking
+    a professional business structure.
+  </p>
+
+  <div className="mt-14 grid gap-8 md:grid-cols-2 lg:grid-cols-3">
+
+    {[
+      "Freelancers",
+      "Agency Owners",
+      "Software Companies",
+      "SaaS Businesses",
+      "Consultants",
+      "eCommerce Businesses",
+    ].map((item) => (
+      <div
+        key={item}
+        className="rounded-3xl border border-white/10 bg-white/5 p-8"
+      >
+        <h3 className="text-xl font-bold text-blue-400">
+          {item}
+        </h3>
+
+        <p className="mt-4 text-gray-300">
+          Professional business registration guidance designed to support
+          sustainable business growth.
+        </p>
+      </div>
+    ))}
+
+  </div>
+
+</section>
     </h2>
 
     <p className="mt-8 text-lg leading-8 text-gray-300">
