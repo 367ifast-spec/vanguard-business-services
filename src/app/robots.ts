@@ -10,8 +10,6 @@ export default function robots(): MetadataRoute.Robots {
       },
     ],
 
-    sitemap: "https://vanguardbusinesservices.com/sitemap.xml",
-
-    host: "https://vanguardbusinesservices.com",
+    sitemap: "https://www.vanguardbusinesservices.com/sitemap.xml",
   };
 }
