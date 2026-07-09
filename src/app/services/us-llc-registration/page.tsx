@@ -607,6 +607,56 @@ export default function UsLLCRegistrationPage() {
   </div>
 </section>
         </section>
+        {/* Required Documents */}
+<section className="mx-auto max-w-7xl px-6 py-24">
+
+  <h2 className="text-4xl font-bold">
+    Documents & Information You May Need
+  </h2>
+
+  <p className="mt-8 max-w-4xl text-lg leading-8 text-gray-300">
+    The exact requirements depend on your business type and applicable
+    regulations. Preparing complete and accurate information helps make the
+    registration process smoother.
+  </p>
+
+  <div className="mt-14 grid gap-8 md:grid-cols-2">
+
+    <div className="rounded-3xl border border-white/10 bg-white/5 p-8">
+
+      <h3 className="text-2xl font-bold text-blue-400">
+        Common Information
+      </h3>
+
+      <ul className="mt-8 space-y-4 text-gray-300">
+        <li>✔ Proposed Business Name</li>
+        <li>✔ Business Activities</li>
+        <li>✔ Owner Information</li>
+        <li>✔ Contact Details</li>
+        <li>✔ Business Address (if applicable)</li>
+      </ul>
+
+    </div>
+
+    <div className="rounded-3xl border border-white/10 bg-white/5 p-8">
+
+      <h3 className="text-2xl font-bold text-blue-400">
+        Our Support Includes
+      </h3>
+
+      <ul className="mt-8 space-y-4 text-gray-300">
+        <li>✔ Registration Guidance</li>
+        <li>✔ Documentation Assistance</li>
+        <li>✔ Business Banking Consultation</li>
+        <li>✔ Payment Solution Guidance</li>
+        <li>✔ Ongoing Professional Support</li>
+      </ul>
+
+    </div>
+
+  </div>
+
+</section>
       </main>
     </>
   );
