@@ -337,6 +337,51 @@ export default function EINRegistrationPage() {
   </div>
 
 </div>
+{/* Frequently Asked Questions */}
+
+<div className="mt-24">
+
+  <h2 className="text-4xl font-bold">
+    Frequently Asked Questions
+  </h2>
+
+  <div className="mt-12 space-y-6">
+
+    {[
+      {
+        q: "What is an EIN?",
+        a: "An Employer Identification Number (EIN) is a federal tax identification number issued by the IRS for eligible businesses.",
+      },
+      {
+        q: "Who needs an EIN?",
+        a: "Many businesses require an EIN for taxation, banking, payroll, and certain business-related registrations.",
+      },
+      {
+        q: "Can international entrepreneurs obtain an EIN?",
+        a: "Yes. Eligibility depends on the applicable IRS requirements and business circumstances.",
+      },
+      {
+        q: "Does Vanguard Business Services provide IRS guidance?",
+        a: "We provide professional guidance regarding documentation and the application process. We do not issue EINs ourselves.",
+      },
+    ].map((faq) => (
+      <div
+        key={faq.q}
+        className="rounded-3xl border border-white/10 bg-white/5 p-8"
+      >
+        <h3 className="text-2xl font-bold text-blue-400">
+          {faq.q}
+        </h3>
+
+        <p className="mt-3 leading-7 text-gray-300">
+          {faq.a}
+        </p>
+      </div>
+    ))}
+
+  </div>
+
+</div>
           <div className="mt-12 flex flex-wrap gap-4">
 
             <a
