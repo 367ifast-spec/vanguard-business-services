@@ -249,6 +249,51 @@ export default function EINRegistrationPage() {
   </div>
 
 </div>
+{/* Frequently Asked Questions */}
+
+<div className="mt-24">
+
+  <h2 className="text-4xl font-bold">
+    Frequently Asked Questions
+  </h2>
+
+  <div className="mt-12 space-y-6">
+
+    {[
+      {
+        q: "Who needs an EIN?",
+        a: "Many US businesses use an Employer Identification Number (EIN) for tax administration, banking, and other business-related purposes.",
+      },
+      {
+        q: "Can international entrepreneurs apply for an EIN?",
+        a: "Depending on their business structure and circumstances, international entrepreneurs may need an EIN for operating a US business.",
+      },
+      {
+        q: "Why is an EIN important?",
+        a: "An EIN is commonly used for tax administration and can be required for various business activities such as banking and payment processing.",
+      },
+      {
+        q: "Do you provide guidance throughout the process?",
+        a: "Yes. We provide professional guidance to help clients understand the EIN application process and required documentation.",
+      },
+    ].map((faq) => (
+      <div
+        key={faq.q}
+        className="rounded-2xl border border-white/10 bg-white/5 p-6"
+      >
+        <h3 className="text-xl font-semibold text-blue-400">
+          {faq.q}
+        </h3>
+
+        <p className="mt-3 leading-7 text-gray-300">
+          {faq.a}
+        </p>
+      </div>
+    ))}
+
+  </div>
+
+</div>
           <div className="mt-12 flex flex-wrap gap-4">
 
             <a
