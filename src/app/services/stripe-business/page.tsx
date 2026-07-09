@@ -1,27 +1,31 @@
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Stripe Business Setup",
+  title: "Stripe Business Guidance | Vanguard Business Services",
   description:
-    "Professional Stripe Business setup guidance from Vanguard Business Services. Learn about eligibility, documentation, and onboarding for your business.",
+    "Professional guidance for Stripe Business, payment gateway onboarding, documentation, international payments, and business payment solutions.",
   keywords: [
     "Stripe Business",
-    "Stripe Setup",
-    "Stripe Account",
+    "Stripe",
     "Payment Gateway",
-    "Online Payments",
+    "Stripe Account",
     "Business Payments",
+    "Online Payments",
+    "International Payments",
+    "Payment Processing",
+    "Business Banking",
     "Vanguard Business Services",
   ],
   alternates: {
     canonical:
-      "https://www.vanguardbusinessservices.com/services/stripe-business",
+      "https://www.vanguardbusinesservices.com/services/stripe-business",
   },
   openGraph: {
-    title: "Stripe Business Setup | Vanguard Business Services",
+    title: "Stripe Business | Vanguard Business Services",
     description:
-      "Professional guidance for Stripe Business setup and payment solutions.",
-    url: "https://www.vanguardbusinessservices.com/services/stripe-business",
+      "Professional guidance for Stripe Business, payment gateway onboarding, and business documentation.",
+    url:
+      "https://www.vanguardbusinesservices.com/services/stripe-business",
     siteName: "Vanguard Business Services",
     type: "website",
     images: [
@@ -29,15 +33,15 @@ export const metadata: Metadata = {
         url: "/opengraph-image.png",
         width: 1200,
         height: 630,
-        alt: "Stripe Business Setup",
+        alt: "Stripe Business",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Stripe Business Setup | Vanguard Business Services",
+    title: "Stripe Business | Vanguard Business Services",
     description:
-      "Professional guidance for Stripe Business setup and payment solutions.",
+      "Professional guidance for Stripe Business and payment gateway solutions.",
     images: ["/opengraph-image.png"],
   },
 };
@@ -53,37 +57,61 @@ export default function StripeBusinessPage() {
             "@type": "ListItem",
             position: 1,
             name: "Home",
-            item: "https://www.vanguardbusinessservices.com",
+            item: "https://www.vanguardbusinesservices.com",
           },
           {
             "@type": "ListItem",
             position: 2,
             name: "Services",
-            item: "https://www.vanguardbusinessservices.com/#services",
+            item: "https://www.vanguardbusinesservices.com/#services",
           },
           {
             "@type": "ListItem",
             position: 3,
-            name: "Stripe Business Setup",
-            item: "https://www.vanguardbusinessservices.com/services/stripe-business",
+            name: "Stripe Business",
+            item:
+              "https://www.vanguardbusinesservices.com/services/stripe-business",
           },
         ],
       },
       {
         "@type": "Service",
-        name: "Stripe Business Setup",
-        serviceType: "Payment Gateway Setup",
+        name: "Stripe Business Guidance",
+        serviceType: "Payment Gateway Guidance",
         provider: {
           "@type": "Organization",
           name: "Vanguard Business Services",
-          url: "https://www.vanguardbusinessservices.com",
+          url: "https://www.vanguardbusinesservices.com",
         },
         areaServed: {
           "@type": "Place",
           name: "Worldwide",
         },
         description:
-          "Professional guidance for Stripe Business setup, payment gateway onboarding, and documentation.",
+          "Professional guidance for understanding Stripe Business onboarding, payment gateway documentation, international payments, and compliance considerations.",
+      },
+      {
+        "@type": "FAQPage",
+        mainEntity: [
+          {
+            "@type": "Question",
+            name: "Who can benefit from Stripe Business guidance?",
+            acceptedAnswer: {
+              "@type": "Answer",
+              text:
+                "Freelancers, agencies, SaaS companies, consultants, online businesses, and international entrepreneurs can benefit from understanding payment gateway workflows and documentation.",
+            },
+          },
+          {
+            "@type": "Question",
+            name: "Do you provide onboarding guidance?",
+            acceptedAnswer: {
+              "@type": "Answer",
+              text:
+                "Yes. We provide professional guidance regarding documentation preparation, onboarding readiness, and compliance considerations.",
+            },
+          },
+        ],
       },
     ],
   };
@@ -98,57 +126,188 @@ export default function StripeBusinessPage() {
       />
 
       <main className="min-h-screen bg-[#05071d] text-white">
-        <section className="mx-auto max-w-6xl px-6 py-28">
+        <section className="mx-auto max-w-6xl px-6 py-24">
+
           <span className="rounded-full bg-blue-600/20 px-4 py-2 text-sm font-semibold text-blue-400">
-            Stripe Business
+            Payment Gateway Solutions
           </span>
 
           <h1 className="mt-6 text-5xl font-bold">
-            Stripe Business Setup
+            Stripe Business Guidance
           </h1>
 
           <p className="mt-8 max-w-3xl text-lg leading-8 text-gray-400">
-            Vanguard Business Services provides professional guidance for
-            businesses looking to understand Stripe onboarding, payment gateway
-            requirements, and documentation for online payment acceptance.
+            Vanguard Business Services provides professional guidance
+            for entrepreneurs, freelancers, agencies, SaaS companies,
+            eCommerce businesses, and international organizations
+            seeking to understand Stripe Business, payment gateway
+            onboarding, documentation requirements, and international
+            payment workflows.
           </p>
-
-          <div className="mt-12 space-y-6 text-gray-300 leading-8">
-            <h2 className="text-3xl font-bold text-white">
-              Our Guidance Includes
+                    <section className="mt-16">
+            <h2 className="text-3xl font-bold">
+              What We Help You Understand
             </h2>
 
-            <ul className="list-disc space-y-3 pl-6">
-              <li>Payment gateway onboarding guidance</li>
+            <ul className="mt-8 list-disc pl-6 space-y-4 text-gray-300 leading-8">
+              <li>Payment gateway onboarding workflows</li>
               <li>Business documentation preparation</li>
-              <li>Compliance information</li>
+              <li>International payment best practices</li>
               <li>Business verification guidance</li>
-              <li>International business support</li>
-              <li>General payment solution consultation</li>
+              <li>Compliance awareness</li>
+              <li>Online payment operations</li>
+              <li>Financial workflow planning</li>
+              <li>Cross-border business payments</li>
             </ul>
+          </section>
 
-            <h2 className="pt-8 text-3xl font-bold text-white">
-              Who We Help
+          <section className="mt-16">
+            <h2 className="text-3xl font-bold">
+              Who Can Benefit
             </h2>
 
-            <p>
-              We assist freelancers, agencies, SaaS founders, eCommerce
-              businesses, startups, and entrepreneurs seeking professional
-              guidance on business payment solutions.
+            <p className="mt-6 text-gray-300 leading-8">
+              Our professional guidance is designed for
+              freelancers, agencies, consultants,
+              SaaS companies, eCommerce businesses,
+              online service providers, startups,
+              remote teams, digital entrepreneurs,
+              and international organizations that
+              require reliable payment workflows.
             </p>
+          </section>
 
-            <h2 className="pt-8 text-3xl font-bold text-white">
-              Start Today
+          <section className="mt-16">
+            <h2 className="text-3xl font-bold">
+              Why Professional Guidance Matters
             </h2>
 
-            <p>
-              Contact our team to discuss your business goals and receive
-              guidance on the documentation and preparation required for your
-              payment solution.
+            <p className="mt-6 text-gray-300 leading-8">
+              Understanding payment gateway
+              requirements, documentation,
+              onboarding preparation,
+              verification expectations,
+              and compliance considerations
+              helps businesses prepare for
+              international payment operations
+              in a structured and organized way.
             </p>
-          </div>
+          </section>
 
-          <div className="mt-12 flex flex-wrap gap-4">
+          <section className="mt-16">
+            <h2 className="text-3xl font-bold">
+              Key Benefits
+            </h2>
+
+            <div className="mt-8 grid gap-6 md:grid-cols-2">
+
+              <div className="rounded-2xl border border-slate-800 bg-slate-900/40 p-6">
+                <h3 className="text-xl font-semibold">
+                  Documentation Guidance
+                </h3>
+
+                <p className="mt-3 text-gray-300 leading-8">
+                  Understand business
+                  documentation requirements
+                  and onboarding preparation.
+                </p>
+              </div>
+
+              <div className="rounded-2xl border border-slate-800 bg-slate-900/40 p-6">
+                <h3 className="text-xl font-semibold">
+                  Payment Workflows
+                </h3>
+
+                <p className="mt-3 text-gray-300 leading-8">
+                  Learn about payment gateway
+                  processes and international
+                  business payment operations.
+                </p>
+              </div>
+
+              <div className="rounded-2xl border border-slate-800 bg-slate-900/40 p-6">
+                <h3 className="text-xl font-semibold">
+                  Compliance Awareness
+                </h3>
+
+                <p className="mt-3 text-gray-300 leading-8">
+                  Gain professional guidance
+                  regarding verification,
+                  documentation,
+                  and compliance expectations.
+                </p>
+              </div>
+
+              <div className="rounded-2xl border border-slate-800 bg-slate-900/40 p-6">
+                <h3 className="text-xl font-semibold">
+                  Business Growth
+                </h3>
+
+                <p className="mt-3 text-gray-300 leading-8">
+                  Build stronger international
+                  payment processes with
+                  structured business guidance.
+                </p>
+              </div>
+
+            </div>
+          </section>
+
+          <section className="mt-16">
+            <h2 className="text-3xl font-bold">
+              Frequently Asked Questions
+            </h2>
+
+            <div className="mt-8 space-y-8">
+
+              <div>
+                <h3 className="text-xl font-semibold">
+                  What is Stripe Business?
+                </h3>
+
+                <p className="mt-3 text-gray-300 leading-8">
+                  Stripe provides payment
+                  processing solutions for
+                  businesses that accept online
+                  payments from customers in
+                  supported regions.
+                </p>
+              </div>
+
+              <div>
+                <h3 className="text-xl font-semibold">
+                  Do you provide onboarding guidance?
+                </h3>
+
+                <p className="mt-3 text-gray-300 leading-8">
+                  Yes. We provide professional
+                  guidance regarding business
+                  documentation, onboarding
+                  preparation, and payment
+                  workflow best practices.
+                </p>
+              </div>
+
+              <div>
+                <h3 className="text-xl font-semibold">
+                  Who typically uses Stripe Business?
+                </h3>
+
+                <p className="mt-3 text-gray-300 leading-8">
+                  SaaS companies,
+                  freelancers,
+                  agencies,
+                  eCommerce businesses,
+                  consultants,
+                  startups,
+                  online service providers,
+                  and international businesses.
+                </p>
+              </div>
+
+            </div>
+          </section>
+                    <div className="mt-16 flex flex-wrap gap-4">
             <a
               href="/#contact"
               className="rounded-xl bg-blue-600 px-8 py-4 font-semibold transition hover:bg-blue-700"
@@ -164,12 +323,27 @@ export default function StripeBusinessPage() {
             </a>
 
             <a
-              href="/services/ein-registration"
+              href="/services/paypal-business"
               className="rounded-xl border border-blue-500 px-8 py-4 font-semibold text-blue-400 transition hover:bg-blue-500 hover:text-white"
             >
-              EIN Registration
+              PayPal Business
+            </a>
+
+            <a
+              href="/services/payoneer-business"
+              className="rounded-xl border border-blue-500 px-8 py-4 font-semibold text-blue-400 transition hover:bg-blue-500 hover:text-white"
+            >
+              Payoneer Business
+            </a>
+
+            <a
+              href="/services/wise-business"
+              className="rounded-xl border border-blue-500 px-8 py-4 font-semibold text-blue-400 transition hover:bg-blue-500 hover:text-white"
+            >
+              Wise Business
             </a>
           </div>
+
         </section>
       </main>
     </>
