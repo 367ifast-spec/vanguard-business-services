@@ -295,6 +295,54 @@ export default function UsLLCRegistrationPage() {
           <div className="mx-auto max-w-7xl px-6 py-24">
 
             <h2 className="text-4xl font-bold">
+              {/* Why Choose Vanguard Business Services */}
+<section className="mx-auto max-w-7xl px-6 py-24">
+  <h2 className="text-4xl font-bold">
+    Why Choose Vanguard Business Services?
+  </h2>
+
+  <p className="mt-8 max-w-4xl text-lg leading-8 text-gray-300">
+    Vanguard Business Services provides professional business registration
+    guidance, transparent communication, and long-term support for entrepreneurs
+    looking to establish and grow their businesses internationally.
+  </p>
+
+  <div className="mt-14 grid gap-8 md:grid-cols-2 lg:grid-cols-4">
+
+    {[
+      [
+        "Professional Guidance",
+        "Experienced assistance throughout the business registration process.",
+      ],
+      [
+        "Reliable Support",
+        "Responsive communication and ongoing client support.",
+      ],
+      [
+        "Global Entrepreneurs",
+        "Helping clients from multiple countries establish their businesses.",
+      ],
+      [
+        "Long-Term Growth",
+        "Supporting businesses beyond registration with practical guidance.",
+      ],
+    ].map(([title, description]) => (
+      <div
+        key={title}
+        className="rounded-3xl border border-white/10 bg-white/5 p-8"
+      >
+        <h3 className="text-xl font-bold text-blue-400">
+          {title}
+        </h3>
+
+        <p className="mt-4 leading-7 text-gray-300">
+          {description}
+        </p>
+      </div>
+    ))}
+
+  </div>
+</section>
               Frequently Asked Questions
             </h2>
 
