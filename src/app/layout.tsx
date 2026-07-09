@@ -43,6 +43,15 @@ export const metadata: Metadata = {
   category: "Business Services",
 
   referrer: "origin-when-cross-origin",
+formatDetection: {
+  email: false,
+  address: false,
+  telephone: false,
+},
+
+verification: {
+  google: "mrPZFsuNx2H5dr_SWjQGp4iiYswyYIJBHzQuhyHv2ws",
+},
 
   alternates: {
     canonical: "https://www.vanguardbusinesservices.com",
@@ -99,7 +108,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" data-scroll-behavior="smooth">
       <body>
         <Script id="facebook-pixel" strategy="afterInteractive">
           {`
