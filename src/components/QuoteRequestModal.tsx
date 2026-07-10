@@ -36,467 +36,172 @@ const budgets = [
   "Custom Quote",
 ];
 
-const contactMethods = [
-  "WhatsApp",
-  "Email",
-  "Telegram",
-];
-
 export default function QuoteRequestModal() {
   const [loading, setLoading] = useState(false);
-
-  const [success, setSuccess] = useState("");
-
-  const [error, setError] = useState("");
-
+  const [message, setMessage] = useState("");
   const [form, setForm] = useState<FormData>({
-    fullName: "",
-    email: "",
-    whatsapp: "",
-    country: "",
-    businessName: "",
-    website: "",
-    service: "",
-    budget: "",
-    contactMethod: "WhatsApp",
-    projectDetails: "",
-    agree: false,
+    fullName:"",
+    email:"",
+    whatsapp:"",
+    country:"",
+    businessName:"",
+    website:"",
+    service:"",
+    budget:"",
+    contactMethod:"WhatsApp",
+    projectDetails:"",
+    agree:false,
   });
 
-  function handleChange(
-    e: React.ChangeEvent<
-      HTMLInputElement |
-      HTMLTextAreaElement |
-      HTMLSelectElement
-    >
-  ) {
-    const { name, value } = e.target;
-
-    setForm((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
+  function update(name: keyof FormData, value: string | boolean) {
+    setForm(prev => ({...prev,[name]: value}));
   }
 
-  function handleCheckbox(
-    e: React.ChangeEvent<HTMLInputElement>
-  ) {
-    setForm((prev) => ({
-      ...prev,
-      agree: e.target.checked,
-    }));
-  }
-
-  async function handleSubmit(
-    e: React.FormEvent<HTMLFormElement>
-  ) {
+  async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
 
-    setSuccess("");
-    setError("");
-
     if (!form.agree) {
-      setError(
-        "You must agree to the Account Delivery Policy."
-      );
+      setMessage("Please accept the Account Delivery Policy.");
       return;
     }
 
+    setLoading(true);
+    setMessage("");
+
     try {
-      setLoading(true);
-
-      const response = await fetch("/api/contact", {
-        method: "POST",
-
-        headers: {
-          "Content-Type": "application/json",
-        },
-
-        body: JSON.stringify({
+      const res = await fetch("/api/contact",{
+        method:"POST",
+        headers:{"Content-Type":"application/json"},
+        body:JSON.stringify({
           name: form.fullName,
           email: form.email,
           company: form.businessName,
           service: form.service,
-
-          message: `
-Country: ${form.country}
-
+          message:
+`Country: ${form.country}
 WhatsApp: ${form.whatsapp}
-
 Website: ${form.website}
-
 Budget: ${form.budget}
-
 Preferred Contact: ${form.contactMethod}
 
 Project Details:
-
-${form.projectDetails}
-          `,
-        }),
+${form.projectDetails}`
+        })
       });
 
-      const data = await response.json();
+      const data = await res.json();
 
-      if (!response.ok) {
-        throw new Error(
-          data.message || "Submission failed."
-        );
+      if(!res.ok){
+        throw new Error(data.message || "Request failed");
       }
 
-      setSuccess(
-        "Your request has been submitted successfully."
-      );
+      setMessage("Your consultation request has been submitted successfully.");
 
       setForm({
-        fullName: "",
-        email: "",
-        whatsapp: "",
-        country: "",
-        businessName: "",
-        website: "",
-        service: "",
-        budget: "",
-        contactMethod: "WhatsApp",
-        projectDetails: "",
-        agree: false,
+        fullName:"",
+        email:"",
+        whatsapp:"",
+        country:"",
+        businessName:"",
+        website:"",
+        service:"",
+        budget:"",
+        contactMethod:"WhatsApp",
+        projectDetails:"",
+        agree:false,
       });
-    } catch (err) {
-      setError(
-        err instanceof Error
-          ? err.message
-          : "Something went wrong."
-      );
-    } finally {
+
+    } catch(err){
+      setMessage(err instanceof Error ? err.message : "Something went wrong.");
+    } finally{
       setLoading(false);
     }
   }
 
   return (
     <section className="rounded-3xl border border-white/10 bg-white/5 p-8">
+      <h2 className="text-4xl font-bold">Request Free Consultation</h2>
 
-      <div className="mb-10">
+      <form onSubmit={handleSubmit} className="mt-8 space-y-6">
 
-        <span className="rounded-full bg-blue-600/20 px-4 py-2 text-sm font-semibold text-blue-400">
-          Free Consultation
-        </span>
+        <input className="w-full rounded-xl p-3 bg-[#0b1126]" placeholder="Full Name *"
+          value={form.fullName}
+          onChange={e=>update("fullName",e.target.value)} required />
 
-        <h2 className="mt-6 text-4xl font-bold text-white">
-          Request Your Custom Quote
-        </h2>
+        <input className="w-full rounded-xl p-3 bg-[#0b1126]" type="email" placeholder="Email *"
+          value={form.email}
+          onChange={e=>update("email",e.target.value)} required />
 
-        <p className="mt-4 max-w-3xl leading-8 text-gray-400">
-          Complete the form below and our specialists
-          will review your requirements before providing
-          a customized quotation.
-        </p>
+        <input className="w-full rounded-xl p-3 bg-[#0b1126]" placeholder="WhatsApp *"
+          value={form.whatsapp}
+          onChange={e=>update("whatsapp",e.target.value)} required />
 
-      </div>
+        <input className="w-full rounded-xl p-3 bg-[#0b1126]" placeholder="Country *"
+          value={form.country}
+          onChange={e=>update("country",e.target.value)} required />
 
-      <form
-        onSubmit={handleSubmit}
-        className="space-y-8"
-      >        {/* Personal Information */}
+        <input className="w-full rounded-xl p-3 bg-[#0b1126]" placeholder="Business Name"
+          value={form.businessName}
+          onChange={e=>update("businessName",e.target.value)} />
 
-        <div className="grid gap-6 md:grid-cols-2">
+        <input className="w-full rounded-xl p-3 bg-[#0b1126]" placeholder="Website (Optional)"
+          value={form.website}
+          onChange={e=>update("website",e.target.value)} />
 
-          <div>
-            <label className="mb-2 block font-medium">
-              Full Name *
-            </label>
+        <select className="w-full rounded-xl p-3 bg-[#0b1126]"
+          value={form.service}
+          onChange={e=>update("service",e.target.value)} required>
+          <option value="">Select Service</option>
+          {services.map(s=><option key={s}>{s}</option>)}
+        </select>
 
-            <input
-              type="text"
-              name="fullName"
-              required
-              value={form.fullName}
-              onChange={handleChange}
-              className="w-full rounded-xl border border-white/10 bg-[#0b1126] px-4 py-3 outline-none focus:border-blue-500"
-            />
-          </div>
+        <select className="w-full rounded-xl p-3 bg-[#0b1126]"
+          value={form.budget}
+          onChange={e=>update("budget",e.target.value)}>
+          <option value="">Select Budget</option>
+          {budgets.map(b=><option key={b}>{b}</option>)}
+        </select>
 
-          <div>
-            <label className="mb-2 block font-medium">
-              Email Address *
-            </label>
+        <textarea rows={6}
+          className="w-full rounded-xl p-3 bg-[#0b1126]"
+          placeholder="Project Details"
+          value={form.projectDetails}
+          onChange={e=>update("projectDetails",e.target.value)}
+          required />
 
-            <input
-              type="email"
-              name="email"
-              required
-              value={form.email}
-              onChange={handleChange}
-              className="w-full rounded-xl border border-white/10 bg-[#0b1126] px-4 py-3 outline-none focus:border-blue-500"
-            />
-          </div>
-
-          <div>
-            <label className="mb-2 block font-medium">
-              WhatsApp Number *
-            </label>
-
-            <input
-              type="text"
-              name="whatsapp"
-              required
-              value={form.whatsapp}
-              onChange={handleChange}
-              className="w-full rounded-xl border border-white/10 bg-[#0b1126] px-4 py-3 outline-none focus:border-blue-500"
-            />
-          </div>
-
-          <div>
-            <label className="mb-2 block font-medium">
-              Country *
-            </label>
-
-            <input
-              type="text"
-              name="country"
-              required
-              value={form.country}
-              onChange={handleChange}
-              className="w-full rounded-xl border border-white/10 bg-[#0b1126] px-4 py-3 outline-none focus:border-blue-500"
-            />
-          </div>
-
-        </div>
-
-        {/* Business Information */}
-
-        <div className="grid gap-6 md:grid-cols-2">
-
-          <div>
-            <label className="mb-2 block font-medium">
-              Business Name
-            </label>
-
-            <input
-              type="text"
-              name="businessName"
-              value={form.businessName}
-              onChange={handleChange}
-              className="w-full rounded-xl border border-white/10 bg-[#0b1126] px-4 py-3 outline-none focus:border-blue-500"
-            />
-          </div>
-
-          <div>
-            <label className="mb-2 block font-medium">
-              Website (Optional)
-            </label>
-
-            <input
-              type="url"
-              name="website"
-              value={form.website}
-              onChange={handleChange}
-              className="w-full rounded-xl border border-white/10 bg-[#0b1126] px-4 py-3 outline-none focus:border-blue-500"
-            />
-          </div>
-
-        </div>
-
-        {/* Service */}
-
-        <div className="grid gap-6 md:grid-cols-2">
-
-          <div>
-            <label className="mb-2 block font-medium">
-              Requested Service *
-            </label>
-
-            <select
-              required
-              name="service"
-              value={form.service}
-              onChange={handleChange}
-              className="w-full rounded-xl border border-white/10 bg-[#0b1126] px-4 py-3"
-            >
-              <option value="">Select Service</option>
-
-              {services.map((service) => (
-                <option
-                  key={service}
-                  value={service}
-                >
-                  {service}
-                </option>
-              ))}
-            </select>
-          </div>
-
-          <div>
-            <label className="mb-2 block font-medium">
-              Estimated Budget
-            </label>
-
-            <select
-              name="budget"
-              value={form.budget}
-              onChange={handleChange}
-              className="w-full rounded-xl border border-white/10 bg-[#0b1126] px-4 py-3"
-            >
-              <option value="">
-                Select Budget
-              </option>
-
-              {budgets.map((budget) => (
-                <option
-                  key={budget}
-                  value={budget}
-                >
-                  {budget}
-                </option>
-              ))}
-            </select>
-          </div>
-
-        </div>
-
-        {/* Preferred Contact */}
-
-        <div>
-
-          <label className="mb-2 block font-medium">
-            Preferred Contact Method
-          </label>
-
-          <select
-            name="contactMethod"
-            value={form.contactMethod}
-            onChange={handleChange}
-            className="w-full rounded-xl border border-white/10 bg-[#0b1126] px-4 py-3"
-          >
-            {contactMethods.map((item) => (
-              <option
-                key={item}
-                value={item}
-              >
-                {item}
-              </option>
-            ))}
-          </select>
-
-        </div>
-
-        {/* Project */}
-
-        <div>
-
-          <label className="mb-2 block font-medium">
-            Project Details *
-          </label>
-
-          <textarea
-            required
-            rows={7}
-            name="projectDetails"
-            value={form.projectDetails}
-            onChange={handleChange}
-            placeholder="Describe your business, goals, country and the assistance you need."
-            className="w-full rounded-xl border border-white/10 bg-[#0b1126] px-4 py-3 outline-none focus:border-blue-500"
-          />
-
-        </div>        {/* Account Delivery Policy */}
-
-        <div className="rounded-2xl border border-yellow-500/30 bg-yellow-500/10 p-6">
-
-          <h3 className="text-xl font-bold text-yellow-400">
-            Account Delivery Policy
-          </h3>
-
-          <div className="mt-4 space-y-4 text-sm leading-7 text-gray-300">
-
-            <p>
-              For account-related services, clients are responsible for
-              reviewing and verifying all delivered account details
-              immediately upon delivery.
-            </p>
-
-            <p>
-              Once the client confirms that the account has been received
-              and is functioning as agreed, the order will be considered
-              successfully completed.
-            </p>
-
-            <p>
-              After confirmation, no warranty, guarantee, replacement,
-              refund, or free support will be provided for issues arising
-              from password changes, security settings, third-party
-              platform actions, policy updates, account suspension,
-              user misuse, or any modifications made after delivery.
-            </p>
-
-            <p className="rounded-xl border border-blue-500/20 bg-blue-500/10 p-4 text-blue-200">
-              <strong>Note:</strong> Policies may vary depending on the
-              selected service. Any additional service-specific terms and
-              conditions will be clearly communicated and agreed upon
-              before the order is finalized.
-            </p>
-
-          </div>
-
-        </div>
-
-        {/* Privacy */}
-
-        <div className="rounded-2xl border border-white/10 bg-white/5 p-6">
-
-          <h3 className="text-lg font-semibold">
-            Privacy Notice
-          </h3>
-
-          <p className="mt-3 text-sm leading-7 text-gray-400">
-            Your information is used solely to review your inquiry,
-            prepare your quotation, and communicate regarding your
-            requested services. We do not sell or share your personal
-            information except where necessary to provide the requested
-            service or comply with applicable laws.
+        <div className="rounded-xl border border-yellow-500/30 p-4 text-sm">
+          <strong>Account Delivery Policy</strong>
+          <p className="mt-2">
+            Clients must verify delivered account details immediately after delivery.
+            Once confirmed, the order is considered completed. No warranty,
+            guarantee, replacement or refund is provided for issues arising after
+            confirmation due to password changes, platform actions, policy updates,
+            user modifications or misuse.
           </p>
-
+          <p className="mt-2">
+            <strong>Note:</strong> Policies may vary depending on the selected service.
+            Additional service-specific terms will be communicated before the order is finalized.
+          </p>
         </div>
 
-        {/* Agreement */}
-
-        <label className="flex items-start gap-3 rounded-xl border border-white/10 p-4">
-
+        <label className="flex gap-3">
           <input
             type="checkbox"
             checked={form.agree}
-            onChange={handleCheckbox}
-            className="mt-1 h-5 w-5"
+            onChange={e=>update("agree",e.target.checked)}
           />
-
-          <span className="text-sm leading-7 text-gray-300">
-            I have read, understood and agree to the Account Delivery
-            Policy, Privacy Notice and Terms & Conditions.
-          </span>
-
+          <span>I have read and agree to the Account Delivery Policy and Terms & Conditions.</span>
         </label>
 
-        {error && (
-          <div className="rounded-xl border border-red-500/30 bg-red-500/10 p-4 text-red-300">
-            {error}
-          </div>
-        )}
-
-        {success && (
-          <div className="rounded-xl border border-green-500/30 bg-green-500/10 p-4 text-green-300">
-            {success}
-          </div>
-        )}
+        {message && <div>{message}</div>}
 
         <button
-          type="submit"
           disabled={loading}
-          className="w-full rounded-2xl bg-blue-600 px-8 py-4 text-lg font-semibold transition hover:bg-blue-700 disabled:cursor-not-allowed disabled:opacity-60"
-        >
-          {loading
-            ? "Submitting Request..."
-            : "Request Free Consultation"}
+          className="w-full rounded-xl bg-blue-600 py-3 font-semibold">
+          {loading ? "Submitting..." : "Request Free Consultation"}
         </button>
 
-            </form>
+      </form>
     </section>
   );
 }
