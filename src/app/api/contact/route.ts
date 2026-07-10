@@ -8,9 +8,7 @@ function generateQuoteId() {
   const date = new Date();
 
   const y = date.getFullYear();
-
   const m = String(date.getMonth() + 1).padStart(2, "0");
-
   const d = String(date.getDate()).padStart(2, "0");
 
   const random = Math.random()
@@ -30,105 +28,65 @@ function escapeHtml(text: string) {
 
 export async function POST(req: Request) {
   try {
-
     const body = await req.json();
 
     const name = body.name?.trim() || "";
-
     const email = body.email?.trim() || "";
-
     const company = body.company?.trim() || "";
-
     const service = body.service?.trim() || "";
-
     const country = body.country?.trim() || "";
-
     const whatsapp = body.whatsapp?.trim() || "";
-
     const website = body.website?.trim() || "";
-
     const budget = body.budget?.trim() || "";
+    const contactMethod = body.contactMethod?.trim() || "";
+    const projectDetails = body.projectDetails?.trim() || "";
 
-    const contactMethod =
-      body.contactMethod?.trim() || "";
-
-    const projectDetails =
-      body.projectDetails?.trim() || "";
-
-    if (!name)
+    if (!name) {
       return NextResponse.json(
-        {
-          success: false,
-          message: "Full name is required.",
-        },
-        {
-          status: 400,
-        }
+        { success: false, message: "Full name is required." },
+        { status: 400 }
       );
+    }
 
-    if (!email)
+    if (!email) {
       return NextResponse.json(
-        {
-          success: false,
-          message: "Email is required.",
-        },
-        {
-          status: 400,
-        }
+        { success: false, message: "Email is required." },
+        { status: 400 }
       );
+    }
 
-    if (!service)
+    if (!service) {
       return NextResponse.json(
-        {
-          success: false,
-          message: "Please select a service.",
-        },
-        {
-          status: 400,
-        }
+        { success: false, message: "Please select a service." },
+        { status: 400 }
       );
+    }
 
     const quoteId = generateQuoteId();
-
     const submittedAt = new Date().toISOString();
-
-    // Save Quote into Supabase
-
-    const { error: dbError } =
-      await supabase
-        .from("quotes")
-        .insert({
-          quote_id: quoteId,
-
-          full_name: name,
-
-          email,
-
-          whatsapp,
-
-          country,
-
-          business_name: company,
-
-          website,
-
-          service,
-
-          budget,
-
-          contact_method: contactMethod,
-
-          project_details: projectDetails,
-        });
+        const { error: dbError } = await supabase
+      .from("quotes")
+      .insert({
+        quote_id: quoteId,
+        full_name: name,
+        email,
+        whatsapp,
+        country,
+        business_name: company,
+        website,
+        service,
+        budget,
+        contact_method: contactMethod,
+        project_details: projectDetails,
+      });
 
     if (dbError) {
-      console.error(dbError);
+      console.error("Supabase Error:", dbError);
 
       return NextResponse.json(
         {
           success: false,
-          message:
-            "Unable to save quote.",
+          message: "Unable to save quote.",
         },
         {
           status: 500,
@@ -136,10 +94,9 @@ export async function POST(req: Request) {
       );
     }
 
-     const html = `
+    const html = `
 <!DOCTYPE html>
 <html>
-
 <head>
 <meta charset="UTF-8" />
 <title>New Quote Request</title>
@@ -147,133 +104,32 @@ export async function POST(req: Request) {
 
 <body style="margin:0;padding:30px;background:#f5f7fb;font-family:Arial,sans-serif;">
 
-<table width="100%" cellspacing="0" cellpadding="0">
-<tr>
-<td align="center">
+<h1>Vanguard Business Services</h1>
 
-<table width="700" cellspacing="0" cellpadding="0"
-style="background:#ffffff;border-radius:12px;overflow:hidden;">
-
-<tr>
-<td style="background:#0F172A;color:#ffffff;padding:30px;">
-
-<h1 style="margin:0;">
-Vanguard Business Services
-</h1>
-
-<p style="margin-top:10px;">
-New Consultation Request
-</p>
-
-</td>
-</tr>
-
-<tr>
-<td style="padding:30px;">
-
-<h2 style="margin-top:0;">
-Quote ID: ${quoteId}
-</h2>
-
-<p>
-A new consultation request has been submitted from your website.
-</p>
+<p>A new consultation request has been received.</p>
 
 <hr>
 
-<h3>Client Information</h3>
-
-<table width="100%" cellpadding="8">
-
-<tr>
-<td><strong>Name</strong></td>
-<td>${escapeHtml(name)}</td>
-</tr>
-
-<tr>
-<td><strong>Email</strong></td>
-<td>${escapeHtml(email)}</td>
-</tr>
-
-<tr>
-<td><strong>Business</strong></td>
-<td>${escapeHtml(company || "-")}</td>
-</tr>
-
-<tr>
-<td><strong>Country</strong></td>
-<td>${escapeHtml(country || "-")}</td>
-</tr>
-
-<tr>
-<td><strong>WhatsApp</strong></td>
-<td>${escapeHtml(whatsapp || "-")}</td>
-</tr>
-
-<tr>
-<td><strong>Website</strong></td>
-<td>${escapeHtml(website || "-")}</td>
-</tr>
-
-<tr>
-<td><strong>Requested Service</strong></td>
-<td>${escapeHtml(service)}</td>
-</tr>
-
-<tr>
-<td><strong>Budget</strong></td>
-<td>${escapeHtml(budget || "-")}</td>
-</tr>
-
-<tr>
-<td><strong>Preferred Contact</strong></td>
-<td>${escapeHtml(contactMethod || "-")}</td>
-</tr>
-
-<tr>
-<td><strong>Submitted</strong></td>
-<td>${submittedAt}</td>
-</tr>
-
-</table>
+<p><strong>Quote ID:</strong> ${quoteId}</p>
+<p><strong>Name:</strong> ${escapeHtml(name)}</p>
+<p><strong>Email:</strong> ${escapeHtml(email)}</p>
+<p><strong>Business:</strong> ${escapeHtml(company || "-")}</p>
+<p><strong>Country:</strong> ${escapeHtml(country || "-")}</p>
+<p><strong>WhatsApp:</strong> ${escapeHtml(whatsapp || "-")}</p>
+<p><strong>Website:</strong> ${escapeHtml(website || "-")}</p>
+<p><strong>Service:</strong> ${escapeHtml(service)}</p>
+<p><strong>Budget:</strong> ${escapeHtml(budget || "-")}</p>
+<p><strong>Preferred Contact:</strong> ${escapeHtml(contactMethod || "-")}</p>
 
 <hr>
 
 <h3>Project Details</h3>
 
-<div
-style="
-background:#F8FAFC;
-padding:20px;
-border-radius:8px;
-white-space:pre-wrap;
-line-height:1.7;
-">
-
-${escapeHtml(projectDetails)}
-
-</div>
-
-<hr>
-
-<p style="font-size:13px;color:#777;">
-Generated automatically from
-https://www.vanguardbusinesservices.com
-</p>
-
-</td>
-</tr>
-
-</table>
-
-</td>
-</tr>
-</table>
+<p>${escapeHtml(projectDetails || "-")}</p>
 
 </body>
 </html>
 `;
-
     await resend.emails.send({
       from: "onboarding@resend.dev",
       to: "vanguardbusinessservices37@gmail.com",
@@ -282,7 +138,7 @@ https://www.vanguardbusinesservices.com
       html,
     });
 
-       const telegramMessage = `
+    const telegramMessage = `
 📩 NEW CONSULTATION REQUEST
 
 🆔 Quote ID
@@ -322,11 +178,11 @@ ${submittedAt}
 
 📝 Project Details
 
-${projectDetails}
+${projectDetails || "-"}
 `;
 
     try {
-      await fetch(
+      const telegramResponse = await fetch(
         `https://api.telegram.org/bot${process.env.TELEGRAM_BOT_TOKEN}/sendMessage`,
         {
           method: "POST",
@@ -339,11 +195,19 @@ ${projectDetails}
           }),
         }
       );
+
+      const telegramResult = await telegramResponse.json();
+
+      console.log("Telegram Status:", telegramResponse.status);
+      console.log("Telegram Result:", telegramResult);
+
+      if (!telegramResponse.ok) {
+        console.error("Telegram API Error:", telegramResult);
+      }
     } catch (telegramError) {
       console.error("Telegram Error:", telegramError);
     }
-
-    return NextResponse.json({
+        return NextResponse.json({
       success: true,
       quoteId,
       message:
@@ -351,7 +215,6 @@ ${projectDetails}
     });
 
   } catch (error) {
-
     console.error("Contact API Error:", error);
 
     return NextResponse.json(

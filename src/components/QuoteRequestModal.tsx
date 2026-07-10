@@ -39,22 +39,26 @@ const budgets = [
 export default function QuoteRequestModal() {
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState("");
+
   const [form, setForm] = useState<FormData>({
-    fullName:"",
-    email:"",
-    whatsapp:"",
-    country:"",
-    businessName:"",
-    website:"",
-    service:"",
-    budget:"",
-    contactMethod:"WhatsApp",
-    projectDetails:"",
-    agree:false,
+    fullName: "",
+    email: "",
+    whatsapp: "",
+    country: "",
+    businessName: "",
+    website: "",
+    service: "",
+    budget: "",
+    contactMethod: "WhatsApp",
+    projectDetails: "",
+    agree: false,
   });
 
   function update(name: keyof FormData, value: string | boolean) {
-    setForm(prev => ({...prev,[name]: value}));
+    setForm((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
   }
 
   async function handleSubmit(e: React.FormEvent) {
@@ -67,140 +71,177 @@ export default function QuoteRequestModal() {
 
     setLoading(true);
     setMessage("");
-
-    try {
-      const res = await fetch("/api/contact",{
-        method:"POST",
-        headers:{"Content-Type":"application/json"},
-        body:JSON.stringify({
+        try {
+      const res = await fetch("/api/contact", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
           name: form.fullName,
           email: form.email,
           company: form.businessName,
           service: form.service,
-          message:
-`Country: ${form.country}
-WhatsApp: ${form.whatsapp}
-Website: ${form.website}
-Budget: ${form.budget}
-Preferred Contact: ${form.contactMethod}
-
-Project Details:
-${form.projectDetails}`
-        })
+          country: form.country,
+          whatsapp: form.whatsapp,
+          website: form.website,
+          budget: form.budget,
+          contactMethod: form.contactMethod,
+          projectDetails: form.projectDetails,
+        }),
       });
 
       const data = await res.json();
 
-      if(!res.ok){
-        throw new Error(data.message || "Request failed");
+      if (!res.ok) {
+        throw new Error(data.message || "Request failed.");
       }
 
-      setMessage("Your consultation request has been submitted successfully.");
+      setMessage(
+        "Your consultation request has been submitted successfully."
+      );
 
       setForm({
-        fullName:"",
-        email:"",
-        whatsapp:"",
-        country:"",
-        businessName:"",
-        website:"",
-        service:"",
-        budget:"",
-        contactMethod:"WhatsApp",
-        projectDetails:"",
-        agree:false,
+        fullName: "",
+        email: "",
+        whatsapp: "",
+        country: "",
+        businessName: "",
+        website: "",
+        service: "",
+        budget: "",
+        contactMethod: "WhatsApp",
+        projectDetails: "",
+        agree: false,
       });
-
-    } catch(err){
-      setMessage(err instanceof Error ? err.message : "Something went wrong.");
-    } finally{
+          } catch (err) {
+      setMessage(
+        err instanceof Error
+          ? err.message
+          : "Something went wrong."
+      );
+    } finally {
       setLoading(false);
     }
   }
 
   return (
     <section className="rounded-3xl border border-white/10 bg-white/5 p-8">
-      <h2 className="text-4xl font-bold">Request Free Consultation</h2>
+      <h2 className="text-4xl font-bold">
+        Request Free Consultation
+      </h2>
 
-      <form onSubmit={handleSubmit} className="mt-8 space-y-6">
-
-        <input className="w-full rounded-xl p-3 bg-[#0b1126]" placeholder="Full Name *"
+      <form
+        onSubmit={handleSubmit}
+        className="mt-8 space-y-6"
+      >        <input
+          className="w-full rounded-xl p-3 bg-[#0b1126]"
+          placeholder="Full Name *"
           value={form.fullName}
-          onChange={e=>update("fullName",e.target.value)} required />
+          onChange={(e) => update("fullName", e.target.value)}
+          required
+        />
 
-        <input className="w-full rounded-xl p-3 bg-[#0b1126]" type="email" placeholder="Email *"
+        <input
+          className="w-full rounded-xl p-3 bg-[#0b1126]"
+          type="email"
+          placeholder="Email *"
           value={form.email}
-          onChange={e=>update("email",e.target.value)} required />
+          onChange={(e) => update("email", e.target.value)}
+          required
+        />
 
-        <input className="w-full rounded-xl p-3 bg-[#0b1126]" placeholder="WhatsApp *"
+        <input
+          className="w-full rounded-xl p-3 bg-[#0b1126]"
+          placeholder="WhatsApp *"
           value={form.whatsapp}
-          onChange={e=>update("whatsapp",e.target.value)} required />
+          onChange={(e) => update("whatsapp", e.target.value)}
+          required
+        />
 
-        <input className="w-full rounded-xl p-3 bg-[#0b1126]" placeholder="Country *"
+        <input
+          className="w-full rounded-xl p-3 bg-[#0b1126]"
+          placeholder="Country *"
           value={form.country}
-          onChange={e=>update("country",e.target.value)} required />
+          onChange={(e) => update("country", e.target.value)}
+          required
+        />
 
-        <input className="w-full rounded-xl p-3 bg-[#0b1126]" placeholder="Business Name"
+        <input
+          className="w-full rounded-xl p-3 bg-[#0b1126]"
+          placeholder="Business Name"
           value={form.businessName}
-          onChange={e=>update("businessName",e.target.value)} />
+          onChange={(e) => update("businessName", e.target.value)}
+        />
 
-        <input className="w-full rounded-xl p-3 bg-[#0b1126]" placeholder="Website (Optional)"
+        <input
+          className="w-full rounded-xl p-3 bg-[#0b1126]"
+          placeholder="Website (Optional)"
           value={form.website}
-          onChange={e=>update("website",e.target.value)} />
+          onChange={(e) => update("website", e.target.value)}
+        />
 
-        <select className="w-full rounded-xl p-3 bg-[#0b1126]"
+        <select
+          className="w-full rounded-xl p-3 bg-[#0b1126]"
           value={form.service}
-          onChange={e=>update("service",e.target.value)} required>
+          onChange={(e) => update("service", e.target.value)}
+          required
+        >
           <option value="">Select Service</option>
-          {services.map(s=><option key={s}>{s}</option>)}
+          {services.map((s) => (
+            <option key={s} value={s}>
+              {s}
+            </option>
+          ))}
         </select>
 
-        <select className="w-full rounded-xl p-3 bg-[#0b1126]"
+        <select
+          className="w-full rounded-xl p-3 bg-[#0b1126]"
           value={form.budget}
-          onChange={e=>update("budget",e.target.value)}>
+          onChange={(e) => update("budget", e.target.value)}
+        >
           <option value="">Select Budget</option>
-          {budgets.map(b=><option key={b}>{b}</option>)}
+          {budgets.map((b) => (
+            <option key={b} value={b}>
+              {b}
+            </option>
+          ))}
         </select>
 
-        <textarea rows={6}
+        <textarea
+          rows={6}
           className="w-full rounded-xl p-3 bg-[#0b1126]"
           placeholder="Project Details"
           value={form.projectDetails}
-          onChange={e=>update("projectDetails",e.target.value)}
-          required />
+          onChange={(e) => update("projectDetails", e.target.value)}
+          required
+        />
 
-        <div className="rounded-xl border border-yellow-500/30 p-4 text-sm">
-          <strong>Account Delivery Policy</strong>
-          <p className="mt-2">
-            Clients must verify delivered account details immediately after delivery.
-            Once confirmed, the order is considered completed. No warranty,
-            guarantee, replacement or refund is provided for issues arising after
-            confirmation due to password changes, platform actions, policy updates,
-            user modifications or misuse.
-          </p>
-          <p className="mt-2">
-            <strong>Note:</strong> Policies may vary depending on the selected service.
-            Additional service-specific terms will be communicated before the order is finalized.
-          </p>
-        </div>
-
-        <label className="flex gap-3">
+        <label className="flex items-start gap-3">
           <input
             type="checkbox"
             checked={form.agree}
-            onChange={e=>update("agree",e.target.checked)}
+            onChange={(e) => update("agree", e.target.checked)}
           />
-          <span>I have read and agree to the Account Delivery Policy and Terms & Conditions.</span>
+          <span>
+            I have read and agree to the Account Delivery Policy and Terms &
+            Conditions.
+          </span>
         </label>
 
-        {message && <div>{message}</div>}
+        {message && (
+          <div className="rounded-lg bg-blue-600/20 p-3 text-sm">
+            {message}
+          </div>
+        )}
 
         <button
+          type="submit"
           disabled={loading}
-          className="w-full rounded-xl bg-blue-600 py-3 font-semibold">
+          className="w-full rounded-xl bg-blue-600 py-3 font-semibold text-white disabled:opacity-60"
+        >
           {loading ? "Submitting..." : "Request Free Consultation"}
-        </button>
-
+                </button>
       </form>
     </section>
   );
