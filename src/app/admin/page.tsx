@@ -1,3 +1,5 @@
+import Link from "next/link";
+import AdminSearch from "@/components/admin/AdminSearch";
 import { supabaseAdmin } from "@/lib/supabase";
 export const metadata = {
   title: "Admin Dashboard | Vanguard Business Services",
@@ -60,6 +62,7 @@ export default async function AdminDashboard() {
         <p className="mb-8 text-gray-600">
           Vanguard Business Services Admin Panel
         </p>
+        <AdminSearch />
 
         <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
           <div className="rounded-xl bg-white p-6 shadow">
@@ -115,6 +118,7 @@ export default async function AdminDashboard() {
                 <th className="p-3 text-left">Email</th>
                 <th className="p-3 text-left">Service</th>
                 <th className="p-3 text-left">Status</th>
+                <th className="p-3 text-left">Action</th>
               </tr>
             </thead>
 
@@ -144,6 +148,14 @@ export default async function AdminDashboard() {
                     <span className="rounded-full bg-blue-100 px-3 py-1 text-sm font-medium text-blue-700">
                       {quote.status}
                     </span>
+                    <td className="p-3">
+  <Link
+    href={`/admin/quotes/${quote.quote_id}`}
+    className="rounded-lg bg-blue-600 px-4 py-2 text-sm font-medium text-white hover:bg-blue-700"
+  >
+    View
+  </Link>
+</td>
                   </td>
                 </tr>
               ))}
@@ -151,7 +163,7 @@ export default async function AdminDashboard() {
               {!recentQuotes?.length && (
                 <tr>
                   <td
-                    colSpan={5}
+                    colSpan={6}
                     className="p-6 text-center text-gray-500"
                   >
                     No quotes found.
