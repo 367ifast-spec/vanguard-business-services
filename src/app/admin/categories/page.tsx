@@ -8,11 +8,21 @@ export const metadata = {
 export default async function CategoriesPage({
   searchParams,
 }: {
-  searchParams: Promise<{
-    q?: string;
-  }>;
+ searchParams: Promise<{
+  q?: string;
+  page?: string;
+}>;
 }) {
-    const { q = "" } = await searchParams;
+ const {
+  q = "",
+  page = "1",
+} = await searchParams;
+
+const currentPage = Number(page);
+const pageSize = 10;
+
+const from = (currentPage - 1) * pageSize;
+const to = from + pageSize - 1;
   if (!supabaseAdmin) {
     
     return (
@@ -24,11 +34,18 @@ export default async function CategoriesPage({
     );
   }
 
+
 const search = q.trim();
 
-const { data: categories, error } = await supabaseAdmin
+const {
+  data: categories,
+  error,
+  count,
+} = await supabaseAdmin
   .from("categories")
-  .select("*")
+  .select("*", {
+    count: "exact",
+  })
   .or(
     search
       ? `name.ilike.%${search}%,slug.ilike.%${search}%`
@@ -36,7 +53,8 @@ const { data: categories, error } = await supabaseAdmin
   )
   .order("created_at", {
     ascending: false,
-  });
+  })
+  .range(from, to);
   if (error) {
     return (
       <main className="min-h-screen flex items-center justify-center">
@@ -198,6 +216,47 @@ const { data: categories, error } = await supabaseAdmin
               </tbody>
 
             </table>
+            <div className="flex items-center justify-between border-t p-4">
+
+  <p className="text-sm text-gray-600">
+    Total:
+    {" "}
+    {count ?? 0}
+    {" "}
+    Categories
+  </p>
+
+  <div className="flex gap-2">
+
+    {currentPage > 1 && (
+      <Link
+        href={`/admin/categories?page=${
+          currentPage - 1
+        }&q=${encodeURIComponent(q)}`}
+        className="rounded border px-4 py-2 hover:bg-gray-100"
+      >
+        Previous
+      </Link>
+    )}
+
+    <span className="rounded bg-blue-600 px-4 py-2 text-white">
+      {currentPage}
+    </span>
+
+    {(count ?? 0) > currentPage * pageSize && (
+      <Link
+        href={`/admin/categories?page=${
+          currentPage + 1
+        }&q=${encodeURIComponent(q)}`}
+        className="rounded border px-4 py-2 hover:bg-gray-100"
+      >
+        Next
+      </Link>
+    )}
+
+  </div>
+
+</div>
           </div>
 
         </div>
