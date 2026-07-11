@@ -13,22 +13,17 @@ export async function createCategory(formData: FormData) {
   const slug = String(formData.get("slug") ?? "").trim();
   const description = String(formData.get("description") ?? "").trim();
 
-  if (!name) {
-    throw new Error("Category name is required.");
-  }
+  if (!name) throw new Error("Category name is required.");
+  if (!slug) throw new Error("Category slug is required.");
 
-  if (!slug) {
-    throw new Error("Category slug is required.");
-  }
-
-  const { data: existingCategory } = await supabaseAdmin
+  const { data: existing } = await supabaseAdmin
     .from("categories")
     .select("id")
     .eq("slug", slug)
     .maybeSingle();
 
-  if (existingCategory) {
-    throw new Error("This slug already exists.");
+  if (existing) {
+    throw new Error("Slug already exists.");
   }
 
   const { error } = await supabaseAdmin
@@ -44,7 +39,6 @@ export async function createCategory(formData: FormData) {
   }
 
   revalidatePath("/admin/categories");
-
   redirect("/admin/categories");
 }
 
@@ -61,12 +55,18 @@ export async function updateCategory(
   const description = String(formData.get("description") ?? "").trim();
   const is_active = formData.get("is_active") === "on";
 
-  if (!name) {
-    throw new Error("Category name is required.");
-  }
+  if (!name) throw new Error("Category name is required.");
+  if (!slug) throw new Error("Category slug is required.");
 
-  if (!slug) {
-    throw new Error("Category slug is required.");
+  const { data: duplicate } = await supabaseAdmin
+    .from("categories")
+    .select("id")
+    .eq("slug", slug)
+    .neq("id", id)
+    .maybeSingle();
+
+  if (duplicate) {
+    throw new Error("Slug already exists.");
   }
 
   const { error } = await supabaseAdmin
@@ -85,6 +85,5 @@ export async function updateCategory(
   }
 
   revalidatePath("/admin/categories");
-
   redirect("/admin/categories");
 }
