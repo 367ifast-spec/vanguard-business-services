@@ -175,15 +175,25 @@ export default async function AdminDashboard() {
               ))}
 
               {!recentQuotes?.length && (
-                <tr>
-                  <td
-                    colSpan={6}
-                    className="p-6 text-center text-gray-500"
-                  >
-                    No quotes found.
-                  </td>
-                </tr>
-              )}
+  <tr>
+    <td
+      colSpan={6}
+      className="p-10 text-center"
+    >
+      <div className="flex flex-col items-center">
+        <div className="mb-4 text-5xl">📄</div>
+
+        <h3 className="text-lg font-semibold text-gray-800">
+          No Quotes Yet
+        </h3>
+
+        <p className="mt-2 text-gray-500">
+          Quote requests will appear here when customers submit them.
+        </p>
+      </div>
+    </td>
+  </tr>
+)}
             </tbody>
           </table>
         </div>
@@ -245,15 +255,25 @@ export default async function AdminDashboard() {
               ))}
 
               {!recentPayments?.length && (
-                <tr>
-                  <td
-                    colSpan={5}
-                    className="p-6 text-center text-gray-500"
-                  >
-                    No payments found.
-                  </td>
-                </tr>
-              )}
+  <tr>
+    <td
+      colSpan={5}
+      className="p-10 text-center"
+    >
+      <div className="flex flex-col items-center">
+        <div className="mb-4 text-5xl">💳</div>
+
+        <h3 className="text-lg font-semibold text-gray-800">
+          No Payments Yet
+        </h3>
+
+        <p className="mt-2 text-gray-500">
+          Incoming crypto payments will appear here.
+        </p>
+      </div>
+    </td>
+  </tr>
+)}
             </tbody>
           </table>
         </div>

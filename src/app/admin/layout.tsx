@@ -58,7 +58,7 @@ const [sidebarOpen, setSidebarOpen] = useState(false);
   </Link>
 
   <Link
-    href="/admin"
+   href="/admin/quotes"
     className={`rounded-lg px-4 py-3 transition ${
       pathname.startsWith("/admin/quotes")
         ? "bg-blue-600 text-white"
@@ -130,7 +130,7 @@ const [sidebarOpen, setSidebarOpen] = useState(false);
         </Link>
 
         <Link
-          href="/admin"
+          href="/admin/quotes"
           onClick={() => setSidebarOpen(false)}
           className={`rounded-lg px-4 py-3 transition ${
             pathname.startsWith("/admin/quotes")
