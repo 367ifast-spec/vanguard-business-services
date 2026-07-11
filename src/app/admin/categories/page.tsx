@@ -5,8 +5,16 @@ export const metadata = {
   title: "Categories | Admin Dashboard",
 };
 
-export default async function CategoriesPage() {
+export default async function CategoriesPage({
+  searchParams,
+}: {
+  searchParams: Promise<{
+    q?: string;
+  }>;
+}) {
+    const { q = "" } = await searchParams;
   if (!supabaseAdmin) {
+    
     return (
       <main className="min-h-screen flex items-center justify-center">
         <p className="text-red-600 font-semibold">
@@ -16,11 +24,19 @@ export default async function CategoriesPage() {
     );
   }
 
-  const { data: categories, error } = await supabaseAdmin
-    .from("categories")
-    .select("*")
-    .order("created_at", { ascending: false });
+const search = q.trim();
 
+const { data: categories, error } = await supabaseAdmin
+  .from("categories")
+  .select("*")
+  .or(
+    search
+      ? `name.ilike.%${search}%,slug.ilike.%${search}%`
+      : "id.not.is.null"
+  )
+  .order("created_at", {
+    ascending: false,
+  });
   if (error) {
     return (
       <main className="min-h-screen flex items-center justify-center">
@@ -52,9 +68,33 @@ export default async function CategoriesPage() {
               className="rounded-lg bg-blue-600 px-6 py-3 font-medium text-white hover:bg-blue-700"
             >
               + Add Category
+              
             </Link>
           </div>
+<div className="mt-6 mb-6 flex items-center justify-between gap-4">
 
+  <form
+    action="/admin/categories"
+    className="flex gap-2"
+  >
+    <input
+      type="text"
+      name="q"
+      defaultValue={q}
+      placeholder="Search categories..."
+      className="w-64 rounded-lg border border-gray-300 px-4 py-3"
+    />
+
+    <button
+      type="submit"
+      className="rounded-lg bg-gray-800 px-5 py-3 text-white"
+    >
+      Search
+    </button>
+  </form>
+
+  
+</div>
           <div className="overflow-x-auto rounded-xl border border-gray-200">
             <table className="min-w-full">
 
