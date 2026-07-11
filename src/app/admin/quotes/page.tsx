@@ -84,7 +84,7 @@ const { data: quotes } = await query.range(from, to);
           </div>
 
           <div className="flex items-center gap-3">
-  <ExportCsvButton quotes={quotes ?? []} />
+  <ExportCsvButton />
 
   <Link
     href="/admin"
