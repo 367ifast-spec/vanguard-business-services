@@ -9,7 +9,7 @@ export default async function CategoriesPage() {
   if (!supabaseAdmin) {
     return (
       <main className="min-h-screen flex items-center justify-center">
-        <p className="text-red-600">
+        <p className="text-red-600 font-semibold">
           Supabase is not configured.
         </p>
       </main>
@@ -24,7 +24,9 @@ export default async function CategoriesPage() {
   if (error) {
     return (
       <main className="min-h-screen flex items-center justify-center">
-        <p className="text-red-600">{error.message}</p>
+        <p className="text-red-600 font-semibold">
+          {error.message}
+        </p>
       </main>
     );
   }
@@ -34,7 +36,7 @@ export default async function CategoriesPage() {
       <div className="mx-auto max-w-7xl">
         <div className="rounded-xl bg-white p-8 shadow">
 
-          <div className="flex items-center justify-between">
+          <div className="mb-8 flex items-center justify-between">
             <div>
               <h1 className="text-4xl font-bold text-gray-900">
                 Categories Management
@@ -47,22 +49,40 @@ export default async function CategoriesPage() {
 
             <Link
               href="/admin/categories/new"
-              className="rounded-lg bg-blue-600 px-5 py-3 text-white hover:bg-blue-700"
+              className="rounded-lg bg-blue-600 px-6 py-3 font-medium text-white hover:bg-blue-700"
             >
               + Add Category
             </Link>
           </div>
 
-          <div className="mt-10 overflow-x-auto rounded-xl border bg-white">
+          <div className="overflow-x-auto rounded-xl border border-gray-200">
             <table className="min-w-full">
+
               <thead className="bg-gray-100">
                 <tr>
-                  <th className="p-4 text-left">Name</th>
-                  <th className="p-4 text-left">Slug</th>
-                  <th className="p-4 text-left">Description</th>
-                  <th className="p-4 text-left">Status</th>
-                  <th className="p-4 text-left">Created</th>
-                  <th className="p-4 text-left">Action</th>
+                  <th className="p-4 text-left font-semibold text-gray-700">
+                    Name
+                  </th>
+
+                  <th className="p-4 text-left font-semibold text-gray-700">
+                    Slug
+                  </th>
+
+                  <th className="p-4 text-left font-semibold text-gray-700">
+                    Description
+                  </th>
+
+                  <th className="p-4 text-left font-semibold text-gray-700">
+                    Status
+                  </th>
+
+                  <th className="p-4 text-left font-semibold text-gray-700">
+                    Created
+                  </th>
+
+                  <th className="p-4 text-left font-semibold text-gray-700">
+                    Action
+                  </th>
                 </tr>
               </thead>
 
@@ -73,15 +93,15 @@ export default async function CategoriesPage() {
                       key={category.id}
                       className="border-t hover:bg-gray-50"
                     >
-                      <td className="p-4 font-medium">
+                      <td className="p-4 font-medium text-gray-900">
                         {category.name}
                       </td>
 
-                      <td className="p-4">
+                      <td className="p-4 text-gray-700">
                         {category.slug}
                       </td>
 
-                      <td className="p-4">
+                      <td className="p-4 text-gray-700">
                         {category.description || "-"}
                       </td>
 
@@ -97,8 +117,10 @@ export default async function CategoriesPage() {
                         )}
                       </td>
 
-                      <td className="p-4">
-                        {new Date(category.created_at).toLocaleDateString()}
+                      <td className="p-4 text-gray-700">
+                        {new Date(
+                          category.created_at
+                        ).toLocaleDateString()}
                       </td>
 
                       <td className="p-4">
