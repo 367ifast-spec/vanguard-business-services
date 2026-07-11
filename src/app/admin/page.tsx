@@ -1,6 +1,7 @@
 import Link from "next/link";
 import AdminSearch from "@/components/admin/AdminSearch";
 import { supabaseAdmin } from "@/lib/supabase";
+import DashboardModules from "@/components/admin/DashboardModules";
 export const metadata = {
   title: "Admin Dashboard | Vanguard Business Services",
 };
@@ -77,6 +78,7 @@ export default async function AdminDashboard() {
 </div>
 
 <AdminSearch />
+<DashboardModules />
 
         <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
           <div className="rounded-xl bg-white p-6 shadow">
