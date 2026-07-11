@@ -4,6 +4,8 @@ import { supabaseAdmin } from "@/lib/supabase";
 type Props = {
   searchParams: Promise<{
     page?: string;
+    search?: string;
+    status?: string;
   }>;
 };
 
@@ -24,9 +26,13 @@ export default async function QuotesPage({
     );
   }
 
-  const params = await searchParams;
+const params = await searchParams;
 
-  const page = Math.max(Number(params.page ?? "1"), 1);
+const search = (params.search ?? "").trim();
+
+const status = (params.status ?? "").trim();
+
+const page = Math.max(Number(params.page ?? "1"), 1);
 
   const pageSize = 20;
 
@@ -40,13 +46,22 @@ export default async function QuotesPage({
       head: true,
     });
 
-  const { data: quotes } = await supabaseAdmin
-    .from("quotes")
-    .select(
-      "quote_id, full_name, email, service, status, created_at"
-    )
-    .order("created_at", { ascending: false })
-    .range(from, to);
+  const query = supabaseAdmin
+  .from("quotes")
+  .select(
+    "quote_id, full_name, email, service, status, created_at"
+  )
+  .order("created_at", { ascending: false });
+
+if (search) {
+  query.or(
+    `quote_id.ilike.%${search}%,full_name.ilike.%${search}%,email.ilike.%${search}%,service.ilike.%${search}%`
+  );
+}
+if (status) {
+  query.eq("status", status);
+}
+const { data: quotes } = await query.range(from, to);
 
   const totalPages = Math.max(
     Math.ceil((totalQuotes ?? 0) / pageSize),
@@ -74,16 +89,70 @@ export default async function QuotesPage({
             ← Dashboard
           </Link>
         </div>
+<div className="mb-6 flex gap-3">
+  <form
+    action="/admin/quotes"
+    method="GET"
+    className="flex-1"
+  >
+  <input
+    type="text"
+    name="search"
+    defaultValue={search}
+    placeholder="Search by Quote ID, Name, Email or Service..."
+    className="w-full rounded-lg border border-gray-300 px-4 py-3 focus:border-blue-500 focus:outline-none"
+  />
+  <select
+  name="status"
+  defaultValue={status}
+  className="mt-3 w-full rounded-lg border border-gray-300 px-4 py-3"
+>
+  <option value="">All Status</option>
+  <option value="Pending">Pending</option>
+  <option value="In Progress">In Progress</option>
+  <option value="Completed">Completed</option>
+  <option value="Cancelled">Cancelled</option>
+</select>
+  <button
+  type="submit"
+  className="mt-3 rounded-lg bg-blue-600 px-5 py-2 text-white hover:bg-blue-700"
+>
+  Search
+</button>
+</form>
+{search && (
+  <Link
+    href="/admin/quotes"
+    className="self-start rounded-lg bg-gray-700 px-5 py-2 text-white hover:bg-gray-800"
+  >
+    Clear
+  </Link>
+)}
 
+</div>
         <div className="mb-4 flex items-center justify-between">
-          <p className="text-sm text-gray-600">
-            Total Quotes: <strong>{totalQuotes ?? 0}</strong>
-          </p>
+  <p className="text-sm text-gray-600">
+    {search ? (
+      <>
+        Search:
+        <span className="ml-1 font-semibold">
+          "{search}"
+        </span>
+      </>
+    ) : (
+      <>
+        Total Quotes:
+        <strong className="ml-1">
+          {totalQuotes ?? 0}
+        </strong>
+      </>
+    )}
+  </p>
 
-          <p className="text-sm text-gray-600">
-            Page {page} of {totalPages}
-          </p>
-        </div>
+  <p className="text-sm text-gray-600">
+    Page {page} of {totalPages}
+  </p>
+</div>
 
         <div className="overflow-x-auto rounded-xl bg-white shadow">
           <table className="min-w-full border-collapse">
