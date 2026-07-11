@@ -64,7 +64,8 @@ export async function POST(req: Request) {
 
     const quoteId = generateQuoteId();
     const submittedAt = new Date().toISOString();
-        const { error: dbError } = await supabase
+
+    const { error: dbError } = await supabase
       .from("quotes")
       .insert({
         quote_id: quoteId,
@@ -87,6 +88,31 @@ export async function POST(req: Request) {
         {
           success: false,
           message: "Unable to save quote.",
+        },
+        {
+          status: 500,
+        }
+      );
+    }
+
+    const { error: paymentError } = await supabase
+      .from("payments")
+      .insert({
+        quote_id: quoteId,
+        service,
+        amount:
+          Number(String(budget || "0").replace(/[^0-9.]/g, "")) || 0,
+        currency: "USD",
+        payment_status: "pending",
+      });
+
+    if (paymentError) {
+      console.error("Payment Table Error:", paymentError);
+
+      return NextResponse.json(
+        {
+          success: false,
+          message: "Unable to initialize payment.",
         },
         {
           status: 500,
@@ -207,7 +233,8 @@ ${projectDetails || "-"}
     } catch (telegramError) {
       console.error("Telegram Error:", telegramError);
     }
-        return NextResponse.json({
+
+    return NextResponse.json({
       success: true,
       quoteId,
       message:
@@ -215,13 +242,15 @@ ${projectDetails || "-"}
     });
 
   } catch (error) {
-    console.error("Contact API Error:", error);
+    console.error("FULL CONTACT API ERROR:", error);
 
     return NextResponse.json(
       {
         success: false,
         message:
-          "Something went wrong while submitting your request. Please try again.",
+          error instanceof Error
+            ? error.message
+            : "Unknown server error",
       },
       {
         status: 500,
