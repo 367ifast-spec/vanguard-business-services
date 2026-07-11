@@ -87,3 +87,20 @@ export async function updateCategory(
   revalidatePath("/admin/categories");
   redirect("/admin/categories");
 }
+
+export async function deleteCategory(id: string) {
+  if (!supabaseAdmin) {
+    throw new Error("Supabase is not configured.");
+  }
+
+  const { error } = await supabaseAdmin
+    .from("categories")
+    .delete()
+    .eq("id", id);
+
+  if (error) {
+    throw new Error(error.message);
+  }
+
+  revalidatePath("/admin/categories");
+}

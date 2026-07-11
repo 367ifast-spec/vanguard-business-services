@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { supabaseAdmin } from "@/lib/supabase";
-
+import { deleteCategory } from "./actions";
 export const metadata = {
   title: "Categories | Admin Dashboard",
 };
@@ -132,13 +132,15 @@ export default async function CategoriesPage() {
                           >
                             Edit
                           </Link>
-
-                          <button
-                            className="rounded bg-red-600 px-3 py-2 text-white hover:bg-red-700"
-                          >
-                            Delete
-                          </button>
-
+<form action={deleteCategory.bind(null, category.id)}>
+  <button
+    type="submit"
+    className="rounded bg-red-600 px-3 py-2 text-white hover:bg-red-700"
+  >
+    Delete
+  </button>
+</form>
+                          
                         </div>
                       </td>
                     </tr>
