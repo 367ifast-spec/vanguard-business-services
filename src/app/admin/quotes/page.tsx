@@ -1,3 +1,4 @@
+import ExportCsvButton from "@/components/admin/ExportCsvButton";
 import Link from "next/link";
 import { supabaseAdmin } from "@/lib/supabase";
 
@@ -82,12 +83,16 @@ const { data: quotes } = await query.range(from, to);
             </p>
           </div>
 
-          <Link
-            href="/admin"
-            className="rounded-lg bg-gray-900 px-5 py-2 text-white hover:bg-gray-800"
-          >
-            ← Dashboard
-          </Link>
+          <div className="flex items-center gap-3">
+  <ExportCsvButton quotes={quotes ?? []} />
+
+  <Link
+    href="/admin"
+    className="rounded-lg bg-gray-900 px-5 py-2 text-white hover:bg-gray-800"
+  >
+    ← Dashboard
+  </Link>
+</div>
         </div>
 <div className="mb-6 flex gap-3">
   <form
