@@ -55,14 +55,28 @@ export default async function AdminDashboard() {
   return (
     <main className="min-h-screen bg-gray-100 p-8">
       <div className="mx-auto max-w-7xl">
-        <h1 className="mb-2 text-4xl font-bold text-gray-900">
-          Admin Dashboard
-        </h1>
+        <div className="mb-8 flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
+  <div>
+    <h1 className="text-4xl font-bold text-gray-900">
+      Admin Dashboard
+    </h1>
 
-        <p className="mb-8 text-gray-600">
-          Vanguard Business Services Admin Panel
-        </p>
-        <AdminSearch />
+    <p className="mt-2 text-gray-600">
+      Vanguard Business Services Admin Panel
+    </p>
+  </div>
+
+  <form action="/api/admin/logout" method="POST">
+    <button
+      type="submit"
+      className="rounded-lg bg-red-600 px-5 py-2 font-medium text-white transition hover:bg-red-700"
+    >
+      Logout
+    </button>
+  </form>
+</div>
+
+<AdminSearch />
 
         <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
           <div className="rounded-xl bg-white p-6 shadow">
@@ -148,6 +162,7 @@ export default async function AdminDashboard() {
                     <span className="rounded-full bg-blue-100 px-3 py-1 text-sm font-medium text-blue-700">
                       {quote.status}
                     </span>
+                    </td>
                     <td className="p-3">
   <Link
     href={`/admin/quotes/${quote.quote_id}`}
@@ -156,7 +171,6 @@ export default async function AdminDashboard() {
     View
   </Link>
 </td>
-                  </td>
                 </tr>
               ))}
 

@@ -13,6 +13,7 @@ export default function AdminLoginPage() {
   const [error, setError] = useState("");
 
   async function handleLogin(e: React.FormEvent) {
+    console.log("LOGIN BUTTON CLICKED");
     e.preventDefault();
 
     setLoading(true);
@@ -74,7 +75,7 @@ export default function AdminLoginPage() {
               onChange={(e) =>
                 setEmail(e.target.value)
               }
-              className="w-full rounded-lg border px-4 py-3"
+              className="w-full rounded-lg border border-gray-300 bg-white px-4 py-3 text-black placeholder-gray-400 focus:border-blue-500 focus:outline-none"
               placeholder="admin@example.com"
             />
           </div>
@@ -91,7 +92,7 @@ export default function AdminLoginPage() {
               onChange={(e) =>
                 setPassword(e.target.value)
               }
-              className="w-full rounded-lg border px-4 py-3"
+              className="w-full rounded-lg border border-gray-300 bg-white px-4 py-3 text-black placeholder-gray-400 focus:border-blue-500 focus:outline-none"
               placeholder="********"
             />
           </div>
