@@ -1,4 +1,5 @@
 "use server";
+
 import { redirect } from "next/navigation";
 import { revalidatePath } from "next/cache";
 import { supabaseAdmin } from "@/lib/supabase";
@@ -12,12 +13,28 @@ export async function createCategory(formData: FormData) {
   const slug = String(formData.get("slug") ?? "").trim();
   const description = String(formData.get("description") ?? "").trim();
 
-  if (!name || !slug) {
-    throw new Error("Name and Slug are required.");
+  if (!name) {
+    throw new Error("Category name is required.");
   }
 
+  if (!slug) {
+    throw new Error("Category slug is required.");
+  }
+
+  // Check duplicate slug
+  const { data: existingCategory } = await supabaseAdmin
+    .from("categories")
+    .select("id")
+    .eq("slug", slug)
+    .maybeSingle();
+
+  if (existingCategory) {
+    throw new Error("This slug already exists.");
+  }
+
+  // Insert category
   const { error } = await supabaseAdmin
-    .from("service_categories")
+    .from("categories")
     .insert({
       name,
       slug,
@@ -29,6 +46,6 @@ export async function createCategory(formData: FormData) {
   }
 
   revalidatePath("/admin/categories");
-  redirect("/admin/categories");
 
+  redirect("/admin/categories");
 }
