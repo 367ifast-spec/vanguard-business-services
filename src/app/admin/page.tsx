@@ -5,14 +5,16 @@ export const metadata = {
 
 export default async function AdminDashboard() {
   if (!supabaseAdmin) {
-    return (
-      <main className="min-h-screen flex items-center justify-center">
-        <p className="text-red-600 font-semibold">
-          Supabase Admin client is not configured.
-        </p>
-      </main>
-    );
-  }
+  return (
+    <main className="min-h-screen flex items-center justify-center">
+      <div className="space-y-2 text-center">
+        <p>NEXT_PUBLIC_SUPABASE_URL: {process.env.NEXT_PUBLIC_SUPABASE_URL ? "OK" : "Missing"}</p>
+        <p>NEXT_PUBLIC_SUPABASE_ANON_KEY: {process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY ? "OK" : "Missing"}</p>
+        <p>SUPABASE_SERVICE_ROLE_KEY: {process.env.SUPABASE_SERVICE_ROLE_KEY ? "OK" : "Missing"}</p>
+      </div>
+    </main>
+  );
+}
 
   const { count: totalQuotes } = await supabaseAdmin
     .from("quotes")
