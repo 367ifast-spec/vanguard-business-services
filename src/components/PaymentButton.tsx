@@ -30,6 +30,7 @@ export default function PaymentButton({
   quote_id: quoteId,
   price_amount: amount,
   price_currency: "usd",
+  pay_currency: "usdttrc20",
   order_id: `VBS-${Date.now()}`,
   order_description: service,
 }),
