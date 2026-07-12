@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useEffect, useState } from "react";
-import { Menu, X, ArrowRight } from "lucide-react";
+import { Menu, X, ArrowRight, ShoppingCart } from "lucide-react";
 import Logo from "./Logo";
 
 const navigation = [
@@ -70,8 +70,23 @@ export default function Navbar() {
             </Link>
           ))}
         </nav>
-
+<div className="hidden lg:flex items-center">
+  <Link
+    href="/cart"
+    className="relative mr-4 rounded-full border border-white/10 bg-white/5 p-3 text-white transition hover:bg-white/10"
+    aria-label="Shopping Cart"
+  >
+    <ShoppingCart size={22} />
+  </Link>
+</div>
         <div className="hidden lg:block">
+          <Link
+  href="/cart"
+  onClick={() => setIsOpen(false)}
+  className="rounded-xl px-4 py-3 text-gray-300 transition hover:bg-white/10"
+>
+  🛒 Cart
+</Link>
           <Link
             href="/#contact"
             className="inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-blue-600 to-indigo-600 px-6 py-3 font-semibold text-white transition hover:scale-105"
