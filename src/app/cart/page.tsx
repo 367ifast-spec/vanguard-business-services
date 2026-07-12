@@ -6,9 +6,8 @@ export const metadata = {
 
 export default async function CartPage() {
   // পরে আমরা session/cookie থেকে sessionId নেব
-  const sessionId = "demo-session";
 
-  const items = await getCartItems(sessionId);
+const items = await getCartItems();
 
   const total = items.reduce((sum: number, item: any) => {
     const service = Array.isArray(item.services)

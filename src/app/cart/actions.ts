@@ -1,17 +1,23 @@
 "use server";
 
 import { revalidatePath } from "next/cache";
+import { getCartSessionId } from "@/lib/cart-session";
 import { supabaseAdmin } from "@/lib/supabase";
 
-export async function addToCart(
-  sessionId: string,
-  serviceId: string
-) {
+export async function addToCart(serviceId: string) {
+  const sessionId = await getCartSessionId();
+
+  if (!sessionId) {
+    throw new Error("Unable to create cart session.");
+  }
+
   if (!supabaseAdmin) {
     throw new Error("Supabase is not configured.");
   }
 
-  const { data: existing } = await supabaseAdmin
+  const supabase = supabaseAdmin;
+
+  const { data: existing } = await supabase
     .from("cart_items")
     .select("id, quantity")
     .eq("session_id", sessionId)
@@ -19,7 +25,7 @@ export async function addToCart(
     .maybeSingle();
 
   if (existing) {
-    const { error } = await supabaseAdmin
+    const { error } = await supabase
       .from("cart_items")
       .update({
         quantity: existing.quantity + 1,
@@ -31,7 +37,7 @@ export async function addToCart(
       throw new Error(error.message);
     }
   } else {
-    const { error } = await supabaseAdmin
+    const { error } = await supabase
       .from("cart_items")
       .insert({
         session_id: sessionId,
@@ -47,14 +53,20 @@ export async function addToCart(
   revalidatePath("/cart");
 }
 
-export async function getCartItems(
-  sessionId: string
-) {
+export async function getCartItems() {
+  const sessionId = await getCartSessionId();
+
+  if (!sessionId) {
+    return [];
+  }
+
   if (!supabaseAdmin) {
     return [];
   }
 
-  const { data, error } = await supabaseAdmin
+  const supabase = supabaseAdmin;
+
+  const { data, error } = await supabase
     .from("cart_items")
     .select(`
       id,
@@ -84,12 +96,14 @@ export async function updateCartQuantity(
     throw new Error("Supabase is not configured.");
   }
 
+  const supabase = supabaseAdmin;
+
   if (quantity <= 0) {
     await removeCartItem(id);
     return;
   }
 
-  const { error } = await supabaseAdmin
+  const { error } = await supabase
     .from("cart_items")
     .update({
       quantity,
@@ -104,14 +118,14 @@ export async function updateCartQuantity(
   revalidatePath("/cart");
 }
 
-export async function removeCartItem(
-  id: string
-) {
+export async function removeCartItem(id: string) {
   if (!supabaseAdmin) {
     throw new Error("Supabase is not configured.");
   }
 
-  const { error } = await supabaseAdmin
+  const supabase = supabaseAdmin;
+
+  const { error } = await supabase
     .from("cart_items")
     .delete()
     .eq("id", id);
@@ -123,14 +137,20 @@ export async function removeCartItem(
   revalidatePath("/cart");
 }
 
-export async function clearCart(
-  sessionId: string
-) {
+export async function clearCart() {
+  const sessionId = await getCartSessionId();
+
+  if (!sessionId) {
+    return;
+  }
+
   if (!supabaseAdmin) {
     throw new Error("Supabase is not configured.");
   }
 
-  const { error } = await supabaseAdmin
+  const supabase = supabaseAdmin;
+
+  const { error } = await supabase
     .from("cart_items")
     .delete()
     .eq("session_id", sessionId);
