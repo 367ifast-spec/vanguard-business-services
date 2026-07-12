@@ -1,4 +1,6 @@
+import Link from "next/link";
 import { supabaseAdmin } from "@/lib/supabase";
+import { deleteService } from "./actions";
 
 export const metadata = {
   title: "Services | Admin Dashboard",
@@ -15,23 +17,24 @@ export default async function ServicesPage() {
     );
   }
 
-  const { data: services, error } = await supabaseAdmin
-    .from("services")
-    .select(`
-      id,
-      title,
-      slug,
-      price,
-      is_active,
-      is_featured,
-      created_at,
-      categories (
-        name
+  const { data: services, error } =
+    await supabaseAdmin
+      .from("services")
+      .select(
+        `
+        id,
+        title,
+        price,
+        is_active,
+        categories (
+          name
+        )
+        `
       )
-    `)
-    .order("created_at", {
-      ascending: false,
-    });
+      .order("created_at", {
+        ascending: false,
+      });
+
 
   if (error) {
     return (
@@ -43,118 +46,117 @@ export default async function ServicesPage() {
     );
   }
 
+
   return (
     <main className="min-h-screen bg-gray-100 p-8">
+
       <div className="mx-auto max-w-7xl">
 
         <div className="rounded-xl bg-white p-8 shadow">
 
-          <h1 className="text-4xl font-bold text-gray-900">
-            Services Management
-          </h1>
+          <div className="mb-6 flex justify-between">
 
-          <p className="mt-2 text-gray-600">
-            Manage all business services.
-          </p>
+            <h1 className="text-4xl font-bold">
+              Services Management
+            </h1>
 
-
-          <div className="mt-8 overflow-x-auto">
-
-            <table className="min-w-full border">
-
-              <thead className="bg-gray-100">
-                <tr>
-                  <th className="p-4 text-left">
-                    Title
-                  </th>
-
-                  <th className="p-4 text-left">
-                    Category
-                  </th>
-
-                  <th className="p-4 text-left">
-                    Price
-                  </th>
-
-                  <th className="p-4 text-left">
-                    Status
-                  </th>
-
-                  <th className="p-4 text-left">
-                    Featured
-                  </th>
-                </tr>
-              </thead>
-
-
-              <tbody>
-
-                {services?.map((service) => (
-                  <tr
-                    key={service.id}
-                    className="border-t"
-                  >
-
-                    <td className="p-4 font-medium">
-                      {service.title}
-                    </td>
-
-
-                 <td className="p-4">
-  {
-    Array.isArray(service.categories)
-      ? service.categories[0]?.name ?? "-"
-      : "-"
-  }
-</td>
-
-
-                    <td className="p-4">
-                      ${service.price ?? 0}
-                    </td>
-
-
-                    <td className="p-4">
-                      {service.is_active ? (
-                        <span className="rounded bg-green-100 px-3 py-1 text-green-700">
-                          Active
-                        </span>
-                      ) : (
-                        <span className="rounded bg-red-100 px-3 py-1 text-red-700">
-                          Inactive
-                        </span>
-                      )}
-                    </td>
-
-
-                    <td className="p-4">
-                      {service.is_featured ? "Yes" : "No"}
-                    </td>
-
-                  </tr>
-                ))}
-
-
-                {!services?.length && (
-                  <tr>
-                    <td
-                      colSpan={5}
-                      className="p-10 text-center text-gray-500"
-                    >
-                      No services found.
-                    </td>
-                  </tr>
-                )}
-
-              </tbody>
-
-            </table>
+            <Link
+              href="/admin/services/new"
+              className="rounded bg-blue-600 px-5 py-3 text-white"
+            >
+              Add Service
+            </Link>
 
           </div>
+
+
+          <table className="min-w-full border">
+
+            <thead>
+              <tr className="border-b">
+                <th className="p-3 text-left">
+                  Title
+                </th>
+
+                <th className="p-3 text-left">
+                  Category
+                </th>
+
+                <th className="p-3 text-left">
+                  Price
+                </th>
+
+                <th className="p-3 text-left">
+                  Action
+                </th>
+              </tr>
+            </thead>
+
+
+            <tbody>
+
+              {services?.map((service) => (
+
+                <tr
+                  key={service.id}
+                  className="border-b"
+                >
+
+                  <td className="p-3">
+                    {service.title}
+                  </td>
+
+
+                  <td className="p-3">
+                    {Array.isArray(service.categories)
+                      ? service.categories[0]?.name ?? "-"
+                      : "-"
+                    }
+                  </td>
+
+
+                  <td className="p-3">
+                    ${service.price ?? 0}
+                  </td>
+
+
+                  <td className="p-3 flex gap-2">
+
+                    <Link
+                      href={`/admin/services/${service.id}`}
+                      className="rounded bg-blue-600 px-3 py-2 text-white"
+                    >
+                      Edit
+                    </Link>
+
+
+                    <form
+                      action={deleteService.bind(
+                        null,
+                        service.id
+                      )}
+                    >
+                      <button
+                        className="rounded bg-red-600 px-3 py-2 text-white"
+                      >
+                        Delete
+                      </button>
+                    </form>
+
+                  </td>
+
+                </tr>
+
+              ))}
+
+            </tbody>
+
+          </table>
 
         </div>
 
       </div>
+
     </main>
   );
 }
