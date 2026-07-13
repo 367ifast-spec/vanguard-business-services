@@ -9,194 +9,249 @@ export const metadata = {
 export default async function NewServicePage() {
   if (!supabaseAdmin) {
     return (
-      <main className="min-h-screen flex items-center justify-center">
-        <p className="text-red-600 font-semibold">
-          Supabase is not configured.
-        </p>
+      <main className="flex min-h-screen items-center justify-center bg-slate-100">
+        <div className="rounded-3xl border border-red-200 bg-white p-10 shadow">
+          <p className="text-lg font-semibold text-red-600">
+            Supabase is not configured.
+          </p>
+        </div>
       </main>
     );
   }
 
   const { data: categories, error } = await supabaseAdmin
     .from("categories")
-    .select("id, name")
+    .select("id,name")
     .eq("is_active", true)
     .order("name");
 
   if (error) {
     return (
-      <main className="min-h-screen flex items-center justify-center">
-        <p className="text-red-600 font-semibold">
-          {error.message}
-        </p>
+      <main className="flex min-h-screen items-center justify-center bg-slate-100">
+        <div className="rounded-3xl border border-red-200 bg-white p-10 shadow">
+          <p className="text-lg font-semibold text-red-600">
+            {error.message}
+          </p>
+        </div>
       </main>
     );
   }
 
   return (
-    <main className="min-h-screen bg-gray-100 p-8">
-      <div className="mx-auto max-w-4xl rounded-xl bg-white p-8 shadow">
-        <div className="mb-8 flex items-center justify-between">
-          <div>
-            <h1 className="text-3xl font-bold text-gray-900">
-              Add New Service
-            </h1>
+    <main className="min-h-screen bg-slate-100 p-6 lg:p-8">
+      <div className="mx-auto max-w-5xl">
 
-            <p className="mt-2 text-gray-600">
-              Create a new service.
-            </p>
+        <div className="mb-8 rounded-3xl border border-slate-200 bg-white p-8 shadow-sm">
+
+          <div className="flex flex-col gap-6 lg:flex-row lg:items-center lg:justify-between">
+
+            <div>
+
+              <span className="inline-flex rounded-full bg-blue-100 px-4 py-1 text-sm font-semibold text-blue-700">
+                Enterprise Service Management
+              </span>
+
+              <h1 className="mt-4 text-4xl font-bold text-slate-900">
+                Add New Service
+              </h1>
+
+              <p className="mt-3 text-slate-600">
+                Create a new business service that customers can purchase from your website.
+              </p>
+
+            </div>
+
+            <Link
+              href="/admin/services"
+              className="rounded-xl border border-slate-300 bg-white px-6 py-3 font-semibold transition hover:bg-slate-100"
+            >
+              ← Back to Services
+            </Link>
+
           </div>
 
-          <Link
-            href="/admin/services"
-            className="rounded-lg border px-4 py-2 hover:bg-gray-100"
-          >
-            ← Back
-          </Link>
         </div>
 
-        <form action={createService} className="space-y-6">
+        <form
+          action={createService}
+          className="rounded-3xl border border-slate-200 bg-white p-8 shadow-sm"
+        >
 
-          <div>
-            <label className="mb-2 block font-medium">
-              Category
-            </label>
+          <div className="grid gap-6 md:grid-cols-2">
 
-            <select
-              name="category_id"
-              className="w-full rounded-lg border border-gray-300 px-4 py-3"
-            >
-              <option value="">Select Category</option>
+            <div>
+              <label className="mb-2 block font-semibold text-slate-700">
+                Category
+              </label>
 
-              {categories?.map((category) => (
-                <option
-                  key={category.id}
-                  value={category.id}
-                >
-                  {category.name}
+              <select
+                name="category_id"
+                className="w-full rounded-xl border border-slate-300 px-4 py-3 outline-none transition focus:border-blue-500"
+              >
+                <option value="">
+                  Select Category
                 </option>
-              ))}
-            </select>
+
+                {categories?.map((category) => (
+                  <option
+                    key={category.id}
+                    value={category.id}
+                  >
+                    {category.name}
+                  </option>
+                ))}
+              </select>
+            </div>
+
+            <div>
+              <label className="mb-2 block font-semibold text-slate-700">
+                Price
+              </label>
+
+              <input
+                type="number"
+                step="0.01"
+                name="price"
+                defaultValue={0}
+                className="w-full rounded-xl border border-slate-300 px-4 py-3 outline-none transition focus:border-blue-500"
+              />
+            </div>
+
+            <div className="md:col-span-2">
+
+              <label className="mb-2 block font-semibold text-slate-700">
+                Service Title
+              </label>
+
+              <input
+                type="text"
+                required
+                name="title"
+                className="w-full rounded-xl border border-slate-300 px-4 py-3 outline-none transition focus:border-blue-500"
+              />
+
+            </div>
+
+            <div className="md:col-span-2">
+
+              <label className="mb-2 block font-semibold text-slate-700">
+                Slug
+              </label>
+
+              <input
+                type="text"
+                required
+                name="slug"
+                className="w-full rounded-xl border border-slate-300 px-4 py-3 outline-none transition focus:border-blue-500"
+              />
+
+            </div>
+                        <div className="md:col-span-2">
+
+              <label className="mb-2 block font-semibold text-slate-700">
+                Short Description
+              </label>
+
+              <textarea
+                name="short_description"
+                rows={3}
+                className="w-full rounded-xl border border-slate-300 px-4 py-3 outline-none transition focus:border-blue-500"
+              />
+
+            </div>
+
+            <div className="md:col-span-2">
+
+              <label className="mb-2 block font-semibold text-slate-700">
+                Full Description
+              </label>
+
+              <textarea
+                name="description"
+                rows={8}
+                className="w-full rounded-xl border border-slate-300 px-4 py-3 outline-none transition focus:border-blue-500"
+              />
+
+            </div>
+
+            <div>
+
+              <label className="mb-2 block font-semibold text-slate-700">
+                Image URL
+              </label>
+
+              <input
+                type="text"
+                name="image_url"
+                className="w-full rounded-xl border border-slate-300 px-4 py-3 outline-none transition focus:border-blue-500"
+              />
+
+            </div>
+
+            <div>
+
+              <label className="mb-2 block font-semibold text-slate-700">
+                Sort Order
+              </label>
+
+              <input
+                type="number"
+                name="sort_order"
+                defaultValue={0}
+                className="w-full rounded-xl border border-slate-300 px-4 py-3 outline-none transition focus:border-blue-500"
+              />
+
+            </div>
+
           </div>
 
-          <div>
-            <label className="mb-2 block font-medium">
-              Service Title
-            </label>
+          <div className="mt-8 flex flex-wrap gap-8">
 
-            <input
-              type="text"
-              name="title"
-              required
-              className="w-full rounded-lg border border-gray-300 px-4 py-3"
-            />
-          </div>
-
-          <div>
-            <label className="mb-2 block font-medium">
-              Slug
-            </label>
-
-            <input
-              type="text"
-              name="slug"
-              required
-              className="w-full rounded-lg border border-gray-300 px-4 py-3"
-            />
-          </div>
-
-          <div>
-            <label className="mb-2 block font-medium">
-              Short Description
-            </label>
-
-            <textarea
-              name="short_description"
-              rows={3}
-              className="w-full rounded-lg border border-gray-300 px-4 py-3"
-            />
-          </div>
-
-          <div>
-            <label className="mb-2 block font-medium">
-              Description
-            </label>
-
-            <textarea
-              name="description"
-              rows={6}
-              className="w-full rounded-lg border border-gray-300 px-4 py-3"
-            />
-          </div>
-
-          <div>
-            <label className="mb-2 block font-medium">
-              Price
-            </label>
-
-            <input
-              type="number"
-              step="0.01"
-              name="price"
-              defaultValue={0}
-              className="w-full rounded-lg border border-gray-300 px-4 py-3"
-            />
-          </div>
-
-          <div>
-            <label className="mb-2 block font-medium">
-              Image URL
-            </label>
-
-            <input
-              type="text"
-              name="image_url"
-              className="w-full rounded-lg border border-gray-300 px-4 py-3"
-            />
-          </div>
-
-          <div>
-            <label className="mb-2 block font-medium">
-              Sort Order
-            </label>
-
-            <input
-              type="number"
-              name="sort_order"
-              defaultValue={0}
-              className="w-full rounded-lg border border-gray-300 px-4 py-3"
-            />
-          </div>
-
-          <div className="flex gap-6">
-
-            <label className="flex items-center gap-2">
+            <label className="flex items-center gap-3 rounded-xl border border-slate-200 px-5 py-3">
               <input
                 type="checkbox"
                 name="is_featured"
               />
-              Featured
+
+              <span className="font-medium text-slate-700">
+                Featured Service
+              </span>
             </label>
 
-            <label className="flex items-center gap-2">
+            <label className="flex items-center gap-3 rounded-xl border border-slate-200 px-5 py-3">
               <input
                 type="checkbox"
                 name="is_active"
                 defaultChecked
               />
-              Active
+
+              <span className="font-medium text-slate-700">
+                Active Service
+              </span>
             </label>
 
           </div>
 
-          <button
-            type="submit"
-            className="rounded-lg bg-blue-600 px-6 py-3 font-medium text-white hover:bg-blue-700"
-          >
-            Save Service
-          </button>
+          <div className="mt-10 flex flex-wrap gap-4">
+
+            <Link
+              href="/admin/services"
+              className="rounded-xl border border-slate-300 px-6 py-3 font-semibold transition hover:bg-slate-100"
+            >
+              Cancel
+            </Link>
+
+            <button
+              type="submit"
+              className="rounded-xl bg-blue-600 px-8 py-3 font-semibold text-white transition hover:bg-blue-700"
+            >
+              Save Service
+            </button>
+
+          </div>
 
         </form>
+
       </div>
     </main>
   );

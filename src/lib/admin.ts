@@ -1,2 +1,3 @@
-export const ADMIN_EMAIL = "vanguardbusinessservices37@gmail.com";
-export const ADMIN_PASSWORD = "Bina367@";
+export const ADMIN_EMAIL = process.env.ADMIN_EMAIL ?? "";
+
+export const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD ?? "";

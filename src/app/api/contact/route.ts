@@ -1,7 +1,7 @@
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import { Resend } from "resend";
 import { supabase } from "@/lib/supabase";
-
+import { getClientIp, rateLimit } from "@/lib/rate-limit";
 const resend = new Resend(process.env.RESEND_API_KEY);
 
 function generateQuoteId() {
@@ -26,8 +26,32 @@ function escapeHtml(text: string) {
     .replace(/>/g, "&gt;");
 }
 
-export async function POST(req: Request) {
+export async function POST(req: NextRequest) {
   try {
+    const ip = getClientIp(req.headers);
+
+const result = rateLimit(
+  `contact:${ip}`,
+  5,
+  60 * 1000
+);
+
+if (!result.success) {
+  return NextResponse.json(
+    {
+      success: false,
+      message: "Too many requests. Please try again in a minute.",
+    },
+    {
+      status: 429,
+      headers: {
+        "Retry-After": Math.ceil(
+          (result.resetAt - Date.now()) / 1000
+        ).toString(),
+      },
+    }
+  );
+}
     const body = await req.json();
 
     const name = body.name?.trim() || "";

@@ -9,6 +9,7 @@ export async function POST(req: NextRequest) {
     console.log(payload);
     console.log("=========================================");
 
+
     const {
       payment_id,
       payment_status,
@@ -19,16 +20,21 @@ export async function POST(req: NextRequest) {
       price_currency,
       actually_paid,
       actually_paid_at_fiat,
-      purchase_id,
       outcome_amount,
       outcome_currency,
     } = payload;
 
-    if (!payment_id || !payment_status || !order_id) {
+
+    if (
+      !payment_id ||
+      !payment_status ||
+      !order_id
+    ) {
       return NextResponse.json(
         {
           success: false,
-          message: "Invalid webhook payload.",
+          message:
+            "Invalid webhook payload.",
         },
         {
           status: 400,
@@ -36,89 +42,141 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    if (supabaseAdmin) {
-      const { error } = await supabaseAdmin
+
+    if (!supabaseAdmin) {
+      return NextResponse.json(
+        {
+          success: false,
+          message:
+            "Supabase is not configured.",
+        },
+        {
+          status: 500,
+        }
+      );
+    }
+
+
+    const {
+      error: paymentError,
+    } =
+      await supabaseAdmin
         .from("payments")
         .update({
-  payment_status,
-  payment_id,
+          payment_id,
 
-  pay_amount,
-  pay_currency,
+          payment_status,
 
-  price_amount,
-  price_currency,
+          pay_amount,
 
-  actually_paid,
-  actually_paid_at_fiat,
+          pay_currency,
 
-  outcome_amount,
-  outcome_currency,
-})
-      
-        .eq("order_id", order_id);
+          price_amount,
 
-      if (error) {
-        console.error("Supabase Update Error:", error);
-      }
+          price_currency,
+
+          actually_paid,
+
+          actually_paid_at_fiat,
+
+          outcome_amount,
+
+          outcome_currency,
+
+        })
+        .eq(
+          "order_id",
+          order_id
+        );
+
+
+    if (paymentError) {
+      console.error(
+        "Payment update error:",
+        paymentError
+      );
     }
 
-    switch (payment_status) {
-      case "waiting":
-        console.log(`Payment ${order_id} is waiting.`);
-        break;
 
-      case "confirming":
-        console.log(`Payment ${order_id} is confirming.`);
-        break;
 
-      case "confirmed":
-      case "finished":
-        console.log(`Payment ${order_id} completed.`);
-        break;
+    const isPaid =
+      payment_status === "confirmed" ||
+      payment_status === "finished";
 
-      case "failed":
-      case "expired":
-        console.log(`Payment ${order_id} failed or expired.`);
-        break;
 
-      default:
-        console.log(`Unhandled payment status: ${payment_status}`);
+
+    const orderUpdate = isPaid
+      ? {
+          payment_status: "paid",
+          status: "completed",
+        }
+      : {
+          payment_status,
+        };
+
+
+
+    const {
+      error: orderError,
+    } =
+      await supabaseAdmin
+        .from("orders")
+        .update(orderUpdate)
+        .eq(
+          "id",
+          order_id
+        );
+
+
+    if (orderError) {
+      console.error(
+        "Order update error:",
+        orderError
+      );
     }
+
+
 
     return NextResponse.json(
       {
         success: true,
+
         received: true,
+
         payment_id,
+
         payment_status,
+
         order_id,
-        pay_amount,
-        pay_currency,
-        price_amount,
-        price_currency,
-        actually_paid,
-        actually_paid_at_fiat,
-        purchase_id,
-        outcome_amount,
-        outcome_currency,
-        message: "Webhook received successfully.",
+
+        message:
+          "Webhook processed successfully.",
       },
       {
         status: 200,
       }
     );
+
+
   } catch (error) {
-    console.error("Webhook Error:", error);
+
+    console.error(
+      "Webhook Error:",
+      error
+    );
+
 
     return NextResponse.json(
       {
         success: false,
-        message: "Webhook processing failed.",
+
+        message:
+          "Webhook processing failed.",
       },
       {
         status: 500,
       }
     );
+
   }
 }
