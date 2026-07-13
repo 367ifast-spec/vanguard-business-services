@@ -6,10 +6,6 @@ export const metadata = {
   title: "Orders | Admin",
 };
 
-const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.SUPABASE_SERVICE_ROLE_KEY!
-);
 
 interface OrdersPageProps {
 searchParams: Promise<{
@@ -25,7 +21,23 @@ export default async function OrdersPage({
   searchParams,
 }: OrdersPageProps) {
   const params = await searchParams;
+const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
+const serviceRoleKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
 
+if (!supabaseUrl || !serviceRoleKey) {
+  throw new Error("Supabase is not configured.");
+}
+
+const supabase = createClient(
+  supabaseUrl,
+  serviceRoleKey,
+  {
+    auth: {
+      autoRefreshToken: false,
+      persistSession: false,
+    },
+  }
+);
   const page = Number(params.page ?? "1");
   const search = params.search?.trim() ?? "";
 const status = params.status ?? "";
