@@ -1,68 +1,63 @@
 import Link from "next/link";
 
-export default function PaymentCancelPage() {
+export const metadata = {
+  title: "Payment Cancelled | Vanguard Business Services",
+};
+
+interface CancelPageProps {
+  searchParams: Promise<{
+    order?: string;
+  }>;
+}
+
+export default async function PaymentCancelPage({
+  searchParams,
+}: CancelPageProps) {
+  const params = await searchParams;
+
   return (
-    <main className="min-h-screen bg-[#05071d] text-white">
-      <section className="mx-auto max-w-5xl px-6 py-24">
+    <main className="container mx-auto max-w-2xl px-4 py-16">
+      <div className="rounded-2xl border bg-white p-8 shadow-sm">
+        <div className="mb-6 flex h-16 w-16 items-center justify-center rounded-full bg-yellow-100 text-3xl">
+          ⚠️
+        </div>
 
-        <div className="mx-auto max-w-3xl rounded-3xl border border-red-500/20 bg-white/5 p-10 text-center">
+        <h1 className="text-3xl font-bold text-yellow-700">
+          Payment Cancelled
+        </h1>
 
-          <div className="mx-auto flex h-24 w-24 items-center justify-center rounded-full bg-red-500/20">
-            <span className="text-5xl">❌</span>
+        <p className="mt-4 text-gray-600">
+          Your payment was cancelled or was not completed. No payment has been
+          received.
+        </p>
+
+        {params.order && (
+          <div className="mt-6 rounded-lg bg-gray-100 p-4">
+            <p className="text-sm text-gray-500">Order ID</p>
+            <p className="mt-1 break-all font-mono text-sm">
+              {params.order}
+            </p>
           </div>
+        )}
 
-          <h1 className="mt-8 text-5xl font-bold">
-            Payment Cancelled
-          </h1>
-
-          <p className="mt-6 text-lg leading-8 text-gray-300">
-            Your payment was cancelled before it was completed.
-            No funds have been received by Vanguard Business Services.
-          </p>
-
-          <div className="mt-10 rounded-2xl border border-white/10 bg-[#0b1126] p-6 text-left">
-
-            <h2 className="text-2xl font-semibold">
-              What Can You Do Next?
-            </h2>
-
-            <ul className="mt-6 space-y-4 text-gray-300">
-              <li>• Return to the payment page and try again.</li>
-              <li>• Confirm that your wallet has sufficient funds.</li>
-              <li>• Check that you selected the correct cryptocurrency.</li>
-              <li>• If the problem continues, contact our support team.</li>
-            </ul>
-
-          </div>
-
-          <div className="mt-12 flex flex-wrap justify-center gap-4">
-
+        <div className="mt-8 flex flex-wrap gap-4">
+          {params.order && (
             <Link
-              href="/payment"
-              className="rounded-xl bg-blue-600 px-8 py-4 font-semibold transition hover:bg-blue-700"
+              href={`/payment?order=${params.order}`}
+              className="rounded-lg bg-blue-600 px-6 py-3 font-semibold text-white hover:bg-blue-700"
             >
               Try Payment Again
             </Link>
+          )}
 
-            <Link
-              href="/#contact"
-              className="rounded-xl border border-white/20 px-8 py-4 font-semibold transition hover:bg-white hover:text-black"
-            >
-              Contact Support
-            </Link>
-
-            <Link
-              href="/"
-              className="rounded-xl border border-red-500 px-8 py-4 font-semibold text-red-400 transition hover:bg-red-500 hover:text-white"
-            >
-              Back to Home
-            </Link>
-
-          </div>
-
+          <Link
+            href="/cart"
+            className="rounded-lg border px-6 py-3 font-semibold hover:bg-gray-50"
+          >
+            Back to Cart
+          </Link>
         </div>
-
-      </section>
+      </div>
     </main>
   );
 }

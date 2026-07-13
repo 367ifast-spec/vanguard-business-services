@@ -36,7 +36,9 @@ const securityHeaders = [
       "img-src 'self' data: blob: https:",
       "font-src 'self' data: https:",
       "style-src 'self' 'unsafe-inline' https:",
-      "script-src 'self' 'unsafe-inline' https:",
+      process.env.NODE_ENV === "development"
+  ? "script-src 'self' 'unsafe-inline' 'unsafe-eval' https:"
+  : "script-src 'self' 'unsafe-inline' https:",
       "connect-src 'self' https:",
       "form-action 'self'",
       "upgrade-insecure-requests",

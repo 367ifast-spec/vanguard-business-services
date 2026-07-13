@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-
+import AddToCartButton from "@/components/AddToCartButton";
 export const metadata: Metadata = {
   title: "US LLC Registration | Vanguard Business Services",
   description:
@@ -133,12 +133,16 @@ export default function UsLLCRegistrationPage() {
 
           <div className="mt-10 flex flex-wrap gap-4">
             <Link
+            
               href="/#contact"
               className="rounded-xl bg-blue-600 px-8 py-4 font-semibold hover:bg-blue-700"
             >
               Start Your LLC
             </Link>
-
+<AddToCartButton
+  serviceId="40254304-74a0-4bba-9b3a-ad324aa9b93d"
+  className="rounded-xl bg-green-600 px-8 py-4 font-semibold hover:bg-green-700"
+/>
             <Link
               href="/#services"
               className="rounded-xl border border-white/20 px-8 py-4 font-semibold hover:bg-white hover:text-black"

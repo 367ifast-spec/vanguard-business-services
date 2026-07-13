@@ -1,164 +1,143 @@
 import { NextRequest, NextResponse } from "next/server";
-import { supabase } from "@/lib/supabase";
+import { createClient } from "@supabase/supabase-js";
 
-const API_URL = "https://api.nowpayments.io/v1/invoice";
+const supabase = createClient(
+  process.env.NEXT_PUBLIC_SUPABASE_URL!,
+  process.env.SUPABASE_SERVICE_ROLE_KEY!
+);
+
+const NOWPAYMENTS_API = "https://api.nowpayments.io/v1/invoice";
 
 export async function POST(req: NextRequest) {
-  console.log("========== PAYMENT CREATE ==========");
-console.log("POST /api/payment/create called");
   try {
-    const apiKey = process.env.NOWPAYMENTS_API_KEY;
-    const siteUrl = process.env.NEXT_PUBLIC_SITE_URL;
+    const { orderId } = await req.json();
 
-    // Environment validation
-    if (!apiKey) {
+    if (!orderId) {
       return NextResponse.json(
-        {
-          success: false,
-          message: "NOWPayments API key is not configured.",
-        },
-        { status: 500 }
-      );
-    }
-
-    if (!siteUrl) {
-      return NextResponse.json(
-        {
-          success: false,
-          message: "NEXT_PUBLIC_SITE_URL is not configured.",
-        },
-        { status: 500 }
-      );
-    }
-
-    const body = await req.json();
-
-    const {
-      quote_id,
-      price_amount,
-      price_currency,
-      pay_currency,
-      order_id,
-      order_description,
-    } = body;
-
-    // Validation
-    if (
-      !quote_id ||
-      !price_amount ||
-      !price_currency ||
-      !pay_currency ||
-      !order_id ||
-      !order_description
-    ) {
-      return NextResponse.json(
-        {
-          success: false,
-          message: "Missing required payment information.",
-        },
+        { error: "Order ID is required." },
         { status: 400 }
       );
     }
 
-    // Create payment
-    const response = await fetch(API_URL, {
+    const { data: order, error: orderError } = await supabase
+      .from("orders")
+      .select("*")
+      .eq("id", orderId)
+      .single();
+
+    if (orderError || !order) {
+      return NextResponse.json(
+        { error: "Order not found." },
+        { status: 404 }
+      );
+    }
+
+    if (
+      order.payment_status === "paid" ||
+      order.status === "paid"
+    ) {
+      return NextResponse.json(
+        { error: "Order already paid." },
+        { status: 400 }
+      );
+    }
+
+    const { data: items } = await supabase
+      .from("order_items")
+      .select("*")
+      .eq("order_id", orderId);
+
+    const description =
+      items && items.length
+        ? items
+            .map(
+              (item) =>
+                `${item.service_title} x${item.quantity}`
+            )
+            .join(", ")
+        : `Order ${orderId}`;
+
+    const payload = {
+      price_amount: Number(order.total_amount),
+      price_currency: "USD",
+      order_id: order.id,
+      order_description: description,
+      ipn_callback_url: `${process.env.NEXT_PUBLIC_SITE_URL}/api/payment/webhook`,
+      success_url: `${process.env.NEXT_PUBLIC_SITE_URL}/payment/success?order=${order.id}`,
+      cancel_url: `${process.env.NEXT_PUBLIC_SITE_URL}/payment/cancel?order=${order.id}`,
+    };
+
+    const response = await fetch(NOWPAYMENTS_API, {
       method: "POST",
       headers: {
-        "x-api-key": apiKey,
+        "x-api-key": process.env.NOWPAYMENTS_API_KEY!,
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({
-  price_amount,
-  price_currency,
-  order_id,
-  order_description,
+      body: JSON.stringify(payload),
+    });
 
-  ipn_callback_url: `${siteUrl}/api/payment/webhook`,
-  success_url: `${siteUrl}/payment/success`,
-  cancel_url: `${siteUrl}/payment/cancel`,
-}),
-});
-
-    let data: Record<string, unknown>;
-
-    try {
-      data = await response.json();
-      console.log("========== NOWPayments Response ==========");
-console.dir(data, { depth: null });
-console.log("========== INVOICE RESPONSE ==========");
-console.dir(data, { depth: null });
-    } catch {
-      return NextResponse.json(
-
-        {
-          success: false,
-          message: "Invalid response received from NOWPayments.",
-        },
-        { status: 502 }
-      );
-    }
+    const invoice = await response.json();
 
     if (!response.ok) {
-      console.error("NOWPayments API Error:", data);
-const { error: updateError } = await supabase
-  .from("payments")
-  .update({
-    payment_id: data.payment_id,
-    order_id: data.order_id,
-    payment_status: data.payment_status,
-    invoice_url: data.invoice_url,
-    pay_address: data.pay_address,
-    pay_amount: data.pay_amount,
-    pay_currency: data.pay_currency,
-  })
-  .eq("quote_id", quote_id);
-
-if (updateError) {
-  console.error("Payment Update Error:", updateError);
-
-  return NextResponse.json(
-    {
-      success: false,
-      message: "Unable to update payment record.",
-    },
-    {
-      status: 500,
-    }
-  );
-}
       return NextResponse.json(
         {
-          success: false,
-          message:
-            typeof data.message === "string"
-              ? data.message
-              : "Unable to create payment.",
-          provider: data,
+          error:
+            invoice.message ||
+            invoice.error ||
+            "NOWPayments error.",
         },
-        {
-          status: response.status,
-        }
+        { status: 500 }
       );
     }
 
+    await supabase
+      .from("orders")
+      .update({
+        nowpayments_payment_id:
+          invoice.payment_id?.toString() ?? null,
+        nowpayments_order_id:
+          invoice.order_id?.toString() ?? null,
+      })
+      .eq("id", order.id);
+
+    await supabase.from("payments").insert({
+      payment_id: invoice.payment_id?.toString() ?? null,
+      order_id: order.id,
+      service: description,
+      amount: Number(order.total_amount),
+      currency: "USD",
+      payment_status:
+        invoice.payment_status ??
+        invoice.invoice_status ??
+        "waiting",
+      invoice_url:
+        invoice.invoice_url ??
+        invoice.invoice_url_string ??
+        null,
+      pay_address: invoice.pay_address ?? null,
+      pay_amount: invoice.pay_amount ?? null,
+      pay_currency: invoice.pay_currency ?? null,
+      price_amount: invoice.price_amount ?? Number(order.total_amount),
+      price_currency: invoice.price_currency ?? "USD",
+      actually_paid: invoice.actually_paid ?? 0,
+      actually_paid_at_fiat:
+        invoice.actually_paid_at_fiat ?? 0,
+      outcome_amount: invoice.outcome_amount ?? 0,
+      outcome_currency: invoice.outcome_currency ?? null,
+    });
+
     return NextResponse.json({
-  success: true,
-  quote_id,
-
-  invoice_id: data.id,
-  invoice_url: data.invoice_url,
-
-  order_id: data.order_id,
-
-  provider: data,
-});
+      success: true,
+      paymentUrl:
+        invoice.invoice_url ??
+        invoice.invoice_url_string,
+    });
   } catch (error) {
-    console.error("Payment Route Error:", error);
+    console.error(error);
 
     return NextResponse.json(
       {
-        success: false,
-        message: "Payment creation failed.",
+        error: "Internal server error.",
       },
       {
         status: 500,

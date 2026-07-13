@@ -2,6 +2,7 @@ import Link from "next/link";
 import AdminSearch from "@/components/admin/AdminSearch";
 import { supabaseAdmin } from "@/lib/supabase";
 import DashboardModules from "@/components/admin/DashboardModules";
+import RevenueCards from "@/components/admin/RevenueCards";
 export const metadata = {
   title: "Admin Dashboard | Vanguard Business Services",
 };
@@ -38,89 +39,164 @@ export default async function AdminDashboard() {
   const { count: pendingPayments } = await supabaseAdmin
     .from("payments")
     .select("*", { count: "exact", head: true })
-    .eq("payment_status", "waiting");
+   .eq("payment_status", "pending");
 
   const { count: completedPayments } = await supabaseAdmin
     .from("payments")
     .select("*", { count: "exact", head: true })
     .in("payment_status", ["finished", "confirmed"]);
 
-  const { data: recentPayments } = await supabaseAdmin
-    .from("payments")
-    .select(
-      "payment_id, quote_id, pay_currency, pay_amount, payment_status, created_at"
-    )
-    .order("created_at", { ascending: false })
-    .limit(10);
+ const { data: recentPayments } = await supabaseAdmin
+  .from("payments")
+  .select(
+    `
+      payment_id,
+      quote_id,
+      amount,
+      currency,
+      pay_amount,
+      pay_currency,
+      price_amount,
+      price_currency,
+      payment_status,
+      created_at
+    `
+  )
+  .order("created_at", { ascending: false })
+  .limit(10);
+const { data: completedPaymentsData } = await supabaseAdmin
+  .from("payments")
+  .select("price_amount, created_at")
+  .in("payment_status", ["finished", "confirmed"]);
 
+const completedPaymentsList = completedPaymentsData ?? [];
+
+const totalRevenue = completedPaymentsList.reduce((sum, payment) => {
+  return sum + Number(payment.price_amount ?? 0);
+}, 0);
+
+const currentMonth = new Date().getMonth();
+const currentYear = new Date().getFullYear();
+
+const monthlyRevenue = completedPaymentsList
+  .filter((payment) => {
+    const date = new Date(payment.created_at);
+
+    return (
+      date.getMonth() === currentMonth &&
+      date.getFullYear() === currentYear
+    );
+  })
+  .reduce((sum, payment) => {
+    return sum + Number(payment.price_amount ?? 0);
+  }, 0);
+
+const averageOrderValue =
+  completedPaymentsList.length > 0
+    ? totalRevenue / completedPaymentsList.length
+    : 0;
+
+const totalOrders = totalPayments ?? 0;
+
+const pendingOrders = await supabaseAdmin
+  .from("payments")
+  .select("*", { count: "exact", head: true })
+  .eq("payment_status", "pending");
+
+const completedOrders = completedPaymentsList.length;
   return (
     <main className="min-h-screen bg-gray-100 p-8">
       <div className="mx-auto max-w-7xl">
-        <div className="mb-8 flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
+     <div className="mb-10 flex flex-col gap-6 lg:flex-row lg:items-center lg:justify-between">
   <div>
-    <h1 className="text-4xl font-bold text-gray-900">
+    <span className="inline-flex rounded-full bg-blue-100 px-3 py-1 text-sm font-semibold text-blue-700">
+      Administration
+    </span>
+
+    <h1 className="mt-3 text-4xl font-bold tracking-tight text-gray-900">
       Admin Dashboard
     </h1>
 
-    <p className="mt-2 text-gray-600">
-      Vanguard Business Services Admin Panel
+    <p className="mt-2 max-w-2xl text-gray-600">
+      Welcome to the Vanguard Business Services administration panel.
+      Monitor revenue, payments, orders and customer activity from one
+      central dashboard.
     </p>
   </div>
 
   <form action="/api/admin/logout" method="POST">
     <button
       type="submit"
-      className="rounded-lg bg-red-600 px-5 py-2 font-medium text-white transition hover:bg-red-700"
+      className="rounded-xl bg-red-600 px-6 py-3 font-semibold text-white shadow-sm transition hover:bg-red-700"
     >
       Logout
     </button>
   </form>
 </div>
 
-<AdminSearch />
-<DashboardModules />
+<div className="space-y-6">
+  <AdminSearch />
+  <DashboardModules />
+</div>
 
-        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
-          <div className="rounded-xl bg-white p-6 shadow">
-            <h2 className="text-sm font-medium text-gray-500">
-              Total Quotes
-            </h2>
+  <RevenueCards
+  totalRevenue={totalRevenue}
+  monthlyRevenue={monthlyRevenue}
+  averageOrderValue={averageOrderValue}
+  totalOrders={totalOrders}
+  pendingOrders={pendingOrders.count ?? 0}
+  completedOrders={completedOrders}
+/>
 
-            <p className="mt-3 text-3xl font-bold">
-              {totalQuotes ?? 0}
-            </p>
-          </div>
+<div className="mt-8 grid gap-6 sm:grid-cols-2 xl:grid-cols-4">
+  <div className="flex h-full flex-col rounded-xl border border-gray-200 bg-white p-6 shadow-sm">
+    <h2 className="text-sm font-medium uppercase tracking-wide text-gray-500">
+      Total Quotes
+    </h2>
 
-          <div className="rounded-xl bg-white p-6 shadow">
-            <h2 className="text-sm font-medium text-gray-500">
-              Total Payments
-            </h2>
+    <div className="mt-auto pt-6">
+      <p className="text-4xl font-bold text-gray-900">
+        {totalQuotes ?? 0}
+      </p>
+    </div>
+  </div>
 
-            <p className="mt-3 text-3xl font-bold">
-              {totalPayments ?? 0}
-            </p>
-          </div>
+  <div className="flex h-full flex-col rounded-xl border border-gray-200 bg-white p-6 shadow-sm">
+    <h2 className="text-sm font-medium uppercase tracking-wide text-gray-500">
+      Total Payments
+    </h2>
 
-          <div className="rounded-xl bg-white p-6 shadow">
-            <h2 className="text-sm font-medium text-gray-500">
-              Pending Payments
-            </h2>
+    <div className="mt-auto pt-6">
+      <p className="text-4xl font-bold text-gray-900">
+        {totalPayments ?? 0}
+      </p>
+    </div>
+  </div>
 
-            <p className="mt-3 text-3xl font-bold text-yellow-600">
-              {pendingPayments ?? 0}
-            </p>
-          </div>
+  <div className="flex h-full flex-col rounded-xl border border-gray-200 bg-white p-6 shadow-sm">
+    <h2 className="text-sm font-medium uppercase tracking-wide text-gray-500">
+      Pending Payments
+    </h2>
 
-          <div className="rounded-xl bg-white p-6 shadow">
-            <h2 className="text-sm font-medium text-gray-500">
-              Completed Payments
-            </h2>
+    <div className="mt-auto pt-6">
+      <p className="text-4xl font-bold text-yellow-600">
+        {pendingPayments ?? 0}
+      </p>
+    </div>
+  </div>
 
-            <p className="mt-3 text-3xl font-bold text-green-600">
-              {completedPayments ?? 0}
-            </p>
-          </div>
-        </div>
+  <div className="flex h-full flex-col rounded-xl border border-gray-200 bg-white p-6 shadow-sm">
+    <h2 className="text-sm font-medium uppercase tracking-wide text-gray-500">
+      Completed Payments
+    </h2>
+
+    <div className="mt-auto pt-6">
+      <p className="text-4xl font-bold text-green-600">
+        {completedPayments ?? 0}
+      </p>
+    </div>
+  </div>
+</div>
                 <div className="mt-10 rounded-xl bg-white p-6 shadow overflow-x-auto">
           <h2 className="mb-4 text-2xl font-semibold">
             Recent Quotes
@@ -230,7 +306,10 @@ export default async function AdminDashboard() {
                   </td>
 
                   <td className="p-3">
-                    {payment.pay_amount} {payment.pay_currency}
+                   {payment.price_amount ?? payment.pay_amount ?? payment.amount}{" "}
+{payment.price_currency ??
+  payment.pay_currency ??
+  payment.currency}
                   </td>
 
                   <td className="p-3">

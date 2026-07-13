@@ -8,7 +8,7 @@ import Logo from "./Logo";
 const navigation = [
   { name: "Home", href: "#home" },
   { name: "About", href: "#about" },
-  { name: "Services", href: "#services" },
+{ name: "Services", href: "/services/us-llc-registration" },
   { name: "Reviews", href: "#testimonials" },
   { name: "FAQ", href: "#faq" },
   { name: "Contact", href: "#contact" },
@@ -25,13 +25,15 @@ export default function Navbar() {
 
       let current = "#home";
 
-      navigation.forEach((item) => {
-        const el = document.querySelector(item.href) as HTMLElement | null;
+   navigation.forEach((item) => {
+  if (!item.href.startsWith("#")) return;
 
-        if (el && window.scrollY >= el.offsetTop - 120) {
-          current = item.href;
-        }
-      });
+  const el = document.querySelector(item.href) as HTMLElement | null;
+
+  if (el && window.scrollY >= el.offsetTop - 120) {
+    current = item.href;
+  }
+});
 
       setActive(current);
     };

@@ -2,62 +2,41 @@
 
 import { useState } from "react";
 
-type PaymentButtonProps = {
-  amount: number;
-  service: string;
-  quoteId: string;
-};
+interface PaymentButtonProps {
+  orderId: string;
+}
 
 export default function PaymentButton({
-  amount,
-  service,
-  quoteId,
+  orderId,
 }: PaymentButtonProps) {
   const [loading, setLoading] = useState(false);
 
   async function handlePayment() {
-    if (loading) return;
-
-    setLoading(true);
-
     try {
-      const response = await fetch("/api/payment/create", {
+      setLoading(true);
+
+      const res = await fetch("/api/payment/create", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-  quote_id: quoteId,
-  price_amount: amount,
-  price_currency: "usd",
-  pay_currency: "usdttrc20",
-  order_id: `VBS-${Date.now()}`,
-  order_description: service,
-}),
+          orderId,
+        }),
       });
 
-      const data = await response.json();
+      const data = await res.json();
 
-console.log("Payment Response:", data);
-
-      if (!response.ok) {
-        throw new Error(data.message || "Unable to create payment.");
+      if (!res.ok) {
+        throw new Error(data.error || "Payment failed.");
       }
 
-      const paymentUrl = data.invoice_url;
-
-if (typeof paymentUrl !== "string" || paymentUrl.length === 0) {
-  throw new Error("Invoice URL was not returned by NOWPayments.");
-}
-
-window.location.href = paymentUrl;
-    } catch (error) {
-      console.error(error);
-
+      if (data.paymentUrl) {
+        window.location.href = data.paymentUrl;
+      }
+    } catch (err) {
       alert(
-        error instanceof Error
-          ? error.message
-          : "Unexpected payment error."
+        err instanceof Error ? err.message : "Something went wrong."
       );
     } finally {
       setLoading(false);
@@ -66,12 +45,11 @@ window.location.href = paymentUrl;
 
   return (
     <button
-      type="button"
       onClick={handlePayment}
       disabled={loading}
-      className="inline-flex items-center justify-center rounded-xl bg-green-600 px-8 py-4 font-semibold text-white transition hover:bg-green-700 disabled:cursor-not-allowed disabled:opacity-60"
+      className="rounded-lg bg-blue-600 px-6 py-3 font-semibold text-white transition hover:bg-blue-700 disabled:cursor-not-allowed disabled:opacity-50"
     >
-      {loading ? "Creating Secure Payment..." : "Pay Securely with Crypto"}
+      {loading ? "Creating Invoice..." : "Pay with Crypto"}
     </button>
   );
 }
