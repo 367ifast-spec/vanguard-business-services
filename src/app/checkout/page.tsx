@@ -81,8 +81,7 @@ export default async function CheckoutPage() {
                   type="text"
                   name="full_name"
                   required
-                  className="w-full rounded-xl border border-slate-300 px-4 py-3 outline-none focus:border-blue-500"
-                />
+className="w-full rounded-xl border border-slate-300 bg-white px-4 py-3 text-slate-900 placeholder:text-slate-400 outline-none focus:border-blue-500"                />
               </div>
 
 
@@ -91,12 +90,18 @@ export default async function CheckoutPage() {
                   Email
                 </label>
 
-                <input
-                  type="email"
-                  name="email"
-                  required
-                  className="w-full rounded-xl border border-slate-300 px-4 py-3 outline-none focus:border-blue-500"
-                />
+              <input
+  type="email"
+  name="email"
+  required
+  autoComplete="email"
+  spellCheck={false}
+  className="w-full rounded-xl border border-slate-300 bg-white px-4 py-3 text-slate-900 caret-slate-900 placeholder:text-slate-400 outline-none focus:border-blue-500"
+  style={{
+    color: "#0f172a",
+    backgroundColor: "#ffffff",
+  }}
+/>
               </div>
 
 
@@ -110,8 +115,7 @@ export default async function CheckoutPage() {
                   <input
                     type="text"
                     name="whatsapp"
-                    className="w-full rounded-xl border border-slate-300 px-4 py-3"
-                  />
+className="w-full rounded-xl border border-slate-300 bg-white px-4 py-3 text-slate-900 placeholder:text-slate-400"                  />
                 </div>
 
 
@@ -123,8 +127,7 @@ export default async function CheckoutPage() {
                   <input
                     type="text"
                     name="country"
-                    className="w-full rounded-xl border border-slate-300 px-4 py-3"
-                  />
+className="w-full rounded-xl border border-slate-300 bg-white px-4 py-3 text-slate-900 placeholder:text-slate-400"                  />
                 </div>
 
               </div>
@@ -136,8 +139,7 @@ export default async function CheckoutPage() {
                 <input
                   type="text"
                   name="company_name"
-                  className="w-full rounded-xl border border-slate-300 px-4 py-3"
-                />
+className="w-full rounded-xl border border-slate-300 bg-white px-4 py-3 text-slate-900 placeholder:text-slate-400"                />
               </div>
 
 
@@ -150,8 +152,7 @@ export default async function CheckoutPage() {
                   name="order_notes"
                   rows={4}
                   placeholder="Additional information about your order..."
-                  className="w-full rounded-xl border border-slate-300 px-4 py-3"
-                />
+className="w-full rounded-xl border border-slate-300 bg-white px-4 py-3 text-slate-900 placeholder:text-slate-400"                />
               </div>
 
 
@@ -162,8 +163,7 @@ export default async function CheckoutPage() {
 
                 <select
                   name="payment_method"
-                  className="w-full rounded-xl border border-slate-300 px-4 py-3"
-                >
+className="w-full rounded-xl border border-slate-300 bg-white px-4 py-3 text-slate-900 placeholder:text-slate-400"                >
                   <option value="crypto">
                     Cryptocurrency
                   </option>

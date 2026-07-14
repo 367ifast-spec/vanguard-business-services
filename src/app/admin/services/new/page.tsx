@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { supabaseAdmin } from "@/lib/supabase";
 import { createService } from "./actions";
+import ServiceImageUpload from "@/components/admin/ServiceImageUpload";
 
 export const metadata = {
   title: "Add Service | Admin Dashboard",
@@ -79,6 +80,32 @@ export default async function NewServicePage() {
 
           <div className="grid gap-6 md:grid-cols-2">
 
+            <div className="md:col-span-2">
+              <label className="mb-2 block font-semibold text-slate-700">
+                Service Title
+              </label>
+
+              <input
+                type="text"
+                required
+                name="title"
+                className="w-full rounded-xl border border-slate-300 px-4 py-3 outline-none transition focus:border-blue-500"
+              />
+            </div>
+
+            <div className="md:col-span-2">
+              <label className="mb-2 block font-semibold text-slate-700">
+                Slug
+              </label>
+
+              <input
+                type="text"
+                required
+                name="slug"
+                className="w-full rounded-xl border border-slate-300 px-4 py-3 outline-none transition focus:border-blue-500"
+              />
+            </div>
+
             <div>
               <label className="mb-2 block font-semibold text-slate-700">
                 Category
@@ -86,6 +113,7 @@ export default async function NewServicePage() {
 
               <select
                 name="category_id"
+                required
                 className="w-full rounded-xl border border-slate-300 px-4 py-3 outline-none transition focus:border-blue-500"
               >
                 <option value="">
@@ -102,8 +130,7 @@ export default async function NewServicePage() {
                 ))}
               </select>
             </div>
-
-            <div>
+                        <div>
               <label className="mb-2 block font-semibold text-slate-700">
                 Price
               </label>
@@ -118,36 +145,6 @@ export default async function NewServicePage() {
             </div>
 
             <div className="md:col-span-2">
-
-              <label className="mb-2 block font-semibold text-slate-700">
-                Service Title
-              </label>
-
-              <input
-                type="text"
-                required
-                name="title"
-                className="w-full rounded-xl border border-slate-300 px-4 py-3 outline-none transition focus:border-blue-500"
-              />
-
-            </div>
-
-            <div className="md:col-span-2">
-
-              <label className="mb-2 block font-semibold text-slate-700">
-                Slug
-              </label>
-
-              <input
-                type="text"
-                required
-                name="slug"
-                className="w-full rounded-xl border border-slate-300 px-4 py-3 outline-none transition focus:border-blue-500"
-              />
-
-            </div>
-                        <div className="md:col-span-2">
-
               <label className="mb-2 block font-semibold text-slate-700">
                 Short Description
               </label>
@@ -157,11 +154,9 @@ export default async function NewServicePage() {
                 rows={3}
                 className="w-full rounded-xl border border-slate-300 px-4 py-3 outline-none transition focus:border-blue-500"
               />
-
             </div>
 
             <div className="md:col-span-2">
-
               <label className="mb-2 block font-semibold text-slate-700">
                 Full Description
               </label>
@@ -171,25 +166,17 @@ export default async function NewServicePage() {
                 rows={8}
                 className="w-full rounded-xl border border-slate-300 px-4 py-3 outline-none transition focus:border-blue-500"
               />
-
             </div>
 
             <div>
-
               <label className="mb-2 block font-semibold text-slate-700">
-                Image URL
+                Service Image
               </label>
 
-              <input
-                type="text"
-                name="image_url"
-                className="w-full rounded-xl border border-slate-300 px-4 py-3 outline-none transition focus:border-blue-500"
-              />
-
+              <ServiceImageUpload />
             </div>
 
             <div>
-
               <label className="mb-2 block font-semibold text-slate-700">
                 Sort Order
               </label>
@@ -200,37 +187,35 @@ export default async function NewServicePage() {
                 defaultValue={0}
                 className="w-full rounded-xl border border-slate-300 px-4 py-3 outline-none transition focus:border-blue-500"
               />
-
             </div>
 
-          </div>
+            <div className="md:col-span-2">
+              <label className="flex items-center gap-3 rounded-xl border border-slate-200 px-5 py-3">
+                <input
+                  type="checkbox"
+                  name="is_featured"
+                />
 
-          <div className="mt-8 flex flex-wrap gap-8">
+                <span className="font-medium text-slate-700">
+                  Featured Service
+                </span>
+              </label>
+            </div>
 
-            <label className="flex items-center gap-3 rounded-xl border border-slate-200 px-5 py-3">
-              <input
-                type="checkbox"
-                name="is_featured"
-              />
+            <div className="md:col-span-2">
+              <label className="flex items-center gap-3 rounded-xl border border-slate-200 px-5 py-3">
+                <input
+                  type="checkbox"
+                  name="is_active"
+                  defaultChecked
+                />
 
-              <span className="font-medium text-slate-700">
-                Featured Service
-              </span>
-            </label>
-
-            <label className="flex items-center gap-3 rounded-xl border border-slate-200 px-5 py-3">
-              <input
-                type="checkbox"
-                name="is_active"
-                defaultChecked
-              />
-
-              <span className="font-medium text-slate-700">
-                Active Service
-              </span>
-            </label>
-
-          </div>
+                <span className="font-medium text-slate-700">
+                  Active Service
+                </span>
+              </label>
+            </div>
+                      </div>
 
           <div className="mt-10 flex flex-wrap gap-4">
 

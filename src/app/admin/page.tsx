@@ -62,229 +62,138 @@ export default async function AdminDashboard() {
 
 
 
-  const {
-    count: totalQuotes,
-  } =
-    await supabaseAdmin
-      .from("quotes")
-      .select(
-        "*",
-        {
-          count:
-            "exact",
-          head:
-            true,
-        }
+  const [
+  totalQuotesResult,
+  recentQuotesResult,
+  totalPaymentsResult,
+  pendingPaymentsResult,
+  completedPaymentsResult,
+  recentPaymentsResult,
+] = await Promise.all([
+  supabaseAdmin
+    .from("quotes")
+    .select("*", {
+      count: "exact",
+      head: true,
+    }),
+
+  supabaseAdmin
+    .from("quotes")
+    .select(`
+      quote_id,
+      full_name,
+      email,
+      service,
+      status,
+      created_at
+    `)
+    .order("created_at", {
+      ascending: false,
+    })
+    .limit(10),
+
+  supabaseAdmin
+    .from("payments")
+    .select("*", {
+      count: "exact",
+      head: true,
+    }),
+
+  supabaseAdmin
+    .from("payments")
+    .select("*", {
+      count: "exact",
+      head: true,
+    })
+    .eq("payment_status", "pending"),
+
+  supabaseAdmin
+    .from("payments")
+    .select(`
+      price_amount,
+      created_at
+    `)
+    .in("payment_status", [
+      "finished",
+      "confirmed",
+    ]),
+
+  supabaseAdmin
+    .from("payments")
+    .select(`
+      payment_id,
+      quote_id,
+      amount,
+      currency,
+      pay_amount,
+      pay_currency,
+      price_amount,
+      price_currency,
+      payment_status,
+      created_at
+    `)
+    .order("created_at", {
+      ascending: false,
+    })
+    .limit(10),
+]);
+
+const totalQuotes =
+  totalQuotesResult.count ?? 0;
+
+const recentQuotes =
+  recentQuotesResult.data ?? [];
+
+const totalPayments =
+  totalPaymentsResult.count ?? 0;
+
+const pendingPayments =
+  pendingPaymentsResult.count ?? 0;
+
+const completedPayments =
+  completedPaymentsResult.data ?? [];
+
+const recentPayments =
+  recentPaymentsResult.data ?? [];
+
+const totalRevenue =
+  completedPayments.reduce(
+    (sum, payment) =>
+      sum + Number(payment.price_amount ?? 0),
+    0
+  );
+
+const currentDate = new Date();
+
+const monthlyRevenue =
+  completedPayments
+    .filter((payment) => {
+      const paymentDate = new Date(payment.created_at);
+
+      return (
+        paymentDate.getMonth() === currentDate.getMonth() &&
+        paymentDate.getFullYear() === currentDate.getFullYear()
       );
-
-
-
-  const {
-    data: recentQuotes,
-  } =
-    await supabaseAdmin
-      .from("quotes")
-      .select(
-        `
-          quote_id,
-          full_name,
-          email,
-          service,
-          status,
-          created_at
-        `
-      )
-      .order(
-        "created_at",
-        {
-          ascending:
-            false,
-        }
-      )
-      .limit(10);
-
-
-
-  const {
-    count: totalPayments,
-  } =
-    await supabaseAdmin
-      .from("payments")
-      .select(
-        "*",
-        {
-          count:
-            "exact",
-          head:
-            true,
-        }
-      );
-
-
-
-  const {
-    count: pendingPayments,
-  } =
-    await supabaseAdmin
-      .from("payments")
-      .select(
-        "*",
-        {
-          count:
-            "exact",
-          head:
-            true,
-        }
-      )
-      .eq(
-        "payment_status",
-        "pending"
-      );
-
-
-
-  const {
-    data: completedPaymentsData,
-  } =
-    await supabaseAdmin
-      .from("payments")
-      .select(
-        `
-          price_amount,
-          created_at
-        `
-      )
-      .in(
-        "payment_status",
-        [
-          "finished",
-          "confirmed",
-        ]
-      );
-
-
-
-  const completedPayments =
-    completedPaymentsData ?? [];
-      const totalRevenue =
-    completedPayments.reduce(
-      (
-        sum,
-        payment
-      ) =>
-        sum +
-        Number(
-          payment.price_amount ?? 0
-        ),
+    })
+    .reduce(
+      (sum, payment) =>
+        sum + Number(payment.price_amount ?? 0),
       0
     );
 
+const averageOrderValue =
+  completedPayments.length > 0
+    ? totalRevenue / completedPayments.length
+    : 0;
 
-  const currentDate =
-    new Date();
+const totalOrders =
+  totalPayments;
 
+const pendingOrders =
+  pendingPayments;
 
-  const monthlyRevenue =
-    completedPayments
-      .filter(
-        (payment) => {
-
-          const paymentDate =
-            new Date(
-              payment.created_at
-            );
-
-
-          return (
-            paymentDate.getMonth() ===
-              currentDate.getMonth() &&
-
-            paymentDate.getFullYear() ===
-              currentDate.getFullYear()
-          );
-
-        }
-      )
-      .reduce(
-        (
-          sum,
-          payment
-        ) =>
-          sum +
-          Number(
-            payment.price_amount ?? 0
-          ),
-        0
-      );
-
-
-
-  const averageOrderValue =
-    completedPayments.length > 0
-      ? totalRevenue /
-        completedPayments.length
-      : 0;
-
-
-
-  const {
-    data: recentPayments,
-  } =
-    await supabaseAdmin
-      .from("payments")
-      .select(
-        `
-          payment_id,
-          quote_id,
-          amount,
-          currency,
-          pay_amount,
-          pay_currency,
-          price_amount,
-          price_currency,
-          payment_status,
-          created_at
-        `
-      )
-      .order(
-        "created_at",
-        {
-          ascending:
-            false,
-        }
-      )
-      .limit(10);
-
-
-
-  const totalOrders =
-    totalPayments ?? 0;
-
-
-
-  const {
-    count: pendingOrders,
-  } =
-    await supabaseAdmin
-      .from("payments")
-      .select(
-        "*",
-        {
-          count:
-            "exact",
-          head:
-            true,
-        }
-      )
-      .eq(
-        "payment_status",
-        "pending"
-      );
-
-
-
-  const completedOrders =
-    completedPayments.length;
+const completedOrders =
+  completedPayments.length;
 
 
 
@@ -532,7 +441,7 @@ export default async function AdminDashboard() {
                   recentQuotes.map((quote) => (
 
                     <tr
-                      key={quote.quote_id}
+                     key={quote.quote_id ?? quote.created_at}
                       className="border-t border-slate-100 hover:bg-slate-50"
                     >
 
@@ -694,7 +603,7 @@ export default async function AdminDashboard() {
 
                     <tr
 
-                      key={payment.payment_id}
+                      key={payment.payment_id ?? payment.created_at}
 
                       className="border-t border-slate-100 transition hover:bg-slate-50"
 

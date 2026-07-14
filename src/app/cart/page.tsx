@@ -11,17 +11,17 @@ export default async function CartPage() {
   const cartItems = await getCartItems();
 
  const totalAmount =
-  cartItems?.reduce(
-    (total, item) =>
+  cartItems?.reduce((total, item) => {
+    const service = Array.isArray(item.services)
+      ? item.services[0]
+      : (item.services as { price?: number } | null);
+
+    return (
       total +
-      Number(
-        Array.isArray(item.services)
-          ? item.services[0]?.price ?? 0
-          : 0
-      ) *
-        Number(item.quantity ?? 0),
-    0
-  ) ?? 0;
+      Number(service?.price ?? 0) *
+        Number(item.quantity ?? 0)
+    );
+  }, 0) ?? 0;
 
   return (
     <main className="min-h-screen bg-slate-100 p-6 lg:p-10">
@@ -98,53 +98,64 @@ export default async function CartPage() {
                   </thead>
 
                   <tbody>
+                    
                     {cartItems.map((item) => (
-                      <tr
-                        key={item.id}
-                        className="border-b border-slate-100"
-                      >
-
-                        <td className="px-6 py-5">
-                          <p className="font-semibold text-slate-900">
-{item.services?.[0]?.title} 
-
-                          </p>
-
-                          <p className="mt-1 text-sm text-slate-500">
-                          {item.services?.[0]?.id}
- 
-                          </p>
-                        </td>
-
-                        <td className="px-6 py-5">
-  ${item.services?.[0]?.price ?? 0}
+                    <tr
+  key={item.id}
+  className="border-b border-slate-100"
+>
+  {/* Service */}
+ <td className="px-6 py-5 font-semibold text-slate-900">
+${
+  (
+    Array.isArray(item.services)
+      ? item.services[0]
+      : (item.services as { price?: number } | null)
+  )?.price ?? 0
+}
 </td>
-                                                <td className="px-6 py-5">
-                          <span className="inline-flex rounded-full bg-slate-100 px-4 py-2 text-sm font-semibold text-slate-700">
-                            {item.quantity}
-                          </span>
-                        </td>
+<td className="px-6 py-5 font-semibold text-slate-900">
+${
+  (
+    Array.isArray(item.services)
+      ? item.services[0]
+      : (item.services as { price?: number } | null)
+  )?.price ?? 0
+}
+</td>
+  {/* Quantity */}
+  <td className="px-6 py-5">
+    <span className="inline-flex rounded-full bg-slate-100 px-4 py-2 text-sm font-semibold text-slate-700">
+      {item.quantity}
+    </span>
+  </td>
 
-                        <td className="px-6 py-5">
-                          <span className="inline-flex rounded-full bg-emerald-100 px-4 py-2 text-sm font-semibold text-emerald-700">
-                            $
-                            {Number(
-                         item.services?.[0]?.price ?? 0
-                            ) *
-                              Number(item.quantity ?? 0)}
-                          </span>
-                        </td>
+  {/* Total */}
+  <td className="px-6 py-5">
+    <span className="inline-flex rounded-full bg-emerald-100 px-4 py-2 text-sm font-semibold text-emerald-700">
+      $
+     {
+  Number(
+    (
+      Array.isArray(item.services)
+        ? item.services[0]
+        : (item.services as { price?: number } | null)
+    )?.price ?? 0
+  ) * Number(item.quantity ?? 0)
+}
+    </span>
+  </td>
 
-                        <td className="px-6 py-5">
-                          <Link
-                            href={`/checkout?item=${item.id}`}
-                            className="rounded-lg bg-blue-600 px-4 py-2 text-sm font-semibold text-white transition hover:bg-blue-700"
-                          >
-                            Checkout
-                          </Link>
-                        </td>
-
-                      </tr>
+  {/* Action */}
+  <td className="px-6 py-5">
+    <Link
+      href={`/checkout?item=${item.id}`}
+      className="rounded-lg bg-blue-600 px-4 py-2 text-sm font-semibold text-white transition hover:bg-blue-700"
+    >
+      Checkout
+    </Link>
+  </td>
+</tr>
                     ))}
                   </tbody>
                 </table>
