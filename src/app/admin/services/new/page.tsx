@@ -73,10 +73,10 @@ export default async function NewServicePage() {
 
         </div>
 
-        <form
-          action={createService}
-          className="rounded-3xl border border-slate-200 bg-white p-8 shadow-sm"
-        >
+       <form
+  action={createService}
+  className="rounded-3xl border border-slate-200 bg-white p-8 text-slate-900 shadow-sm"
+>
 
           <div className="grid gap-6 md:grid-cols-2">
 
