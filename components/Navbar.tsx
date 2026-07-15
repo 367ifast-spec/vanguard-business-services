@@ -66,7 +66,7 @@ export default function Navbar() {
     className={`rounded-full px-4 py-2 text-sm font-semibold transition-all duration-200 ${
   active === item.href
     ? "bg-blue-600 text-white"
-    : "text-white opacity-100 hover:bg-white/10 hover:text-white"
+    : "!text-white opacity-100 hover:bg-white/10"
 }`}
             >
               {item.name}
@@ -82,7 +82,7 @@ export default function Navbar() {
     <ShoppingCart size={22} />
   </Link>
 </div>
-        <div className="hidden lg:block">
+        <div className="hidden lg:flex items-center gap-4">
        <Link
   href="/cart"
   onClick={() => setIsOpen(false)}
