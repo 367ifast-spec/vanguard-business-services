@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-
+import AddToCartButton from "@/components/AddToCartButton";
 export const metadata: Metadata = {
   title: "UK LTD Registration",
   description:
@@ -142,6 +142,10 @@ export default function UKLTDRegistrationPage() {
             className="mt-10 inline-block rounded-xl bg-blue-600 px-8 py-4 font-semibold transition hover:bg-blue-700"
           >
             Contact Us
+            </a>
+            <div className="mt-6">
+ <AddToCartButton serviceId="69d7293a-f266-4b43-a421-ab4f29f69019" />
+</div>
             {/* Statistics */}
 <div className="mt-16 grid gap-6 md:grid-cols-3">
 
@@ -295,7 +299,6 @@ export default function UKLTDRegistrationPage() {
   </div>
 
 </div>
-          </a>
         </section>
       </main>
     </>
