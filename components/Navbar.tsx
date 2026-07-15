@@ -1,5 +1,5 @@
 "use client";
-
+import CartBadge from "./CartBadge";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { Menu, X, ArrowRight, ShoppingCart } from "lucide-react";
@@ -79,7 +79,13 @@ export default function Navbar() {
     className="relative mr-4 rounded-full border border-white/10 bg-white/5 p-3 text-white transition hover:bg-white/10"
     aria-label="Shopping Cart"
   >
-    <ShoppingCart size={22} />
+<>
+<>
+  <ShoppingCart size={22} />
+  <CartBadge />
+</>
+  <CartBadge />
+</>
   </Link>
 </div>
         <div className="hidden lg:flex items-center gap-4">
