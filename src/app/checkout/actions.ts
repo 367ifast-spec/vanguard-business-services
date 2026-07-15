@@ -289,24 +289,26 @@ export async function createOrder(formData: FormData) {
   }
 
 
-  await supabaseAdmin.rpc(
-    "increment_customer_stats",
-    {
-      p_customer_id:
-        customerId,
+await supabaseAdmin.rpc(
+  "increment_customer_stats",
+  {
+    p_customer_id: customerId,
+    p_amount: totalAmount,
+  }
+);
 
-      p_amount:
-        totalAmount,
-    }
-  );
+revalidatePath(
+  "/admin/orders"
+);
 
+await supabaseAdmin
+  .from("cart_items")
+  .delete()
+  .eq("session_id", sessionId);
 
-  revalidatePath(
-    "/admin/orders"
-  );
+revalidatePath("/cart");
 
-
-  redirect(
-    `/payment?order=${order.id}`
-  );
+redirect(
+  `/payment?order=${order.id}`
+);
 }
