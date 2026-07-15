@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-
+import AddToCartButton from "@/components/AddToCartButton";
 export const metadata: Metadata = {
   title:
     "Payoneer Business Guidance | Vanguard Business Services",
@@ -279,7 +279,9 @@ export default function PayoneerBusinessPage() {
             >
               Contact Us
             </a>
-
+<div className="mt-6">
+  <AddToCartButton serviceId="d3fb8bf7-adc1-4403-a401-57b6cfb7f331" />
+</div>
             <a
               href="/services/business-banking"
               className="rounded-xl border border-blue-500 px-8 py-4 font-semibold text-blue-400 transition hover:bg-blue-500 hover:text-white"
