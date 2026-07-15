@@ -61,7 +61,11 @@ cookieStore.set("cart_session", sessionId, {
     }
   }
 
+try {
   revalidatePath("/cart");
+} catch (error) {
+  console.error("REVALIDATE ERROR:", error);
+}
 }
 
 export async function getCartItems() {
