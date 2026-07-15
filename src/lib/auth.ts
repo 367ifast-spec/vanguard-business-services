@@ -21,7 +21,8 @@ export async function createAdminSession(
     .setProtectedHeader({
       alg: ALGORITHM,
     })
-    .setExpirationTime("24h")
+    .setIssuedAt()
+    .setExpirationTime("30m")
     .sign(secretKey);
 }
 
