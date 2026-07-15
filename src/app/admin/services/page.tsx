@@ -412,11 +412,12 @@ export default async function ServicesPage({
             <div className="flex items-end">
 
               <button
-                type="submit"
-                className="w-full rounded-xl bg-slate-900 px-5 py-3 font-semibold text-white transition hover:bg-slate-800"
-              >
-                Apply Filters
-              </button>
+  type="submit"
+  className="w-full rounded-xl bg-slate-900 px-5 py-3 font-semibold text-white transition hover:bg-slate-800"
+  style={{ color: "#ffffff" }}
+>
+  Apply Filters
+</button>
 
             </div>
 
