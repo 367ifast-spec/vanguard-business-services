@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-
+import AddToCartButton from "@/components/AddToCartButton";
 export const metadata: Metadata = {
   title: "Wise Business Guidance | Vanguard Business Services",
   description:
@@ -308,6 +308,16 @@ export default function WiseBusinessPage() {
               className="rounded-xl bg-blue-600 px-8 py-4 font-semibold transition hover:bg-blue-700"
             >
               Contact Us
+              <a
+  href="/#contact"
+  className="mt-10 inline-block rounded-xl bg-blue-600 px-8 py-4 font-semibold transition hover:bg-blue-700"
+>
+  Contact Us
+</a>
+
+<div className="mt-6">
+  <AddToCartButton serviceId="78ab216a-0662-4eeb-9014-cb817ec2f6a8" />
+</div>
             </a>
 
             <a
