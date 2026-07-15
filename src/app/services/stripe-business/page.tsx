@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-
+import AddToCartButton from "@/components/AddToCartButton";
 export const metadata: Metadata = {
   title: "Stripe Business Guidance | Vanguard Business Services",
   description:
@@ -308,12 +308,16 @@ export default function StripeBusinessPage() {
             </div>
           </section>
                     <div className="mt-16 flex flex-wrap gap-4">
-            <a
-              href="/#contact"
-              className="rounded-xl bg-blue-600 px-8 py-4 font-semibold transition hover:bg-blue-700"
-            >
-              Contact Us
-            </a>
+           <a
+  href="/#contact"
+  className="mt-10 inline-block rounded-xl bg-blue-600 px-8 py-4 font-semibold transition hover:bg-blue-700"
+>
+  Contact Us
+</a>
+
+<div className="mt-6">
+  <AddToCartButton serviceId="4fa2e9b4-0339-4491-90e7-682b2cfbef4a" />
+</div>
 
             <a
               href="/services/business-banking"
