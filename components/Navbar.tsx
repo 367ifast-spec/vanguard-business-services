@@ -63,11 +63,11 @@ export default function Navbar() {
               key={item.name}
               href={item.href}
               scroll
-              className={`rounded-full px-4 py-2 text-sm font-medium transition ${
-                active === item.href
-                  ? "bg-blue-600 text-white"
-                  : "text-gray-300 hover:bg-white/10 hover:text-white"
-              }`}
+            className={`rounded-full px-4 py-2 text-sm font-medium transition ${
+  active === item.href
+    ? "bg-blue-600 text-white"
+    : "text-white hover:bg-white/10 hover:text-blue-400"
+}`}
             >
               {item.name}
             </Link>
@@ -83,10 +83,10 @@ export default function Navbar() {
   </Link>
 </div>
         <div className="hidden lg:block">
-          <Link
+       <Link
   href="/cart"
   onClick={() => setIsOpen(false)}
-  className="rounded-xl px-4 py-3 text-gray-300 transition hover:bg-white/10"
+  className="rounded-xl px-4 py-3 text-white transition hover:bg-white/10"
 >
   🛒 Cart
 </Link>
