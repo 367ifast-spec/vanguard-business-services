@@ -42,9 +42,11 @@ cookieStore.set("cart_session", sessionId, {
       })
       .eq("id", existing.id);
 
-    if (error) {
-      throw new Error(error.message);
-    }
+   if (error) {
+  console.error("CART INSERT ERROR:", error);
+
+  throw new Error(error.message);
+}
   } else {
     const { error } = await supabaseAdmin
       .from("cart_items")
