@@ -3,7 +3,6 @@
 :root {
   color-scheme: light;
 }
-
 html {
   scroll-behavior: smooth;
   -webkit-text-size-adjust: 100%;
@@ -78,4 +77,19 @@ background: #f3f4f6;
 
 section {
   scroll-margin-top: 100px;
+}
+input,
+textarea,
+select {
+  color: #111827;
+  background-color: #ffffff;
+}
+
+button {
+  color: inherit;
+}
+
+option {
+  color: #111827;
+  background-color: #ffffff;
 }
