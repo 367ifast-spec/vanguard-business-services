@@ -9,86 +9,51 @@ interface PaymentButtonProps {
 export default function PaymentButton({
   orderId,
 }: PaymentButtonProps) {
+  const [loading, setLoading] = useState(false);
 
-  const [loading, setLoading] =
-    useState(false);
-
-
-  async function handlePayment() {
-
-    if (loading) {
-      return;
-    }
-
+  const handlePayment = async () => {
+    if (loading) return;
 
     try {
-
       setLoading(true);
 
+      const response = await fetch("/api/payment/create", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          orderId,
+        }),
+      });
 
-      const response =
-        await fetch(
-          "/api/payment/create",
-          {
-            method: "POST",
-
-            headers: {
-              "Content-Type":
-                "application/json",
-            },
-
-            body: JSON.stringify({
-              orderId,
-            }),
-          }
-        );
-
-
-      const data =
-        await response.json();
-
+      const data = await response.json();
 
       if (!response.ok) {
-
         throw new Error(
-          data?.error ??
-            "Unable to create payment."
+          data?.error || "Unable to create payment."
         );
-
       }
 
-
-      if (!data.paymentUrl) {
-
+      if (!data?.paymentUrl) {
         throw new Error(
           "Payment URL was not generated."
         );
-
       }
 
-
-      window.location.href =
-        data.paymentUrl;
-
-
+      window.location.assign(data.paymentUrl);
     } catch (error) {
-
+      console.error("Payment Error:", error);
 
       alert(
         error instanceof Error
           ? error.message
           : "Payment process failed."
       );
-
-
     } finally {
-
       setLoading(false);
-
     }
-
-  }
-
+  };
 
   return (
     <button

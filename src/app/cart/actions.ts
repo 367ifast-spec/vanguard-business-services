@@ -1,6 +1,7 @@
 "use server";
 
 import { revalidatePath } from "next/cache";
+import { cookies } from "next/headers";
 import { getCartSessionId } from "@/lib/cart-session";
 import { supabaseAdmin } from "@/lib/supabase";
 
@@ -12,7 +13,15 @@ export async function addToCart(serviceId: string) {
       "Cart session not found. Please refresh the page and try again."
     );
   }
+const cookieStore = await cookies();
 
+cookieStore.set("cart_session", sessionId, {
+  httpOnly: true,
+  sameSite: "lax",
+  secure: process.env.NODE_ENV === "production",
+  path: "/",
+  maxAge: 60 * 60 * 24 * 30,
+});
   if (!supabaseAdmin) {
     throw new Error("Supabase is not configured.");
   }
