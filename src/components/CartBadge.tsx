@@ -1,11 +1,7 @@
 import Link from "next/link";
 import { ShoppingCart } from "lucide-react";
 
-import { getCartCount } from "@/app/cart/actions";
-
-export default async function CartBadge() {
-  const count = await getCartCount();
-
+export default function CartBadge() {
   return (
     <Link
       href="/cart"
@@ -13,12 +9,6 @@ export default async function CartBadge() {
       aria-label="Shopping Cart"
     >
       <ShoppingCart size={22} />
-
-      {count > 0 && (
-        <span className="absolute -right-2 -top-2 flex h-6 min-w-[24px] items-center justify-center rounded-full bg-red-600 px-1 text-xs font-bold text-white">
-          {count}
-        </span>
-      )}
     </Link>
   );
 }

@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import { Menu, X, ArrowRight, ShoppingCart } from "lucide-react";
 import Logo from "./Logo";
 
+
 const navigation = [
   { name: "Home", href: "#home" },
   { name: "About", href: "#about" },
