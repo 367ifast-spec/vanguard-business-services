@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-
+import AddToCartButton from "@/components/AddToCartButton";
 export const metadata: Metadata = {
   title: "EIN Registration",
   description:
@@ -446,6 +446,16 @@ export default function EINRegistrationPage() {
               className="rounded-xl bg-blue-600 px-8 py-4 font-semibold hover:bg-blue-700 transition"
             >
               Contact Us
+              <a
+  href="/#contact"
+  className="mt-10 inline-block rounded-xl bg-blue-600 px-8 py-4 font-semibold transition hover:bg-blue-700"
+>
+  Contact Us
+</a>
+
+<div className="mt-6">
+  <AddToCartButton serviceId="9fe26cab-a1ac-4cca-8e8c-0ed4b3b306da" />
+</div>
             </a>
 
             <a
