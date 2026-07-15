@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-
+import AddToCartButton from "@/components/AddToCartButton";
 export const metadata: Metadata = {
   title: "Business Banking",
   description:
@@ -300,6 +300,16 @@ export default function BusinessBankingPage() {
               className="rounded-xl bg-blue-600 px-8 py-4 font-semibold transition hover:bg-blue-700"
             >
               Contact Us
+              <a
+  href="/#contact"
+  className="mt-10 inline-block rounded-xl bg-blue-600 px-8 py-4 font-semibold transition hover:bg-blue-700"
+>
+  Contact Us
+</a>
+
+<div className="mt-6">
+  <AddToCartButton serviceId="840ef251-82c0-464a-9568-8b8de7bdfce6" />
+</div>
             </a>
 
             <a
