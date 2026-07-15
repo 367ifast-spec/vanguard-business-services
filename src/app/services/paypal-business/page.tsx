@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-
+import AddToCartButton from "@/components/AddToCartButton";
 export const metadata: Metadata = {
   title: "PayPal Business Guidance | Vanguard Business Services",
   description:
@@ -310,7 +310,9 @@ export default function PayPalBusinessPage() {
             >
               Contact Us
             </a>
-
+<div className="mt-6">
+  <AddToCartButton serviceId="c7e45d4c-ab1c-4342-958f-de7dddd5b35f" />
+</div>
             <a
               href="/services/payoneer-business"
               className="rounded-xl border border-blue-500 px-8 py-4 font-semibold text-blue-400 transition hover:bg-blue-500 hover:text-white"
