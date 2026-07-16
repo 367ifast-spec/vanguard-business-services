@@ -89,9 +89,9 @@ export default function Navbar() {
   <Link
   href="/cart"
   onClick={() => setIsOpen(false)}
-  className="rounded-xl px-4 py-3 font-semibold text-white opacity-100 transition hover:bg-white/10"
+  className="rounded-xl bg-blue-600 px-4 py-3 font-bold text-white transition hover:bg-blue-700"
 >
-  🛒 Cart
+  Cart
 </Link>
           <Link
             href="/#contact"
