@@ -106,13 +106,13 @@ export async function POST(req: NextRequest) {
 
 
     const orderUpdate = isPaid
-      ? {
-          payment_status: "paid",
-          status: "completed",
-        }
-      : {
-          payment_status,
-        };
+  ? {
+      payment_status: "paid",
+      status: "processing",
+    }
+  : {
+      payment_status,
+    };
 
 
 

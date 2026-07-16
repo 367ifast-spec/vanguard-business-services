@@ -76,23 +76,20 @@ export default function Navbar() {
 <div className="hidden lg:flex items-center">
   <Link
     href="/cart"
-    className="relative mr-4 rounded-full border border-white/10 bg-white/5 p-3 text-white transition hover:bg-white/10"
+    className="relative mr-4 rounded-full border border-white/30 bg-white/10 p-3 text-white transition hover:bg-white/20"
     aria-label="Shopping Cart"
   >
-<>
-<>
-  <ShoppingCart size={22} />
-  <CartBadge />
-</>
-  <CartBadge />
-</>
+    <ShoppingCart
+      size={22}
+      className="text-white"
+    />
   </Link>
 </div>
         <div className="hidden lg:flex items-center gap-4">
-       <Link
+  <Link
   href="/cart"
   onClick={() => setIsOpen(false)}
-  className="rounded-xl px-4 py-3 text-white transition hover:bg-white/10"
+  className="rounded-xl px-4 py-3 font-semibold text-white opacity-100 transition hover:bg-white/10"
 >
   🛒 Cart
 </Link>
