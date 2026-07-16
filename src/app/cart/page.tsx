@@ -43,13 +43,12 @@ export default async function CartPage() {
                 Review selected business services before checkout.
               </p>
             </div>
-
-            <Link
-              href="/services"
-              className="rounded-xl bg-blue-600 px-6 py-3 text-center font-semibold text-white transition hover:bg-blue-700"
-            >
-              Continue Shopping
-            </Link>
+<Link
+  href="/#services"
+  className="rounded-xl bg-blue-600 px-6 py-3 text-center font-semibold text-white transition hover:bg-blue-700"
+>
+  Continue Shopping
+</Link>
           </div>
         </section>
 
@@ -216,12 +215,12 @@ ${
               Add business services to your cart and continue your order.
             </p>
 
-            <Link
-              href="/services"
-              className="mt-8 inline-flex rounded-xl bg-blue-600 px-6 py-3 font-semibold text-white transition hover:bg-blue-700"
-            >
-              Browse Services
-            </Link>
+           <Link
+  href="/#services"
+  className="mt-8 inline-flex rounded-xl bg-blue-600 px-6 py-3 font-semibold text-white transition hover:bg-blue-700"
+>
+  Browse Services
+</Link>
 
           </section>
         )}
