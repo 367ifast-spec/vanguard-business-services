@@ -27,12 +27,23 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 0.8,
     },
 
+    // BLOGS
+
     {
       url: `${baseUrl}/blog/how-to-open-a-stripe-account-without-living-in-the-usa`,
       lastModified: now,
       changeFrequency: "monthly",
       priority: 0.9,
     },
+
+    {
+      url: `${baseUrl}/blog/us-llc-vs-uk-ltd`,
+      lastModified: now,
+      changeFrequency: "monthly",
+      priority: 0.9,
+    },
+
+    // SERVICES
 
     {
       url: `${baseUrl}/services/us-llc-registration`,
@@ -89,6 +100,8 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changeFrequency: "monthly",
       priority: 0.9,
     },
+
+    // LEGAL PAGES
 
     {
       url: `${baseUrl}/privacy-policy`,
