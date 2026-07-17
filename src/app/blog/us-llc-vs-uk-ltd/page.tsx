@@ -278,6 +278,37 @@ export default function UsLlcVsUkLtdPage() {
               Contact Us
             </Link>
           </section>
+          <div className="mt-12 border-t border-slate-700 pt-8">
+  <h2 className="mb-4 text-2xl font-bold">
+    Related Articles
+  </h2>
+
+  <ul className="space-y-2 text-blue-400">
+    <li>
+      <Link href="/blog/us-llc-vs-uk-ltd">
+        US LLC vs UK LTD
+      </Link>
+    </li>
+
+    <li>
+      <Link href="/blog/how-to-get-ein-online">
+        How to Get EIN Online
+      </Link>
+    </li>
+
+    <li>
+      <Link href="/blog/wise-business-review">
+        Wise Business Review
+      </Link>
+    </li>
+
+    <li>
+      <Link href="/blog/best-us-banks-for-non-residents">
+        Best US Banks for Non-Residents
+      </Link>
+    </li>
+  </ul>
+</div>
         </article>
       </section>
     </main>
