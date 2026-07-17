@@ -8,7 +8,7 @@ export default function Footer() {
       <div className="absolute right-0 top-0 h-72 w-72 rounded-full bg-blue-600/10 blur-[140px]" />
 
       <div className="relative mx-auto max-w-7xl px-6 py-16">
-        <div className="grid gap-12 md:grid-cols-2 lg:grid-cols-4">
+       <div className="grid gap-12 md:grid-cols-2 lg:grid-cols-5">
 
           {/* Company */}
           <div>
@@ -100,7 +100,59 @@ export default function Footer() {
               </li>
             </ul>
           </div>
+{/* Latest Posts */}
+<div>
+  <h3 className="text-lg font-semibold">
+    Latest Posts
+  </h3>
 
+  <ul className="mt-5 space-y-3 text-gray-400">
+    <li>
+      <Link
+        href="/blog/stripe-atlas-review"
+        className="hover:text-white"
+      >
+        Stripe Atlas Review
+      </Link>
+    </li>
+
+    <li>
+      <Link
+        href="/blog/mercury-bank-review"
+        className="hover:text-white"
+      >
+        Mercury Bank Review
+      </Link>
+    </li>
+
+    <li>
+      <Link
+        href="/blog/payoneer-vs-wise"
+        className="hover:text-white"
+      >
+        Payoneer vs Wise
+      </Link>
+    </li>
+
+    <li>
+      <Link
+        href="/blog/remote-business-banking-guide"
+        className="hover:text-white"
+      >
+        Remote Banking Guide
+      </Link>
+    </li>
+
+    <li>
+      <Link
+        href="/blog/best-countries-for-online-business"
+        className="hover:text-white"
+      >
+        Best Countries for Business
+      </Link>
+    </li>
+  </ul>
+</div>
           {/* Contact */}
           <div>
             <h3 className="text-lg font-semibold">
