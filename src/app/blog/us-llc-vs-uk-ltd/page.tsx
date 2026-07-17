@@ -5,6 +5,21 @@ export const metadata = {
     "US LLC vs UK LTD: Which is Better for International Entrepreneurs? | Vanguard Business Services",
   description:
     "Compare US LLC and UK LTD companies in 2026. Learn about taxes, banking, Stripe compatibility, costs, and which option is best for international entrepreneurs.",
+
+  alternates: {
+    canonical:
+      "https://www.vanguardbusinesservices.com/blog/us-llc-vs-uk-ltd",
+  },
+
+  openGraph: {
+    title:
+      "US LLC vs UK LTD: Which is Better for International Entrepreneurs?",
+    description:
+      "Compare US LLC and UK LTD companies in 2026 and find out which option is best for international entrepreneurs.",
+    url: "https://www.vanguardbusinesservices.com/blog/us-llc-vs-uk-ltd",
+    siteName: "Vanguard Business Services",
+    type: "article",
+  },
 };
 
 export default function UsLlcVsUkLtdPage() {
