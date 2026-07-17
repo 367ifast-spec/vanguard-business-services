@@ -32,7 +32,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
     },
 
     // BLOGS
-
+{
+  url: `${baseUrl}/blog`,
+  lastModified: now,
+  changeFrequency: "weekly",
+  priority: 0.9,
+},
     {
       url: `${baseUrl}/blog/how-to-open-a-stripe-account-without-living-in-the-usa`,
       lastModified: now,
