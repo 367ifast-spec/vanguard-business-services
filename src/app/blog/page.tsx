@@ -65,8 +65,22 @@ const blogs = [
 
 export const metadata = {
   title: "Blog | Vanguard Business Services",
+
   description:
     "Explore guides, reviews, and business insights from Vanguard Business Services.",
+
+  alternates: {
+    canonical: "https://www.vanguardbusinesservices.com/blog",
+  },
+
+  openGraph: {
+    title: "Blog | Vanguard Business Services",
+    description:
+      "Explore guides, reviews, and business insights from Vanguard Business Services.",
+    url: "https://www.vanguardbusinesservices.com/blog",
+    siteName: "Vanguard Business Services",
+    type: "website",
+  },
 };
 
 export default function BlogPage() {
