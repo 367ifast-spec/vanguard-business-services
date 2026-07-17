@@ -130,13 +130,13 @@ export default function ContactPage() {
             Start your journey with Vanguard Business Services today.
           </p>
 
-          <Link
-            href="/services"
-            className="mt-8 inline-flex items-center gap-2 rounded-xl bg-white px-6 py-3 font-semibold text-slate-900 transition hover:scale-105"
-          >
-            Explore Services
-            <ArrowRight className="h-5 w-5" />
-          </Link>
+       <Link
+  href="/services"
+  className="mt-8 inline-flex items-center gap-2 rounded-xl bg-slate-950 px-6 py-3 font-semibold text-white border border-white transition hover:bg-slate-900"
+>
+  Explore Services
+  <ArrowRight className="h-5 w-5" />
+</Link>
         </div>
       </section>
     </main>
