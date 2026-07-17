@@ -1,17 +1,21 @@
 import type { MetadataRoute } from "next";
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const baseUrl = "https://www.vanguardbusineservices.com";
+  const baseUrl = "https://www.vanguardbusinesservices.com";
 
   const now = new Date();
 
   return [
+    // HOME
+
     {
       url: baseUrl,
       lastModified: now,
       changeFrequency: "weekly",
       priority: 1,
     },
+
+    // MAIN PAGES
 
     {
       url: `${baseUrl}/about`,
@@ -38,6 +42,13 @@ export default function sitemap(): MetadataRoute.Sitemap {
 
     {
       url: `${baseUrl}/blog/us-llc-vs-uk-ltd`,
+      lastModified: now,
+      changeFrequency: "monthly",
+      priority: 0.9,
+    },
+
+    {
+      url: `${baseUrl}/blog/how-to-get-ein-online`,
       lastModified: now,
       changeFrequency: "monthly",
       priority: 0.9,
