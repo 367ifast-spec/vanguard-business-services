@@ -1,115 +1,106 @@
 import Link from "next/link";
 
-export const metadata = {
-  title: "Blog | Vanguard Business Services",
-  description:
-    "Read the latest guides on US LLC formation, Stripe, EIN registration, Wise Business, and banking for non-residents.",
-  alternates: {
-    canonical: "https://www.vanguardbusinesservices.com/blog",
-  },
-  openGraph: {
-    title: "Vanguard Business Services Blog",
-    description:
-      "Expert articles on international business registration, banking, and payment solutions.",
-    url: "https://www.vanguardbusinesservices.com/blog",
-    siteName: "Vanguard Business Services",
-    type: "website",
-  },
-};
-
 const blogs = [
   {
     title: "How to Open a Stripe Account Without Living in the USA",
     href: "/blog/how-to-open-a-stripe-account-without-living-in-the-usa",
     description:
-      "Learn how foreigners can legally open a Stripe account using a US LLC, EIN, and business banking setup.",
+      "Learn how international entrepreneurs can access Stripe-compatible business setups.",
   },
   {
     title: "US LLC vs UK LTD",
     href: "/blog/us-llc-vs-uk-ltd",
     description:
-      "Compare US LLC and UK LTD companies to determine which is best for international entrepreneurs.",
+      "Compare US LLC and UK LTD companies for taxes, banking, and global business.",
   },
   {
     title: "How to Get EIN Online",
     href: "/blog/how-to-get-ein-online",
     description:
-      "Discover how to apply for an EIN and why it is important for your US business.",
+      "Everything you need to know about obtaining an EIN for your business.",
   },
   {
     title: "Wise Business Review",
     href: "/blog/wise-business-review",
     description:
-      "An in-depth review of Wise Business, including features, fees, and global payment capabilities.",
+      "A complete review of Wise Business and its benefits for international founders.",
   },
   {
     title: "Best US Banks for Non-Residents",
     href: "/blog/best-us-banks-for-non-residents",
     description:
-      "Compare Mercury, Relay, Brex, Wise, Payoneer, and Bank of America for international entrepreneurs.",
+      "Explore popular US banking options for non-resident business owners.",
+  },
+  {
+    title: "Stripe Atlas Review",
+    href: "/blog/stripe-atlas-review",
+    description:
+      "Review Stripe Atlas and determine if it's the right option for your startup.",
+  },
+  {
+    title: "Mercury Bank Review",
+    href: "/blog/mercury-bank-review",
+    description:
+      "Learn about Mercury's features, eligibility, and business banking tools.",
+  },
+  {
+    title: "Payoneer vs Wise",
+    href: "/blog/payoneer-vs-wise",
+    description:
+      "Compare Payoneer and Wise for international payments and business operations.",
+  },
+  {
+    title: "Remote Business Banking Guide",
+    href: "/blog/remote-business-banking-guide",
+    description:
+      "Discover the best remote banking solutions for entrepreneurs worldwide.",
+  },
+  {
+    title: "Best Countries for Online Business",
+    href: "/blog/best-countries-for-online-business",
+    description:
+      "Compare the best countries for launching and scaling an online business.",
   },
 ];
+
+export const metadata = {
+  title: "Blog | Vanguard Business Services",
+  description:
+    "Explore guides, reviews, and business insights from Vanguard Business Services.",
+};
 
 export default function BlogPage() {
   return (
     <main className="min-h-screen bg-[#020817] text-white">
       <section className="mx-auto max-w-7xl px-6 py-20">
-        <div className="text-center">
-          <span className="rounded-full border border-blue-500 px-4 py-2 text-sm text-blue-400">
-            Vanguard Business Services
-          </span>
-
-          <h1 className="mt-6 text-5xl font-bold md:text-6xl">
-            Business & Banking Blog
-          </h1>
+        <div className="mb-16 text-center">
+          <h1 className="text-5xl font-bold">Vanguard Business Blog</h1>
 
           <p className="mx-auto mt-6 max-w-3xl text-lg text-gray-400">
-            Explore expert insights on US LLC formation, UK LTD registration,
-            Stripe, EIN registration, Wise Business, and international banking
-            solutions.
+            Expert guides on US LLCs, UK LTDs, business banking, Stripe,
+            Payoneer, Wise, and international entrepreneurship.
           </p>
         </div>
 
-        <div className="mt-16 grid gap-8 md:grid-cols-2">
+        <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
           {blogs.map((blog) => (
             <div
               key={blog.href}
-              className="rounded-3xl border border-slate-800 bg-slate-900 p-8 transition hover:border-blue-500"
+              className="rounded-3xl border border-slate-800 bg-slate-900/50 p-6 transition hover:border-blue-500"
             >
               <h2 className="text-2xl font-bold">{blog.title}</h2>
 
-              <p className="mt-4 leading-7 text-gray-400">
-                {blog.description}
-              </p>
+              <p className="mt-4 text-gray-400">{blog.description}</p>
 
               <Link
                 href={blog.href}
-                className="mt-6 inline-block rounded-xl bg-blue-600 px-5 py-3 font-semibold transition hover:bg-blue-500"
+                className="mt-6 inline-block rounded-xl bg-blue-600 px-5 py-3 font-semibold text-white transition hover:bg-blue-700"
               >
-                Read Article →
+                Read Article
               </Link>
             </div>
           ))}
         </div>
-
-        <section className="mt-20 rounded-3xl bg-gradient-to-r from-blue-600 to-indigo-600 p-10 text-center">
-          <h2 className="text-4xl font-bold">
-            Need Help Starting Your Business?
-          </h2>
-
-          <p className="mt-4 text-lg">
-            Vanguard Business Services helps entrepreneurs worldwide establish
-            US and UK companies, obtain EINs, and access international banking
-            solutions.
-          </p>
-
-          <Link
-            href="/contact"
-            className="mt-8 inline-block rounded-xl bg-white px-8 py-4 font-semibold text-black"
-          >
-            Contact Us
-          </Link>
-        </section>
       </section>
     </main>
   );
