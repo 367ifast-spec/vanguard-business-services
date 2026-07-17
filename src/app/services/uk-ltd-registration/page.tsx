@@ -14,13 +14,13 @@ export const metadata: Metadata = {
   ],
   alternates: {
     canonical:
-      "https://www.vanguardbusinessservices.com/services/uk-ltd-registration",
+      "https://www.vanguardbusinesservices.com/services/uk-ltd-registration",
   },
   openGraph: {
     title: "UK LTD Registration | Vanguard Business Services",
     description:
       "Professional UK LTD company registration and business formation services for entrepreneurs worldwide.",
-    url: "https://www.vanguardbusinessservices.com/services/uk-ltd-registration",
+    url: "https://www.vanguardbusinesservices.com/services/uk-ltd-registration",
     siteName: "Vanguard Business Services",
     type: "website",
     images: [
@@ -48,38 +48,38 @@ export default function UKLTDRegistrationPage() {
       {
         "@type": "BreadcrumbList",
         "@id":
-          "https://www.vanguardbusinessservices.com/services/uk-ltd-registration#breadcrumb",
+          "https://www.vanguardbusinesservices.com/services/uk-ltd-registration#breadcrumb",
         itemListElement: [
           {
             "@type": "ListItem",
             position: 1,
             name: "Home",
-            item: "https://www.vanguardbusinessservices.com",
+            item: "https://www.vanguardbusinesservices.com",
           },
           {
             "@type": "ListItem",
             position: 2,
             name: "Services",
-            item: "https://www.vanguardbusinessservices.com/#services",
+            item: "https://www.vanguardbusinesservices.com/#services",
           },
           {
             "@type": "ListItem",
             position: 3,
             name: "UK LTD Registration",
-            item: "https://www.vanguardbusinessservices.com/services/uk-ltd-registration",
+            item: "https://www.vanguardbusinesservices.com/services/uk-ltd-registration",
           },
         ],
       },
       {
         "@type": "Service",
         "@id":
-          "https://www.vanguardbusinessservices.com/services/uk-ltd-registration#service",
+          "https://www.vanguardbusinesservices.com/services/uk-ltd-registration#service",
         name: "UK LTD Registration",
         serviceType: "UK LTD Registration",
         provider: {
           "@type": "Organization",
           name: "Vanguard Business Services",
-          url: "https://www.vanguardbusinessservices.com",
+          url: "https://www.vanguardbusinesservices.com",
         },
         areaServed: {
           "@type": "Place",

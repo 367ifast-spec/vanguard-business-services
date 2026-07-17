@@ -14,13 +14,13 @@ export const metadata: Metadata = {
   ],
   alternates: {
     canonical:
-      "https://www.vanguardbusinessservices.com/services/ein-registration",
+      "https://www.vanguardbusinesservices.com/services/ein-registration",
   },
   openGraph: {
     title: "EIN Registration | Vanguard Business Services",
     description:
       "Professional EIN Registration support for entrepreneurs and businesses.",
-    url: "https://www.vanguardbusinessservices.com/services/ein-registration",
+    url: "https://www.vanguardbusinesservices.com/services/ein-registration",
     siteName: "Vanguard Business Services",
     type: "website",
     images: [
@@ -52,19 +52,19 @@ export default function EINRegistrationPage() {
             "@type": "ListItem",
             position: 1,
             name: "Home",
-            item: "https://www.vanguardbusinessservices.com",
+            item: "https://www.vanguardbusinesservices.com",
           },
           {
             "@type": "ListItem",
             position: 2,
             name: "Services",
-            item: "https://www.vanguardbusinessservices.com/#services",
+            item: "https://www.vanguardbusinesservices.com/#services",
           },
           {
             "@type": "ListItem",
             position: 3,
             name: "EIN Registration",
-            item: "https://www.vanguardbusinessservices.com/services/ein-registration",
+            item: "https://www.vanguardbusinesservices.com/services/ein-registration",
           },
         ],
       },
@@ -75,7 +75,7 @@ export default function EINRegistrationPage() {
         provider: {
           "@type": "Organization",
           name: "Vanguard Business Services",
-          url: "https://www.vanguardbusinessservices.com",
+          url: "https://www.vanguardbusinesservices.com",
         },
         areaServed: {
           "@type": "Place",

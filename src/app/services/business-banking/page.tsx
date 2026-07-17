@@ -14,13 +14,13 @@ export const metadata: Metadata = {
   ],
   alternates: {
     canonical:
-      "https://www.vanguardbusinessservices.com/services/business-banking",
+      "https://www.vanguardbusinesservices.com/services/business-banking",
   },
   openGraph: {
     title: "Business Banking | Vanguard Business Services",
     description:
       "Professional Business Banking guidance for startups, entrepreneurs, agencies, SaaS founders, and international businesses.",
-    url: "https://www.vanguardbusinessservices.com/services/business-banking",
+    url: "https://www.vanguardbusinesservices.com/services/business-banking",
     siteName: "Vanguard Business Services",
     type: "website",
     images: [
@@ -48,38 +48,38 @@ export default function BusinessBankingPage() {
       {
         "@type": "BreadcrumbList",
         "@id":
-          "https://www.vanguardbusinessservices.com/services/business-banking#breadcrumb",
+          "https://www.vanguardbusinesservices.com/services/business-banking#breadcrumb",
         itemListElement: [
           {
             "@type": "ListItem",
             position: 1,
             name: "Home",
-            item: "https://www.vanguardbusinessservices.com",
+            item: "https://www.vanguardbusinesservices.com",
           },
           {
             "@type": "ListItem",
             position: 2,
             name: "Services",
-            item: "https://www.vanguardbusinessservices.com/#services",
+            item: "https://www.vanguardbusinesservices.com/#services",
           },
           {
             "@type": "ListItem",
             position: 3,
             name: "Business Banking",
-            item: "https://www.vanguardbusinessservices.com/services/business-banking",
+            item: "https://www.vanguardbusinesservices.com/services/business-banking",
           },
         ],
       },
       {
         "@type": "Service",
         "@id":
-          "https://www.vanguardbusinessservices.com/services/business-banking#service",
+          "https://www.vanguardbusinesservices.com/services/business-banking#service",
         name: "Business Banking",
         serviceType: "Business Banking",
         provider: {
           "@type": "Organization",
           name: "Vanguard Business Services",
-          url: "https://www.vanguardbusinessservices.com",
+          url: "https://www.vanguardbusinesservices.com",
         },
         areaServed: {
           "@type": "Place",
