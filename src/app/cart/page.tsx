@@ -104,13 +104,13 @@ export default async function CartPage() {
   className="border-b border-slate-100"
 >
   {/* Service */}
- <td className="px-6 py-5 font-semibold text-slate-900">
-${
+<td className="px-6 py-5 font-semibold text-slate-900">
+{
   (
     Array.isArray(item.services)
       ? item.services[0]
-      : (item.services as { price?: number } | null)
-  )?.price ?? 0
+      : (item.services as { title?: string } | null)
+  )?.title ?? "Unknown Service"
 }
 </td>
 <td className="px-6 py-5 font-semibold text-slate-900">
