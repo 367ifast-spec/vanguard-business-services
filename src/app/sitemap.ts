@@ -77,6 +77,18 @@ export default function sitemap(): MetadataRoute.Sitemap {
   changeFrequency: "monthly",
   priority: 0.9,
 },
+{
+  url: `${baseUrl}/blog/mercury-bank-review`,
+  lastModified: now,
+  changeFrequency: "monthly",
+  priority: 0.9,
+},
+{
+  url: `${baseUrl}/blog/payoneer-vs-wise`,
+  lastModified: now,
+  changeFrequency: "monthly",
+  priority: 0.9,
+},
     // SERVICES
 
     {
