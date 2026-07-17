@@ -95,6 +95,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
   changeFrequency: "monthly",
   priority: 0.9,
 },
+{
+  url: `${baseUrl}/blog/best-countries-for-online-business`,
+  lastModified: now,
+  changeFrequency: "monthly",
+  priority: 0.9,
+},
     // SERVICES
 
     {
