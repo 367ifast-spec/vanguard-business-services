@@ -84,6 +84,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
   priority: 0.9,
 },
 {
+  url: `${baseUrl}/blog/relay-bank-vs-mercury`,
+  lastModified: now,
+  changeFrequency: "monthly",
+  priority: 0.8,
+},
+{
   url: `${baseUrl}/blog/payoneer-vs-wise`,
   lastModified: now,
   changeFrequency: "monthly",
