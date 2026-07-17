@@ -21,6 +21,20 @@ export default function sitemap(): MetadataRoute.Sitemap {
     },
 
     {
+      url: `${baseUrl}/contact`,
+      lastModified: now,
+      changeFrequency: "monthly",
+      priority: 0.8,
+    },
+
+    {
+      url: `${baseUrl}/blog/how-to-open-a-stripe-account-without-living-in-the-usa`,
+      lastModified: now,
+      changeFrequency: "monthly",
+      priority: 0.9,
+    },
+
+    {
       url: `${baseUrl}/services/us-llc-registration`,
       lastModified: now,
       changeFrequency: "monthly",
