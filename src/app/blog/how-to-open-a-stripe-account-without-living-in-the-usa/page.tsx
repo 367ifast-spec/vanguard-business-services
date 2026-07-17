@@ -3,8 +3,24 @@ import Link from "next/link";
 export const metadata = {
   title:
     "How to Open a Stripe Account Without Living in the USA | Vanguard Business Services",
+
   description:
     "Learn how foreigners can legally open a Stripe account using a US LLC, EIN, and business banking setup.",
+
+  alternates: {
+    canonical:
+      "https://www.vanguardbusinesservices.com/blog/how-to-open-a-stripe-account-without-living-in-the-usa",
+  },
+
+  openGraph: {
+    title:
+      "How to Open a Stripe Account Without Living in the USA",
+    description:
+      "Learn how foreigners can legally open a Stripe account using a US LLC, EIN, and business banking setup.",
+    url: "https://www.vanguardbusinesservices.com/blog/how-to-open-a-stripe-account-without-living-in-the-usa",
+    siteName: "Vanguard Business Services",
+    type: "article",
+  },
 };
 
 export default function StripeBlogPage() {
