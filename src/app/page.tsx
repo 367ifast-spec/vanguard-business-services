@@ -12,6 +12,7 @@ import CTA from "../../components/CTA";
 import Contact from "../../components/Contact";
 import Footer from "../../components/Footer";
 import BackToTop from "../../components/BackToTop";
+import LatestArticles from "@/components/LatestArticles";
 
 export default function Home() {
   return (
@@ -25,6 +26,9 @@ export default function Home() {
       <WhyChooseUs />
       <Testimonials />
       <FAQ />
+
+      <LatestArticles />
+
       <CTA />
       <Contact />
       <Footer />
