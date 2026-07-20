@@ -36,6 +36,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
   changeFrequency: "monthly",
   priority: 0.9,
 },
+{
+  url: `${baseUrl}/blog/best-business-banks-for-us-llc`,
+  lastModified: now,
+  changeFrequency: "monthly",
+  priority: 0.9,
+},
     // BLOGS
 {
   url: `${baseUrl}/blog`,
