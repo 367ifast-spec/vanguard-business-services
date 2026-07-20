@@ -44,10 +44,10 @@ export default function ContactPage() {
             </p>
 
             <a
-              href="mailto:vanguardbusinessservices37@gmail.com"
+              href="mailto:info@vanguardbusinesservices.com"
               className="mt-6 block text-blue-400 hover:text-blue-300"
             >
-              vanguardbusinessservices37@gmail.com
+              info@vanguardbusinesservices.com
             </a>
           </div>
 
