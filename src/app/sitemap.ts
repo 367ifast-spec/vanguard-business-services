@@ -207,5 +207,18 @@ export default function sitemap(): MetadataRoute.Sitemap {
   changeFrequency: "monthly",
   priority: 0.8,
 },
+{
+  url: `${baseUrl}/blog/novo-bank-review`,
+  lastModified: now,
+  changeFrequency: "monthly",
+  priority: 0.8,
+},
+
+{
+  url: `${baseUrl}/blog/stripe-atlas-vs-firstbase`,
+  lastModified: now,
+  changeFrequency: "monthly",
+  priority: 0.8,
+},
   ];
 }
