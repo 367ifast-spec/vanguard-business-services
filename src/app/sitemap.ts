@@ -58,6 +58,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
 
 // BLOGS
 {
+  url: `${baseUrl}/blog/best-states-for-us-llc-in-2026`,
+  lastModified: now,
+  changeFrequency: "monthly",
+  priority: 0.9,
+},
+{
   url: `${baseUrl}/blog/how-to-get-ein-for-foreign-owned-llc`,
   lastModified: now,
   changeFrequency: "monthly",
