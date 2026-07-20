@@ -3,8 +3,19 @@ import Link from "next/link";
 
 export const metadata: Metadata = {
   title: "Relay Bank vs Mercury (2026) | Vanguard Business Services",
+
   description:
     "Compare Relay Bank and Mercury in 2026. Learn about features, fees, eligibility requirements, and which platform may be a better fit for startups and US LLC owners.",
+
+  keywords: [
+    "Relay Bank vs Mercury",
+    "Relay Bank Review",
+    "Mercury Bank Review",
+    "US LLC Banking",
+    "Best Bank for LLC",
+    "Relay vs Mercury 2026",
+    "Business Banking for Non Residents",
+  ],
 };
 
 export default function RelayBankVsMercuryPage() {
