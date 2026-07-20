@@ -42,6 +42,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
   changeFrequency: "monthly",
   priority: 0.9,
 },
+{
+  url: `${baseUrl}/blog/how-to-get-ein-for-foreign-owned-llc`,
+  lastModified: now,
+  changeFrequency: "monthly",
+  priority: 0.9,
+},
     // BLOGS
 {
   url: `${baseUrl}/blog`,
@@ -49,8 +55,14 @@ export default function sitemap(): MetadataRoute.Sitemap {
   changeFrequency: "weekly",
   priority: 0.9,
 },
-// BLOGS
 
+// BLOGS
+{
+  url: `${baseUrl}/blog/how-to-get-ein-for-foreign-owned-llc`,
+  lastModified: now,
+  changeFrequency: "monthly",
+  priority: 0.9,
+},
 {
   url: `${baseUrl}/blog`,
   lastModified: now,
