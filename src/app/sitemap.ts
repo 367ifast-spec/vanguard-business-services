@@ -40,7 +40,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
 },
 {
   url: `${baseUrl}/blog/stripe-atlas-vs-firstbase`,
-  ...
+
 },
     {
       url: `${baseUrl}/blog/how-to-open-a-stripe-account-without-living-in-the-usa`,
