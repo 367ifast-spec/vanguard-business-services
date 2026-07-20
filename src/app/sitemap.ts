@@ -38,10 +38,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
   changeFrequency: "weekly",
   priority: 0.9,
 },
-{
-  url: `${baseUrl}/blog/stripe-atlas-vs-firstbase`,
-
-},
     {
       url: `${baseUrl}/blog/how-to-open-a-stripe-account-without-living-in-the-usa`,
       lastModified: now,
