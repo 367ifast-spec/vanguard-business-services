@@ -9,7 +9,13 @@ export const metadata = {
     canonical:
       "https://www.vanguardbusinesservices.com/blog/mercury-bank-review",
   },
-
+keywords: [
+  "Mercury Bank Review",
+  "Mercury Bank US LLC",
+  "Mercury Bank for Non Residents",
+  "Mercury Business Banking",
+  "Mercury vs Relay",
+],
   openGraph: {
     title: "Mercury Bank Review (2026)",
     description:
@@ -163,6 +169,19 @@ export default function MercuryBankReviewPage() {
           </section>
 
           <section>
+            <section>
+  <h2 className="mb-4 text-3xl font-bold">
+    Who Should Use Mercury?
+  </h2>
+
+  <ul className="list-disc space-y-2 pl-6 text-gray-300">
+    <li>US LLC Owners</li>
+    <li>Startups</li>
+    <li>SaaS Companies</li>
+    <li>Marketing Agencies</li>
+    <li>Tech Founders</li>
+  </ul>
+</section>
             <h2 className="mb-4 text-3xl font-bold">Final Verdict</h2>
 
             <p className="leading-8 text-gray-300">
@@ -183,7 +202,7 @@ export default function MercuryBankReviewPage() {
             </p>
 
             <div className="mt-6 space-y-2">
-              <p>Email: vanguardbusinessservices37@gmail.com</p>
+              <p>Email: info@vanguardbusinesservices.com</p>
               <p>WhatsApp: +1 (917) 735-9503</p>
               <p>Telegram: @vanguardbusinessservices</p>
             </div>
