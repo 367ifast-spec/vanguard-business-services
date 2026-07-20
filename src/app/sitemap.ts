@@ -58,6 +58,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
 
 // BLOGS
 {
+  url: `${baseUrl}/blog/payoneer-review`,
+  lastModified: now,
+  changeFrequency: "monthly",
+  priority: 0.9,
+},
+{
   url: `${baseUrl}/blog/stripe-atlas-vs-doola`,
   lastModified: now,
   changeFrequency: "monthly",
