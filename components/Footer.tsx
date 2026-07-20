@@ -160,7 +160,7 @@ export default function Footer() {
             </h3>
 
             <ul className="mt-5 space-y-3 text-gray-400">
-              <li>📧 vanguardbusinessservices37@gmail.com</li>
+              <li>📧 info@vanguardbusinesservices.com</li>
               <li>💬 @vanguardbusinessservices</li>
               <li>📱 +1 917 735 9503</li>
               <li>🎮 vanguardbusinessservices</li>
