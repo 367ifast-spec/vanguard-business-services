@@ -13,7 +13,9 @@ export default function RelayBankVsMercuryPage() {
       <h1 className="text-4xl font-bold mb-6">
         Relay Bank vs Mercury (2026)
       </h1>
-
+<p className="text-sm text-gray-500 mb-6">
+  Last Updated: July 2026
+</p>
       <p className="text-lg text-gray-600 mb-8">
         Relay and Mercury are two of the most popular business banking
         platforms used by startups, agencies, ecommerce brands, and US LLC
