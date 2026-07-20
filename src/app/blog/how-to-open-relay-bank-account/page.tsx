@@ -3,8 +3,18 @@ import { Metadata } from "next";
 export const metadata: Metadata = {
   title:
     "How to Open a Relay Bank Account (2026) | Vanguard Business Services",
+
   description:
     "Learn how to open a Relay Bank account in 2026. Discover the requirements, documents, eligibility, and steps for business owners and US LLCs.",
+
+  keywords: [
+    "How to Open Relay Bank Account",
+    "Relay Bank Account",
+    "Relay Bank for Non Residents",
+    "Relay Bank US LLC",
+    "Relay Bank Requirements",
+    "Open Relay Account Online",
+  ],
 };
 
 export default function HowToOpenRelayBankAccountPage() {
@@ -140,6 +150,9 @@ export default function HowToOpenRelayBankAccountPage() {
           <li>Payment Gateway Setup</li>
           <li>International Business Support</li>
         </ul>
+        <p className="mt-4 font-medium">
+  Email: info@vanguardbusinesservices.com
+</p>
       </div>
 
       <div className="mt-10 text-sm text-gray-500">
