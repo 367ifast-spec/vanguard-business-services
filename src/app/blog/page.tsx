@@ -147,7 +147,7 @@ export default function BlogPage() {
 
           <Link
             href="/blog/how-to-open-a-us-bank-account-without-visiting-the-usa"
-            className="mt-6 inline-block rounded-xl bg-white px-6 py-3 font-semibold text-black"
+            className="mt-6 inline-flex items-center rounded-xl bg-white px-6 py-3 font-semibold !text-slate-900 shadow-lg hover:scale-105 transition"
           >
             Read Featured Article
           </Link>
