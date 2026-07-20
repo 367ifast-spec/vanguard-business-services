@@ -138,7 +138,17 @@ export default function RelayBankVsMercuryPage() {
         <li>Approval is not guaranteed.</li>
         <li>Requirements may change over time.</li>
       </ul>
+<h2 className="text-2xl font-bold mt-10 mb-4">
+  Who Should Choose Relay?
+</h2>
 
+<ul className="list-disc pl-6 space-y-2 mb-6">
+  <li>US LLC Owners</li>
+  <li>Freelancers</li>
+  <li>Marketing Agencies</li>
+  <li>Ecommerce Businesses</li>
+  <li>Businesses that need multiple checking accounts</li>
+</ul>
       <h2 className="text-2xl font-bold mt-10 mb-4">
         Which Is Better for LLC Owners?
       </h2>
