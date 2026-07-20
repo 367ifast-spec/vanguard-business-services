@@ -141,7 +141,17 @@ export default function RelayBankVsMercuryPage() {
 <h2 className="text-2xl font-bold mt-10 mb-4">
   Who Should Choose Relay?
 </h2>
+<h2 className="text-2xl font-bold mt-10 mb-4">
+  Who Should Choose Mercury?
+</h2>
 
+<ul className="list-disc pl-6 space-y-2 mb-6">
+  <li>Startups</li>
+  <li>SaaS Companies</li>
+  <li>Tech Founders</li>
+  <li>VC-backed Companies</li>
+  <li>Fast-growing Businesses</li>
+</ul>
 <ul className="list-disc pl-6 space-y-2 mb-6">
   <li>US LLC Owners</li>
   <li>Freelancers</li>
