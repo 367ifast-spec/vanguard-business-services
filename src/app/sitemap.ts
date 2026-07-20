@@ -38,6 +38,29 @@ export default function sitemap(): MetadataRoute.Sitemap {
   changeFrequency: "weekly",
   priority: 0.9,
 },
+// BLOGS
+
+{
+  url: `${baseUrl}/blog`,
+  lastModified: now,
+  changeFrequency: "weekly",
+  priority: 0.9,
+},
+
+// এখানে নতুন ব্লগ যোগ করবে
+{
+  url: `${baseUrl}/blog/how-to-open-a-us-bank-account-with-an-llc`,
+  lastModified: now,
+  changeFrequency: "monthly",
+  priority: 0.9,
+},
+
+{
+  url: `${baseUrl}/blog/how-to-open-a-stripe-account-without-living-in-the-usa`,
+  lastModified: now,
+  changeFrequency: "monthly",
+  priority: 0.9,
+},
     {
       url: `${baseUrl}/blog/how-to-open-a-stripe-account-without-living-in-the-usa`,
       lastModified: now,
