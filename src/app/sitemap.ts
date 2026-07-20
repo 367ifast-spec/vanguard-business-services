@@ -30,7 +30,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changeFrequency: "monthly",
       priority: 0.8,
     },
-
+{
+  url: `${baseUrl}/blog/how-to-open-a-us-bank-account-without-visiting-the-usa`,
+  lastModified: now,
+  changeFrequency: "monthly",
+  priority: 0.9,
+},
     // BLOGS
 {
   url: `${baseUrl}/blog`,
