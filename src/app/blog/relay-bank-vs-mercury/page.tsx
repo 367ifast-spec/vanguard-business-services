@@ -255,6 +255,9 @@ export default function RelayBankVsMercuryPage() {
           <li>Payment Gateway Setup</li>
           <li>International Business Support</li>
         </ul>
+        <p className="mt-4 font-medium">
+  Email: info@vanguardbusinesservices.com
+</p>
       </div>
 
       <div className="mt-10 text-sm text-gray-500">
