@@ -4,7 +4,14 @@ export const metadata: Metadata = {
   title: "Wise Business Review (2026) | Vanguard Business Services",
   description:
     "Read our 2026 Wise Business review. Learn about Wise Business features, fees, supported countries, pros and cons, and whether it's the right choice for freelancers and entrepreneurs.",
-  alternates: {
+  keywords: [
+  "Wise Business Review",
+  "Wise Business Account",
+  "Wise for Non Residents",
+  "Wise vs Payoneer",
+  "Wise US LLC",
+],
+    alternates: {
     canonical:
       "https://www.vanguardbusinesservices.com/blog/wise-business-review",
   },
@@ -179,7 +186,19 @@ export default function WiseBusinessReviewPage() {
             with international clients and need access to multiple currencies.
           </p>
         </section>
+<section className="mb-10">
+  <h2 className="mb-4 text-3xl font-semibold">
+    Who Should Use Wise?
+  </h2>
 
+  <ul className="list-disc space-y-2 pl-6 text-gray-300">
+    <li>Freelancers</li>
+    <li>US LLC Owners</li>
+    <li>Marketing Agencies</li>
+    <li>Ecommerce Businesses</li>
+    <li>Remote Teams</li>
+  </ul>
+</section>
         {/* FAQ */}
 
         <section className="mb-10">
@@ -249,7 +268,7 @@ export default function WiseBusinessReviewPage() {
           </p>
 
           <div className="space-y-2">
-            <p>Email: vanguardbusinessservices37@gmail.com</p>
+            <p>Email: info@vanguardbusinesservices.com</p>
             <p>WhatsApp: +1 (917) 735-9503</p>
             <p>Telegram: @vanguardbusinessservices</p>
           </div>
