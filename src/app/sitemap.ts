@@ -58,6 +58,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
 
 // BLOGS
 {
+  url: `${baseUrl}/blog/wise-business-vs-payoneer`,
+  lastModified: now,
+  changeFrequency: "monthly",
+  priority: 0.9,
+},
+{
   url: `${baseUrl}/blog/relay-bank-vs-wise`,
   lastModified: now,
   changeFrequency: "monthly",
