@@ -49,12 +49,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
   priority: 0.9,
 },
     // BLOGS
-{
-  url: `${baseUrl}/blog`,
-  lastModified: now,
-  changeFrequency: "weekly",
-  priority: 0.9,
-},
+
 
 // BLOGS
 {
@@ -94,12 +89,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
   priority: 0.9,
 },
 {
-  url: `${baseUrl}/blog/how-to-get-ein-for-foreign-owned-llc`,
-  lastModified: now,
-  changeFrequency: "monthly",
-  priority: 0.9,
-},
-{
   url: `${baseUrl}/blog`,
   lastModified: now,
   changeFrequency: "weekly",
@@ -114,12 +103,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
   priority: 0.9,
 },
 
-{
-  url: `${baseUrl}/blog/how-to-open-a-stripe-account-without-living-in-the-usa`,
-  lastModified: now,
-  changeFrequency: "monthly",
-  priority: 0.9,
-},
+
     {
       url: `${baseUrl}/blog/how-to-open-a-stripe-account-without-living-in-the-usa`,
       lastModified: now,
@@ -244,12 +228,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
 
     // LEGAL PAGES
 
-    {
-      url: `${baseUrl}/privacy-policy`,
-      lastModified: now,
-      changeFrequency: "yearly",
-      priority: 0.5,
-    },
+   {
+  url: `${baseUrl}/privacy`,
+  lastModified: now,
+  changeFrequency: "yearly",
+  priority: 0.5,
+},
 
     {
       url: `${baseUrl}/terms`,
@@ -271,6 +255,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changeFrequency: "yearly",
       priority: 0.5,
     },
+    {
+  url: `${baseUrl}/disclaimer`,
+  lastModified: now,
+  changeFrequency: "yearly",
+  priority: 0.5,
+},
     {
   url: `${baseUrl}/blog/relay-bank-review`,
   lastModified: now,

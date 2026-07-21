@@ -112,9 +112,9 @@ export default function TermsPage() {
               Contact Us
             </h2>
             <p className="mt-4">
-              If you have any questions regarding these Terms & Conditions,
-              please contact us through our website.
-            </p>
+  If you have any questions regarding these Terms & Conditions,
+  please contact us at support@vanguardbusinesservices.com.
+</p>
           </section>
         </div>
 

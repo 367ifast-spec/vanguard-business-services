@@ -87,11 +87,22 @@ export default function RefundPolicyPage() {
           <section>
             <h2 className="text-2xl font-bold text-white">
               Contact Us
+              <section>
+  <h2 className="text-2xl font-bold text-white">
+    Chargebacks & Fraud Prevention
+  </h2>
+
+  <p className="mt-4">
+    Vanguard Business Services reserves the right to dispute
+    chargebacks and suspend accounts involved in fraudulent
+    payment activity or abuse of our services.
+  </p>
+</section>
             </h2>
             <p className="mt-4">
-              If you have any questions regarding this Refund Policy, please
-              contact us through our website.
-            </p>
+  If you have any questions regarding this Refund Policy, please
+  contact us at support@vanguardbusinesservices.com.
+</p>
           </section>
         </div>
 

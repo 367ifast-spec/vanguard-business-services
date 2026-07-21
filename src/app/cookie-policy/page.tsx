@@ -98,9 +98,9 @@ export default function CookiePolicyPage() {
             </h2>
 
             <p className="mt-4">
-              If you have any questions regarding this Cookie Policy, please
-              contact Vanguard Business Services through our website.
-            </p>
+  If you have any questions regarding this Cookie Policy, please
+  contact us at support@vanguardbusinesservices.com.
+</p>
           </section>
 
         </div>

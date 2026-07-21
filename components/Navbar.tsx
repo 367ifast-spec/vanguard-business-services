@@ -1,6 +1,7 @@
 "use client";
 import CartBadge from "./CartBadge";
 import Link from "next/link";
+import NotificationBell from "@/components/NotificationBell";
 import { useEffect, useState } from "react";
 import { Menu, X, ArrowRight, ShoppingCart } from "lucide-react";
 import Logo from "./Logo";
