@@ -12,7 +12,7 @@ export async function createMessage({
   message: string;
 }) {
   const { data, error } = await supabase
-    .from("messages")
+    .from("marketplace_messages")
     .insert({
       sender_id,
       receiver_id,
@@ -23,6 +23,7 @@ export async function createMessage({
     .single();
 
   if (error) {
+    console.error("CREATE MESSAGE ERROR:", error);
     throw error;
   }
 
@@ -33,7 +34,7 @@ export async function getMessagesByListing(
   listing_id: string
 ) {
   const { data, error } = await supabase
-    .from("messages")
+    .from("marketplace_messages")
     .select("*")
     .eq("listing_id", listing_id)
     .order("created_at", {
@@ -41,6 +42,38 @@ export async function getMessagesByListing(
     });
 
   if (error) {
+    console.error("GET MESSAGES ERROR:", error);
+    throw error;
+  }
+
+  return data;
+}
+
+export async function getMessages() {
+  const { data, error } = await supabase
+    .from("marketplace_messages")
+    .select("*")
+    .order("created_at", {
+      ascending: false,
+    });
+
+  if (error) {
+    console.error("GET ALL MESSAGES ERROR:", error);
+    throw error;
+  }
+
+  return data;
+}
+
+export async function getMessageById(id: string) {
+  const { data, error } = await supabase
+    .from("marketplace_messages")
+    .select("*")
+    .eq("id", id)
+    .single();
+
+  if (error) {
+    console.error("GET MESSAGE BY ID ERROR:", error);
     throw error;
   }
 
