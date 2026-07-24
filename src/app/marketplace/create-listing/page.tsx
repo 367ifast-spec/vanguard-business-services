@@ -25,7 +25,9 @@ export default function CreateListingPage() {
   const [description, setDescription] = useState("");
   const [imageUrl, setImageUrl] = useState("");
   const [category, setCategory] = useState(categories[0]);
-
+const [packageName, setPackageName] = useState("FREE");
+const [remainingListings, setRemainingListings] =
+  useState<number | null>(null);
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
 
@@ -60,7 +62,7 @@ const { data: subscription } = await supabase
   .eq("status", "active")
   .maybeSingle();
 
-const packageName =
+const currentPackageName =
   (
     subscription as {
       seller_packages?: {
@@ -68,6 +70,8 @@ const packageName =
       };
     }
   )?.seller_packages?.name ?? "FREE";
+
+setPackageName(currentPackageName);
 
 // Count current listings
 const { count } = await supabase
@@ -79,15 +83,33 @@ const { count } = await supabase
   .eq("seller_id", user.id);
 
 const currentListings = count ?? 0;
+const limits: Record<string, number> = {
+  FREE: 15,
+  VERIFIED: 50,
+  BRONZE: 100,
+  SILVER: 250,
+  GOLD: 500,
+  PLATINUM: 1000,
+  DIAMOND: Number.MAX_SAFE_INTEGER,
+};
 
+const remaining =
+  limits[currentPackageName.toUpperCase()] -
+  currentListings;
+
+setRemainingListings(
+  remaining === Number.MAX_SAFE_INTEGER
+    ? null
+    : remaining
+);
 if (
   !canCreateListing(
-    packageName,
+    currentPackageName,
     currentListings
   )
 ) {
   alert(
-    `You have reached the ${packageName} package limit. Please upgrade your package.`
+    `You have reached the ${currentPackageName} package limit. Please upgrade your package.`
   );
 
   setLoading(false);
@@ -148,7 +170,17 @@ if (
           <p className="mt-4 text-gray-400">
             List your digital asset on Vanguard Marketplace.
           </p>
+<div className="mb-6 rounded-2xl border border-green-500/20 bg-green-500/10 p-5">
+  <p className="font-semibold">
+    Package: {packageName}
+  </p>
 
+  <p className="text-sm text-gray-300">
+    {remainingListings === null
+      ? "Unlimited Listings"
+      : `${remainingListings} Listings Remaining`}
+  </p>
+</div>
           <form
             onSubmit={handleSubmit}
             className="mt-10 space-y-6"
