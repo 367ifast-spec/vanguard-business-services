@@ -17,7 +17,9 @@ export default async function EscrowPage() {
   const disputed = transactions.filter(
     (t: any) => t.status === "disputed"
   ).length;
-
+const completed = transactions.filter(
+  (t: any) => t.status === "completed"
+).length;
   return (
     <main className="min-h-screen bg-[#0B1020] text-white">
       <div className="mx-auto max-w-7xl px-6 py-16">
@@ -37,8 +39,8 @@ export default async function EscrowPage() {
             </h2>
 
             <p className="text-gray-400">
-              Active Deals
-            </p>
+  Completed
+</p>
           </div>
 
           <div className="rounded-2xl bg-white/5 p-6">
@@ -63,7 +65,7 @@ export default async function EscrowPage() {
 
           <div className="rounded-2xl bg-white/5 p-6">
             <h2 className="text-3xl font-bold">
-              {disputed}
+            {completed}
             </h2>
 
             <p className="text-gray-400">
@@ -77,7 +79,7 @@ export default async function EscrowPage() {
           {transactions.length === 0 ? (
             <div className="rounded-2xl border border-white/10 bg-[#111827] p-8">
               <p className="text-gray-400">
-                No escrow transactions found.
+                No escrow transactions found yet. Once buyers fund deals, they will appear here.
               </p>
             </div>
           ) : (
@@ -110,6 +112,9 @@ export default async function EscrowPage() {
                     <span className="mt-2 inline-block rounded-full bg-indigo-500/20 px-4 py-2 text-sm text-indigo-300">
                       {transaction.status}
                     </span>
+                    <p className="mt-2 text-sm text-gray-500">
+  Escrow Fee: 15% (7.5% Buyer + 7.5% Seller)
+</p>
                   </div>
                 </div>
               </Link>
