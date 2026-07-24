@@ -1,19 +1,21 @@
 import Link from "next/link";
 import LogoutButton from "@/components/LogoutButton";
+
 export default function DashboardPage() {
   return (
     <main className="min-h-screen bg-[#0B1020] text-white">
       <div className="mx-auto max-w-7xl px-6 py-16">
-        <h1 className="text-5xl font-bold">
-          Dashboard
-        </h1>
-<div className="mt-6">
-  <LogoutButton />
-</div>
+        <h1 className="text-5xl font-bold">Dashboard</h1>
+
+        <div className="mt-6">
+          <LogoutButton />
+        </div>
+
         <p className="mt-4 text-gray-400">
           Welcome to your Vanguard Marketplace account.
         </p>
 
+        {/* Stats */}
         <div className="mt-10 grid gap-6 md:grid-cols-4">
           <div className="rounded-2xl bg-[#111827] p-6">
             <h2 className="text-3xl font-bold">12</h2>
@@ -36,17 +38,57 @@ export default function DashboardPage() {
           </div>
         </div>
 
+        {/* Navigation Cards */}
         <div className="mt-12 grid gap-6 md:grid-cols-2">
           <Link
-            href="/seller/dashboard"
+            href="/seller/listings"
             className="rounded-2xl bg-[#111827] p-8 transition hover:border hover:border-indigo-500"
           >
             <h3 className="text-2xl font-semibold">
-              Seller Dashboard
+              My Listings
             </h3>
 
             <p className="mt-2 text-gray-400">
               Manage your marketplace listings.
+            </p>
+          </Link>
+
+          <Link
+            href="/marketplace/create-listing"
+            className="rounded-2xl bg-[#111827] p-8 transition hover:border hover:border-indigo-500"
+          >
+            <h3 className="text-2xl font-semibold">
+              Create Listing
+            </h3>
+
+            <p className="mt-2 text-gray-400">
+              Publish a new marketplace listing.
+            </p>
+          </Link>
+
+          <Link
+            href="/seller/kyc"
+            className="rounded-2xl bg-[#111827] p-8 transition hover:border hover:border-indigo-500"
+          >
+            <h3 className="text-2xl font-semibold">
+              KYC Verification
+            </h3>
+
+            <p className="mt-2 text-gray-400">
+              Complete or review your KYC status.
+            </p>
+          </Link>
+
+          <Link
+            href="/seller/packages"
+            className="rounded-2xl bg-[#111827] p-8 transition hover:border hover:border-indigo-500"
+          >
+            <h3 className="text-2xl font-semibold">
+              Seller Packages
+            </h3>
+
+            <p className="mt-2 text-gray-400">
+              Upgrade your seller account.
             </p>
           </Link>
 
@@ -86,6 +128,19 @@ export default function DashboardPage() {
 
             <p className="mt-2 text-gray-400">
               Review and manage disputes.
+            </p>
+          </Link>
+
+          <Link
+            href="/seller/profile"
+            className="rounded-2xl bg-[#111827] p-8 transition hover:border hover:border-indigo-500"
+          >
+            <h3 className="text-2xl font-semibold">
+              Profile
+            </h3>
+
+            <p className="mt-2 text-gray-400">
+              Manage your seller profile.
             </p>
           </Link>
         </div>
