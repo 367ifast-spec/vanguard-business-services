@@ -1,6 +1,7 @@
-import MessageComposer from "@/components/MessageComposer";
+import Link from "next/link";
 import { notFound } from "next/navigation";
 
+import MessageComposer from "@/components/MessageComposer";
 import { supabase } from "@/lib/supabase";
 
 type Props = {
@@ -14,13 +15,14 @@ export default async function MessagePage({
 }: Props) {
   const { id } = await params;
 
-  const { data: conversation } = await supabase
-    .from("marketplace_conversations")
-    .select("*")
-    .eq("id", id)
-    .single();
+  const { data: conversation, error } =
+    await supabase
+      .from("marketplace_conversations")
+      .select("*")
+      .eq("id", id)
+      .single();
 
-  if (!conversation) {
+  if (error || !conversation) {
     notFound();
   }
 
@@ -35,6 +37,13 @@ export default async function MessagePage({
   return (
     <main className="min-h-screen bg-[#0B1020] text-white">
       <div className="mx-auto max-w-4xl px-6 py-10">
+        <Link
+          href="/messages"
+          className="mb-6 inline-block text-indigo-400"
+        >
+          ← Back to Messages
+        </Link>
+
         <div className="rounded-3xl border border-white/10 bg-[#111827]">
           <div className="border-b border-white/10 p-6">
             <h1 className="text-3xl font-bold">
@@ -42,13 +51,21 @@ export default async function MessagePage({
             </h1>
 
             <p className="mt-2 text-sm text-gray-400">
-              ID: {conversation.id}
+              Conversation ID: {conversation.id}
+            </p>
+
+            <p className="text-sm text-gray-400">
+              Buyer: {conversation.buyer_id}
+            </p>
+
+            <p className="text-sm text-gray-400">
+              Seller: {conversation.seller_id}
             </p>
           </div>
 
           <div className="space-y-4 p-6">
-            {messages?.length ? (
-              messages.map((message) => (
+            {messages && messages.length > 0 ? (
+              messages.map((message: any) => (
                 <div
                   key={message.id}
                   className="rounded-2xl bg-[#1F2937] p-4"
