@@ -15,26 +15,37 @@ export default function DashboardPage() {
           Welcome to your Vanguard Marketplace account.
         </p>
 
+        {/* Seller Package */}
+        <div className="mt-6 rounded-2xl border border-indigo-500/20 bg-indigo-500/10 p-5">
+          <h2 className="text-xl font-semibold">
+            Seller Package: FREE
+          </h2>
+
+          <p className="mt-2 text-gray-300">
+            Remaining Listings: 15
+          </p>
+        </div>
+
         {/* Stats */}
         <div className="mt-10 grid gap-6 md:grid-cols-4">
           <div className="rounded-2xl bg-[#111827] p-6">
             <h2 className="text-3xl font-bold">12</h2>
-            <p className="text-gray-400">Listings</p>
+            <p className="text-gray-400">Total Listings</p>
+          </div>
+
+          <div className="rounded-2xl bg-[#111827] p-6">
+            <h2 className="text-3xl font-bold">4</h2>
+            <p className="text-gray-400">Approved Listings</p>
           </div>
 
           <div className="rounded-2xl bg-[#111827] p-6">
             <h2 className="text-3xl font-bold">8</h2>
-            <p className="text-gray-400">Messages</p>
+            <p className="text-gray-400">Pending Listings</p>
           </div>
 
           <div className="rounded-2xl bg-[#111827] p-6">
-            <h2 className="text-3xl font-bold">2</h2>
-            <p className="text-gray-400">Escrows</p>
-          </div>
-
-          <div className="rounded-2xl bg-[#111827] p-6">
-            <h2 className="text-3xl font-bold">1</h2>
-            <p className="text-gray-400">Disputes</p>
+            <h2 className="text-3xl font-bold">$0</h2>
+            <p className="text-gray-400">Total Sales</p>
           </div>
         </div>
 
