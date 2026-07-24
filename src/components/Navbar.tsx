@@ -9,7 +9,7 @@ export default function Navbar() {
       <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-4">
         {/* Logo */}
         <Link
-          href="/"
+          href="/marketplace"
           className="text-2xl font-bold text-indigo-400"
         >
           Vanguard Marketplace
@@ -17,6 +17,13 @@ export default function Navbar() {
 
         {/* Navigation */}
         <div className="flex items-center gap-6">
+          <Link
+            href="/"
+            className="transition hover:text-indigo-400"
+          >
+            Business Services
+          </Link>
+
           <Link
             href="/marketplace"
             className="transition hover:text-indigo-400"
@@ -31,7 +38,6 @@ export default function Navbar() {
             Messages
           </Link>
 
-          {/* Production Ready Notification Bell */}
           <NotificationBell />
 
           <Link
