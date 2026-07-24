@@ -9,6 +9,8 @@ export async function POST(request: Request) {
     const {
       conversation_id,
       sender_id,
+      receiver_id,
+      listing_id,
       message,
     } = body;
 
@@ -33,6 +35,8 @@ export async function POST(request: Request) {
       .insert({
         conversation_id,
         sender_id,
+        receiver_id: receiver_id ?? null,
+        listing_id: listing_id ?? null,
         message,
       })
       .select()
@@ -44,14 +48,20 @@ export async function POST(request: Request) {
 
     return NextResponse.json({
       success: true,
-      message: data,
+      data,
     });
   } catch (error) {
-    console.error("Send message error:", error);
+    console.error(
+      "SEND MESSAGE API ERROR:",
+      error
+    );
 
     return NextResponse.json(
       {
-        error: "Failed to send message.",
+        error:
+          error instanceof Error
+            ? error.message
+            : "Failed to send message.",
       },
       {
         status: 500,
