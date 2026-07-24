@@ -1,10 +1,11 @@
 "use client";
-
+import { canCreateListing } from "@/lib/seller-packages";
 import Link from "next/link";
 import { useState } from "react";
 
 import MarketplaceImageUpload from "@/components/MarketplaceImageUpload";
 import { createMarketplaceListing } from "@/lib/marketplace";
+import { supabase } from "@/lib/supabase";
 
 const categories = [
   "Websites",
@@ -23,21 +24,88 @@ export default function CreateListingPage() {
   const [price, setPrice] = useState("");
   const [description, setDescription] = useState("");
   const [imageUrl, setImageUrl] = useState("");
+  const [category, setCategory] = useState(categories[0]);
 
-  async function handleSubmit(
-    e: React.FormEvent
-  ) {
+  async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
 
     try {
       setLoading(true);
 
+    const sessionResult = await supabase.auth.getSession();
+
+console.log("SESSION RESULT:", sessionResult);
+
+const {
+  data: { user },
+} = await supabase.auth.getUser();
+
+console.log("USER RESULT:", user);
+
+if (!user) {
+  alert("Please login first.");
+  setLoading(false);
+  return;
+}
+const { data: subscription } = await supabase
+  .from("seller_subscriptions")
+  .select(
+    `
+      seller_packages (
+        name
+      )
+    `
+  )
+  .eq("user_id", user.id)
+  .eq("status", "active")
+  .maybeSingle();
+
+const packageName =
+  (
+    subscription as {
+      seller_packages?: {
+        name?: string;
+      };
+    }
+  )?.seller_packages?.name ?? "FREE";
+
+// Count current listings
+const { count } = await supabase
+  .from("marketplace_listings")
+  .select("*", {
+    count: "exact",
+    head: true,
+  })
+  .eq("seller_id", user.id);
+
+const currentListings = count ?? 0;
+
+if (
+  !canCreateListing(
+    packageName,
+    currentListings
+  )
+) {
+  alert(
+    `You have reached the ${packageName} package limit. Please upgrade your package.`
+  );
+
+  setLoading(false);
+  return;
+}
+      console.log("USER:", user);
+
+      const slug = `${title
+        .trim()
+        .toLowerCase()
+        .replaceAll(" ", "-")}-${Date.now()}`;
+
       await createMarketplaceListing({
+        seller_id: user.id,
         title,
-        slug: `${title
-          .toLowerCase()
-          .replaceAll(" ", "-")}-${Date.now()}`,
+        slug,
         description,
+        category,
         price: Number(price),
         image_url: imageUrl,
       });
@@ -50,12 +118,11 @@ export default function CreateListingPage() {
       setPrice("");
       setDescription("");
       setImageUrl("");
-    } catch (error) {
-      console.error(error);
+      setCategory(categories[0]);
+    } catch (error: any) {
+      console.error("CREATE LISTING ERROR:", error);
 
-      alert(
-        "Something went wrong while creating the listing."
-      );
+      alert(JSON.stringify(error, null, 2));
     } finally {
       setLoading(false);
     }
@@ -94,9 +161,7 @@ export default function CreateListingPage() {
               <input
                 type="text"
                 value={title}
-                onChange={(e) =>
-                  setTitle(e.target.value)
-                }
+                onChange={(e) => setTitle(e.target.value)}
                 placeholder="AI SaaS Startup"
                 className="w-full rounded-xl bg-[#0B1020] p-4 outline-none"
                 required
@@ -108,7 +173,11 @@ export default function CreateListingPage() {
                 Category
               </label>
 
-              <select className="w-full rounded-xl bg-[#0B1020] p-4 outline-none">
+              <select
+                value={category}
+                onChange={(e) => setCategory(e.target.value)}
+                className="w-full rounded-xl bg-[#0B1020] p-4 outline-none"
+              >
                 {categories.map((category) => (
                   <option
                     key={category}
@@ -129,9 +198,7 @@ export default function CreateListingPage() {
               <input
                 type="number"
                 value={price}
-                onChange={(e) =>
-                  setPrice(e.target.value)
-                }
+                onChange={(e) => setPrice(e.target.value)}
                 placeholder="8900"
                 className="w-full rounded-xl bg-[#0B1020] p-4 outline-none"
                 required
@@ -182,9 +249,7 @@ export default function CreateListingPage() {
               <textarea
                 rows={8}
                 value={description}
-                onChange={(e) =>
-                  setDescription(e.target.value)
-                }
+                onChange={(e) => setDescription(e.target.value)}
                 placeholder="Describe your digital asset..."
                 className="w-full rounded-xl bg-[#0B1020] p-4 outline-none"
                 required
@@ -197,16 +262,15 @@ export default function CreateListingPage() {
 
             <div className="rounded-2xl border border-indigo-500/20 bg-indigo-500/10 p-5">
               <p className="text-sm text-indigo-200">
-                All listings are reviewed by our team
-                before they are published on Vanguard
-                Marketplace.
+                All listings are reviewed by our team before they
+                are published on Vanguard Marketplace.
               </p>
             </div>
 
             <button
               type="submit"
               disabled={loading}
-              className="w-full rounded-xl bg-indigo-600 py-4 font-semibold transition hover:bg-indigo-700"
+              className="w-full rounded-xl bg-indigo-600 py-4 font-semibold transition hover:bg-indigo-700 disabled:opacity-50"
             >
               {loading
                 ? "Submitting..."

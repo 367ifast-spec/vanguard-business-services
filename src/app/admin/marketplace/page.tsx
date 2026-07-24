@@ -1,9 +1,18 @@
 import Link from "next/link";
-import { getPendingMarketplaceListings } from "@/lib/marketplace";
+
+import {
+  getPendingMarketplaceListings,
+  getApprovedMarketplaceListings,
+} from "@/lib/marketplace";
+
+import MarketplaceActions from "@/components/admin/MarketplaceActions";
 
 export default async function AdminMarketplacePage() {
   const pendingListings =
     (await getPendingMarketplaceListings()) || [];
+
+  const approvedListings =
+    (await getApprovedMarketplaceListings()) || [];
 
   return (
     <div className="space-y-8 p-6">
@@ -24,22 +33,40 @@ export default async function AdminMarketplacePage() {
           <h2 className="text-3xl font-bold">
             {pendingListings.length}
           </h2>
-          <p className="text-gray-500">Pending</p>
+
+          <p className="text-gray-500">
+            Pending
+          </p>
         </div>
 
         <div className="rounded-2xl border p-6">
-          <h2 className="text-3xl font-bold">0</h2>
-          <p className="text-gray-500">Approved</p>
+          <h2 className="text-3xl font-bold">
+            {approvedListings.length}
+          </h2>
+
+          <p className="text-gray-500">
+            Approved
+          </p>
         </div>
 
         <div className="rounded-2xl border p-6">
-          <h2 className="text-3xl font-bold">0</h2>
-          <p className="text-gray-500">Rejected</p>
+          <h2 className="text-3xl font-bold">
+            0
+          </h2>
+
+          <p className="text-gray-500">
+            Rejected
+          </p>
         </div>
 
         <div className="rounded-2xl border p-6">
-          <h2 className="text-3xl font-bold">$0</h2>
-          <p className="text-gray-500">Volume</p>
+          <h2 className="text-3xl font-bold">
+            $0
+          </h2>
+
+          <p className="text-gray-500">
+            Volume
+          </p>
         </div>
       </div>
 
@@ -55,43 +82,42 @@ export default async function AdminMarketplacePage() {
           </div>
         ) : (
           <div className="space-y-4">
-            {pendingListings.map((listing: any) => (
-              <div
-                key={listing.id}
-                className="flex flex-col gap-4 rounded-xl border p-5 md:flex-row md:items-center md:justify-between"
-              >
-                <div>
-                  <h3 className="text-xl font-semibold">
-                    {listing.title}
-                  </h3>
+            {pendingListings.map(
+              (listing: any) => (
+                <div
+                  key={listing.id}
+                  className="flex flex-col gap-4 rounded-xl border p-5 md:flex-row md:items-center md:justify-between"
+                >
+                  <div>
+                    <h3 className="text-xl font-semibold">
+                      {listing.title}
+                    </h3>
 
-                  <p className="text-gray-500">
-                    Status: {listing.status}
-                  </p>
+                    <p className="text-gray-500">
+                      Status:{" "}
+                      {listing.status}
+                    </p>
 
-                  <p className="font-medium">
-                    ${listing.price}
-                  </p>
+                    <p className="font-medium">
+                      ${listing.price}
+                    </p>
+                  </div>
+
+                  <div className="flex gap-3">
+                    <MarketplaceActions
+                      id={listing.id}
+                    />
+
+                    <Link
+                      href={`/admin/marketplace/${listing.id}`}
+                      className="rounded-xl border px-4 py-2"
+                    >
+                      View
+                    </Link>
+                  </div>
                 </div>
-
-                <div className="flex gap-3">
-                  <button className="rounded-xl bg-green-600 px-4 py-2 text-white">
-                    Approve
-                  </button>
-
-                  <button className="rounded-xl bg-red-600 px-4 py-2 text-white">
-                    Reject
-                  </button>
-
-                  <Link
-                    href={`/admin/marketplace/${listing.id}`}
-                    className="rounded-xl border px-4 py-2"
-                  >
-                    View
-                  </Link>
-                </div>
-              </div>
-            ))}
+              )
+            )}
           </div>
         )}
       </div>
@@ -102,9 +128,44 @@ export default async function AdminMarketplacePage() {
           Approved Listings
         </h2>
 
-        <div className="rounded-xl border p-5 text-gray-500">
-          Approved listings will appear here.
-        </div>
+        {approvedListings.length === 0 ? (
+          <div className="rounded-xl border p-5 text-gray-500">
+            No approved listings found.
+          </div>
+        ) : (
+          <div className="space-y-4">
+            {approvedListings.map(
+              (listing: any) => (
+                <div
+                  key={listing.id}
+                  className="flex flex-col gap-4 rounded-xl border p-5 md:flex-row md:items-center md:justify-between"
+                >
+                  <div>
+                    <h3 className="text-xl font-semibold">
+                      {listing.title}
+                    </h3>
+
+                    <p className="text-gray-500">
+                      Status:{" "}
+                      {listing.status}
+                    </p>
+
+                    <p className="font-medium">
+                      ${listing.price}
+                    </p>
+                  </div>
+
+                  <Link
+                    href={`/admin/marketplace/${listing.id}`}
+                    className="rounded-xl border px-4 py-2"
+                  >
+                    View
+                  </Link>
+                </div>
+              )
+            )}
+          </div>
+        )}
       </div>
     </div>
   );

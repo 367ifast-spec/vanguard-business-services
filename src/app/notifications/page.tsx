@@ -1,37 +1,15 @@
 import Link from "next/link";
 
-const notifications = [
-  {
-    id: 1,
-    title: "Listing Approved",
-    description:
-      'Your listing "AI SaaS Startup" has been approved.',
-    time: "2 minutes ago",
-  },
-  {
-    id: 2,
-    title: "New Message",
-    description:
-      "john_doe sent you a new message.",
-    time: "15 minutes ago",
-  },
-  {
-    id: 3,
-    title: "Escrow Updated",
-    description:
-      "Transaction #1001 status changed to Payment Received.",
-    time: "1 hour ago",
-  },
-  {
-    id: 4,
-    title: "Seller Reply",
-    description:
-      "agency_pro replied to your conversation.",
-    time: "3 hours ago",
-  },
-];
+import { supabase } from "@/lib/supabase";
 
-export default function NotificationsPage() {
+export default async function NotificationsPage() {
+  const { data: notifications } = await supabase
+    .from("notifications")
+    .select("*")
+    .order("created_at", {
+      ascending: false,
+    });
+
   return (
     <main className="min-h-screen bg-[#0B1020] text-white">
       <div className="mx-auto max-w-5xl px-6 py-16">
@@ -54,28 +32,44 @@ export default function NotificationsPage() {
         </p>
 
         <div className="mt-10 space-y-4">
-          {notifications.map((notification) => (
-            <div
-              key={notification.id}
-              className="rounded-2xl border border-white/10 bg-[#111827] p-6"
-            >
-              <div className="flex items-start justify-between">
-                <div>
-                  <h2 className="text-2xl font-semibold">
-                    {notification.title}
-                  </h2>
+          {notifications?.length ? (
+            notifications.map((notification) => (
+              <div
+                key={notification.id}
+                className={`rounded-2xl border p-6 ${
+                  notification.is_read
+                    ? "border-white/10 bg-[#111827]"
+                    : "border-indigo-500 bg-indigo-500/10"
+                }`}
+              >
+                <div className="flex items-start justify-between">
+                  <div>
+                    <h2 className="text-2xl font-semibold">
+                      {notification.title}
+                    </h2>
 
-                  <p className="mt-2 text-gray-400">
-                    {notification.description}
-                  </p>
+                    <p className="mt-2 text-gray-400">
+                      {notification.message}
+                    </p>
+
+                    <p className="mt-3 text-sm text-gray-500">
+                      Type: {notification.type}
+                    </p>
+                  </div>
+
+                  <span className="text-sm text-gray-500">
+                    {new Date(
+                      notification.created_at
+                    ).toLocaleString()}
+                  </span>
                 </div>
-
-                <span className="text-sm text-gray-500">
-                  {notification.time}
-                </span>
               </div>
+            ))
+          ) : (
+            <div className="rounded-2xl border border-white/10 bg-[#111827] p-10 text-center text-gray-400">
+              No notifications found.
             </div>
-          ))}
+          )}
         </div>
       </div>
     </main>

@@ -56,8 +56,8 @@ export default async function AdminMarketplaceDetailsPage({
               </h2>
 
               <p className="mt-2 text-gray-500">
-                Status: Pending Approval
-              </p>
+  Status: {listing.status}
+</p>
             </div>
 
             <div>
@@ -67,14 +67,14 @@ export default async function AdminMarketplaceDetailsPage({
 
             <div>
               <h3 className="font-semibold">Category</h3>
-              <p>Websites</p>
+              <p>{listing.category ?? "N/A"}</p>
             </div>
 
             <div>
               <h3 className="font-semibold">
                 Monthly Revenue
               </h3>
-              <p>$1,200</p>
+              <p>{listing.revenue ?? "N/A"}</p>
             </div>
 
             <div>
@@ -89,7 +89,7 @@ export default async function AdminMarketplaceDetailsPage({
                 Website URL
               </h3>
 
-              <p>https://example.com</p>
+              <p>{listing.website_url ?? "N/A"}</p>
             </div>
           </div>
         </div>

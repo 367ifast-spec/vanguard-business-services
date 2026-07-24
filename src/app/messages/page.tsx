@@ -1,27 +1,14 @@
 import Link from "next/link";
+import { supabase } from "@/lib/supabase";
 
-const conversations = [
-  {
-    id: "1",
-    user: "john_doe",
-    lastMessage: "Is the website still available?",
-    time: "2 min ago",
-  },
-  {
-    id: "2",
-    user: "agency_pro",
-    lastMessage: "Can we schedule a call?",
-    time: "15 min ago",
-  },
-  {
-    id: "3",
-    user: "vanguard",
-    lastMessage: "Thank you for your interest.",
-    time: "1 hour ago",
-  },
-];
+export default async function MessagesPage() {
+  const { data: conversations } = await supabase
+    .from("marketplace_conversations")
+    .select("*")
+    .order("created_at", {
+      ascending: false,
+    });
 
-export default function MessagesPage() {
   return (
     <main className="min-h-screen bg-[#0B1020] text-white">
       <div className="mx-auto max-w-6xl px-6 py-16">
@@ -34,29 +21,43 @@ export default function MessagesPage() {
         </p>
 
         <div className="mt-10 space-y-4">
-          {conversations.map((conversation) => (
-            <Link
-              key={conversation.id}
-              href={`/messages/${conversation.id}`}
-              className="block rounded-2xl border border-white/10 bg-[#111827] p-6 transition hover:border-indigo-500"
-            >
-              <div className="flex items-center justify-between">
-                <div>
-                  <h2 className="text-2xl font-semibold">
-                    {conversation.user}
-                  </h2>
+          {conversations?.length ? (
+            conversations.map((conversation: any) => (
+              <Link
+                key={conversation.id}
+                href={`/messages/${conversation.id}`}
+                className="block rounded-2xl border border-white/10 bg-[#111827] p-6 transition hover:border-indigo-500"
+              >
+                <div className="flex items-center justify-between">
+                  <div>
+                    <h2 className="text-2xl font-semibold">
+                      Conversation
+                    </h2>
 
-                  <p className="mt-2 text-gray-400">
-                    {conversation.lastMessage}
+                    <p className="mt-2 text-gray-400">
+                      Buyer ID: {conversation.buyer_id}
+                    </p>
+
+                    <p className="mt-1 text-gray-400">
+                      Seller ID: {conversation.seller_id}
+                    </p>
+                  </div>
+
+                  <p className="text-sm text-gray-500">
+                    {new Date(
+                      conversation.created_at
+                    ).toLocaleString()}
                   </p>
                 </div>
-
-                <p className="text-sm text-gray-500">
-                  {conversation.time}
-                </p>
-              </div>
-            </Link>
-          ))}
+              </Link>
+            ))
+          ) : (
+            <div className="rounded-2xl border border-white/10 bg-[#111827] p-6">
+              <p className="text-gray-400">
+                No conversations found.
+              </p>
+            </div>
+          )}
         </div>
       </div>
     </main>

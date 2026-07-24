@@ -1,6 +1,8 @@
 import { getMarketplaceListingBySlug } from "@/lib/marketplace";
 import Link from "next/link";
-
+import BuyNowButton from "@/components/BuyNowButton";
+import FavoriteButton from "@/components/FavoriteButton";
+import ReviewForm from "@/components/ReviewForm";
 export default async function ListingPage({
   params,
 }: {
@@ -73,11 +75,18 @@ if (!listing) {
             <div className="rounded-2xl bg-[#111827] p-8">
               <h3 className="text-4xl font-bold text-indigo-400">
   ${listing.price}
+  <div className="mt-4">
+  <FavoriteButton />
+</div>
+  <BuyNowButton />
 </h3>
 
-              <button className="mt-6 w-full rounded-xl bg-indigo-600 py-4 font-semibold">
-                Contact Seller
-              </button>
+              <Link
+  href={`/messages/new?listing=${listing.id}`}
+  className="mt-6 block w-full rounded-xl bg-indigo-600 py-4 text-center font-semibold"
+>
+  Contact Seller
+</Link>
 
               <button className="mt-4 w-full rounded-xl border border-white/20 py-4">
                 Add to Watchlist
@@ -85,7 +94,10 @@ if (!listing) {
             </div>
           </div>
         </div>
-
+<ReviewForm
+  listingId={listing.id}
+  sellerId={listing.seller_id}
+/>
         <div className="mt-10">
           <Link href="/marketplace" className="text-indigo-400">
             ← Back to Marketplace

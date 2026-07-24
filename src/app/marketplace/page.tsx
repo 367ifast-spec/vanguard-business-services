@@ -1,6 +1,6 @@
-import { getApprovedMarketplaceListings } from "@/lib/marketplace";
 import Link from "next/link";
-
+import { getApprovedMarketplaceListings } from "@/lib/marketplace";
+import MarketplaceSearch from "@/components/MarketplaceSearch";
 import {
   Search,
   Globe,
@@ -41,6 +41,7 @@ const categories = [
 export default async function MarketplacePage() {
     const listings =
   (await getApprovedMarketplaceListings()) || [];
+
   return (
     <main className="min-h-screen bg-[#0B1020] text-white">
       {/* HERO */}
@@ -59,18 +60,9 @@ export default async function MarketplacePage() {
             digital assets from verified sellers worldwide.
           </p>
 
-          <div className="mx-auto mt-10 flex max-w-3xl items-center rounded-2xl bg-white p-3">
-            <Search className="ml-2 text-gray-500" size={22} />
-
-            <input
-              className="w-full px-4 py-3 text-black outline-none"
-              placeholder="Search websites, domains, SaaS..."
-            />
-
-            <button className="rounded-xl bg-indigo-600 px-6 py-3 font-semibold transition hover:bg-indigo-700">
-              Search
-            </button>
-          </div>
+          <div className="mt-10">
+  <MarketplaceSearch />
+</div>
 
           <div className="mt-12 grid grid-cols-1 gap-6 md:grid-cols-3">
             <div className="rounded-2xl bg-white/5 p-6">
@@ -129,7 +121,14 @@ export default async function MarketplacePage() {
         </div>
 
         <div className="mt-10 grid gap-6 md:grid-cols-3">
-         {listings.map((listing: any) => (
+         {listings.length === 0 ? (
+  <div className="rounded-2xl bg-white/5 p-8">
+    <p className="text-gray-400">
+      No approved listings found.
+    </p>
+  </div>
+) : (
+  listings.map((listing: any) => (
   <div
     key={listing.id}
               className="rounded-2xl border border-white/10 bg-[#111827] p-6"
@@ -153,13 +152,16 @@ export default async function MarketplacePage() {
               </p>
 
               <Link
-  href={`/listing/${listing.slug}`}
+
+ href={`/listing/${listing.slug}`}
   className="mt-6 flex w-full items-center justify-center rounded-xl bg-indigo-600 py-3 font-semibold"
 >
   View Listing
 </Link>
+  
             </div>
-          ))}
+          ))
+)}
         </div>
       </section>
 
@@ -213,12 +215,16 @@ export default async function MarketplacePage() {
             Start selling your digital assets today.
           </p>
 
-          <Link
-            href="/seller/register"
-            className="mt-8 inline-flex rounded-xl bg-white px-8 py-4 font-semibold text-black"
-          >
-            Become a Seller
-          </Link>
+         <Link
+  href="/seller/register"
+  style={{
+    color: "#000",
+    background: "#fff",
+  }}
+  className="mt-8 inline-flex items-center justify-center rounded-xl px-8 py-4 font-semibold"
+>
+  Become a Seller
+</Link>
         </div>
       </section>
 

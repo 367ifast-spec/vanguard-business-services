@@ -6,9 +6,7 @@ export async function getMarketplaceListings() {
     .select("*")
     .order("created_at", { ascending: false });
 
-  if (error) {
-    throw error;
-  }
+  if (error) throw error;
 
   return data;
 }
@@ -20,9 +18,7 @@ export async function getPendingMarketplaceListings() {
     .eq("status", "pending")
     .order("created_at", { ascending: false });
 
-  if (error) {
-    throw error;
-  }
+  if (error) throw error;
 
   return data;
 }
@@ -34,9 +30,7 @@ export async function getApprovedMarketplaceListings() {
     .eq("status", "approved")
     .order("created_at", { ascending: false });
 
-  if (error) {
-    throw error;
-  }
+  if (error) throw error;
 
   return data;
 }
@@ -50,9 +44,7 @@ export async function getMarketplaceListingById(
     .eq("id", id)
     .single();
 
-  if (error) {
-    return null;
-  }
+  if (error) return null;
 
   return data;
 }
@@ -66,23 +58,68 @@ export async function getMarketplaceListingBySlug(
     .eq("slug", slug)
     .single();
 
-  if (error) {
-    return null;
-  }
+  if (error) return null;
 
   return data;
 }
 
 export async function createMarketplaceListing(
   listing: {
+    seller_id: string;
     title: string;
     slug: string;
     description: string;
+    category: string;
     price: number;
     image_url?: string;
-    category_id?: string;
   }
-){
+) {
+  const LIMITS = {
+    free: 15,
+    verified: 50,
+    bronze: 100,
+    silver: 250,
+    gold: 500,
+    platinum: 1000,
+    diamond: Infinity,
+  };
+
+  const { data: subscription } = await supabase
+    .from("seller_subscriptions")
+    .select("*")
+    .eq("seller_id", listing.seller_id)
+    .eq("status", "active")
+    .single();
+
+  let packageSlug = "free";
+
+  if (subscription?.package_id) {
+    const { data: sellerPackage } = await supabase
+      .from("seller_packages")
+      .select("slug")
+      .eq("id", subscription.package_id)
+      .single();
+
+    packageSlug = sellerPackage?.slug ?? "free";
+  }
+
+  const { count } = await supabase
+    .from("marketplace_listings")
+    .select("*", {
+      count: "exact",
+      head: true,
+    })
+    .eq("seller_id", listing.seller_id);
+
+  const limit =
+    LIMITS[packageSlug as keyof typeof LIMITS];
+
+  if ((count ?? 0) >= limit) {
+    throw new Error(
+      "Listing limit reached. Please upgrade your seller package."
+    );
+  }
+
   const { data, error } = await supabase
     .from("marketplace_listings")
     .insert({
@@ -93,6 +130,11 @@ export async function createMarketplaceListing(
     .single();
 
   if (error) {
+    console.error(
+      "Marketplace Insert Error:",
+      error
+    );
+
     throw error;
   }
 
@@ -111,9 +153,7 @@ export async function approveMarketplaceListing(
     .select()
     .single();
 
-  if (error) {
-    throw error;
-  }
+  if (error) throw error;
 
   return data;
 }
@@ -130,9 +170,20 @@ export async function rejectMarketplaceListing(
     .select()
     .single();
 
-  if (error) {
-    throw error;
-  }
+  if (error) throw error;
 
   return data;
+}
+
+export async function getMarketplaceListingsCount() {
+  const { count, error } = await supabase
+    .from("marketplace_listings")
+    .select("*", {
+      count: "exact",
+      head: true,
+    });
+
+  if (error) throw error;
+
+  return count || 0;
 }
