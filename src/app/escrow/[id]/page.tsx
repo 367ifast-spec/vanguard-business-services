@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { getEscrows } from "@/lib/escrow";
 import EscrowActions from "@/components/EscrowActions";
+
 export default async function EscrowDetailsPage({
   params,
 }: {
@@ -30,6 +31,10 @@ export default async function EscrowDetailsPage({
       </main>
     );
   }
+
+  const buyerFee = transaction.amount * 0.075;
+  const sellerFee = transaction.amount * 0.075;
+  const totalFees = buyerFee + sellerFee;
 
   return (
     <main className="min-h-screen bg-[#0B1020] text-white">
@@ -79,6 +84,19 @@ export default async function EscrowDetailsPage({
             </div>
 
             <div>
+              <p className="text-gray-400">Escrow Fees</p>
+              <p>
+                Buyer Fee: ${buyerFee.toFixed(2)}
+              </p>
+              <p>
+                Seller Fee: ${sellerFee.toFixed(2)}
+              </p>
+              <p className="font-semibold text-indigo-300">
+                Total Fees: ${totalFees.toFixed(2)}
+              </p>
+            </div>
+
+            <div>
               <p className="text-gray-400">Status</p>
 
               <span className="inline-block rounded-full bg-indigo-500/20 px-4 py-2 text-indigo-300">
@@ -97,7 +115,13 @@ export default async function EscrowDetailsPage({
             </div>
           </div>
 
-         <EscrowActions id={transaction.id} />
+          <div className="mt-10 border-t border-white/10 pt-6">
+            <h2 className="mb-4 text-2xl font-semibold">
+              Actions
+            </h2>
+
+            <EscrowActions id={transaction.id} />
+          </div>
         </div>
       </div>
     </main>
