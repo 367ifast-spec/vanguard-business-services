@@ -14,10 +14,27 @@ export default function SellerKYCPage() {
     country: "",
     documentType: "passport",
     idNumber: "",
-    documentFront: "",
-    documentBack: "",
-    selfie: "",
+    documentFront: null as File | null,
+    documentBack: null as File | null,
+    selfie: null as File | null,
   });
+
+  const uploadFile = async (
+    file: File,
+    prefix: string
+  ) => {
+    const fileName = `${prefix}-${Date.now()}-${file.name}`;
+
+    const { error } = await supabase.storage
+      .from("kyc-documents")
+      .upload(fileName, file);
+
+    if (error) {
+      throw error;
+    }
+
+    return fileName;
+  };
 
   const handleSubmit = async (
     e: React.FormEvent<HTMLFormElement>
@@ -27,6 +44,30 @@ export default function SellerKYCPage() {
     try {
       setLoading(true);
 
+      if (
+        !form.documentFront ||
+        !form.documentBack ||
+        !form.selfie
+      ) {
+        alert("Please upload all required documents.");
+        return;
+      }
+
+      const frontPath = await uploadFile(
+        form.documentFront,
+        "front"
+      );
+
+      const backPath = await uploadFile(
+        form.documentBack,
+        "back"
+      );
+
+      const selfiePath = await uploadFile(
+        form.selfie,
+        "selfie"
+      );
+
       const { error } = await supabase
         .from("seller_kyc")
         .insert([
@@ -35,9 +76,9 @@ export default function SellerKYCPage() {
             country: form.country,
             id_type: form.documentType,
             id_number: form.idNumber,
-            front_image: form.documentFront,
-            back_image: form.documentBack,
-            selfie_image: form.selfie,
+            front_image: frontPath,
+            back_image: backPath,
+            selfie_image: selfiePath,
             status: "pending",
           },
         ]);
@@ -48,13 +89,13 @@ export default function SellerKYCPage() {
       }
 
       alert(
-        "KYC submitted successfully! Redirecting to Seller Packages..."
+        "KYC submitted successfully! Please wait for admin approval."
       );
 
       router.push("/seller/packages");
     } catch (error) {
       console.error(error);
-      alert("Something went wrong.");
+      alert("Something went wrong while submitting KYC.");
     } finally {
       setLoading(false);
     }
@@ -68,8 +109,8 @@ export default function SellerKYCPage() {
         </h1>
 
         <p className="mt-4 text-gray-400">
-          Complete your identity verification to unlock
-          marketplace features.
+          Complete your identity verification to
+          unlock marketplace features.
         </p>
 
         <form
@@ -117,9 +158,11 @@ export default function SellerKYCPage() {
             <option value="passport">
               Passport
             </option>
+
             <option value="nid">
               National ID
             </option>
+
             <option value="license">
               Driving License
             </option>
@@ -139,54 +182,74 @@ export default function SellerKYCPage() {
             required
           />
 
-          <input
-            type="text"
-            placeholder="Document Front URL"
-            className="w-full rounded-xl bg-[#1F2937] p-4"
-            value={form.documentFront}
-            onChange={(e) =>
-              setForm({
-                ...form,
-                documentFront: e.target.value,
-              })
-            }
-            required
-          />
+          <div>
+            <label className="mb-2 block text-sm text-gray-300">
+              Document Front
+            </label>
 
-          <input
-            type="text"
-            placeholder="Document Back URL"
-            className="w-full rounded-xl bg-[#1F2937] p-4"
-            value={form.documentBack}
-            onChange={(e) =>
-              setForm({
-                ...form,
-                documentBack: e.target.value,
-              })
-            }
-            required
-          />
+            <input
+              type="file"
+              accept="image/*"
+              className="w-full rounded-xl bg-[#1F2937] p-4"
+              onChange={(e) =>
+                setForm({
+                  ...form,
+                  documentFront:
+                    e.target.files?.[0] || null,
+                })
+              }
+              required
+            />
+          </div>
 
-          <input
-            type="text"
-            placeholder="Selfie URL"
-            className="w-full rounded-xl bg-[#1F2937] p-4"
-            value={form.selfie}
-            onChange={(e) =>
-              setForm({
-                ...form,
-                selfie: e.target.value,
-              })
-            }
-            required
-          />
+          <div>
+            <label className="mb-2 block text-sm text-gray-300">
+              Document Back
+            </label>
+
+            <input
+              type="file"
+              accept="image/*"
+              className="w-full rounded-xl bg-[#1F2937] p-4"
+              onChange={(e) =>
+                setForm({
+                  ...form,
+                  documentBack:
+                    e.target.files?.[0] || null,
+                })
+              }
+              required
+            />
+          </div>
+
+          <div>
+            <label className="mb-2 block text-sm text-gray-300">
+              Selfie
+            </label>
+
+            <input
+              type="file"
+              accept="image/*"
+              className="w-full rounded-xl bg-[#1F2937] p-4"
+              onChange={(e) =>
+                setForm({
+                  ...form,
+                  selfie:
+                    e.target.files?.[0] || null,
+                })
+              }
+              required
+            />
+          </div>
 
           <button
             type="submit"
             disabled={loading}
             className="w-full rounded-xl bg-indigo-600 py-4 font-bold transition hover:bg-indigo-700 disabled:opacity-50"
           >
-            {loading ? "Submitting..." : "Submit KYC"}
+            {loading
+              ? "Submitting..."
+              : "Submit KYC"}
           </button>
         </form>
       </div>
