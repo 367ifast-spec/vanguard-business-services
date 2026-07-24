@@ -1,25 +1,63 @@
 "use client";
 
 import { useState } from "react";
+import { useRouter } from "next/navigation";
+import { supabase } from "@/lib/supabase";
 
 export default function SellerKYCPage() {
+  const router = useRouter();
+
+  const [loading, setLoading] = useState(false);
+
   const [form, setForm] = useState({
     fullName: "",
     country: "",
     documentType: "passport",
+    idNumber: "",
     documentFront: "",
     documentBack: "",
     selfie: "",
   });
 
   const handleSubmit = async (
-    e: React.FormEvent
+    e: React.FormEvent<HTMLFormElement>
   ) => {
     e.preventDefault();
 
-    alert(
-      "KYC submitted successfully! (Database integration next)"
-    );
+    try {
+      setLoading(true);
+
+      const { error } = await supabase
+        .from("seller_kyc")
+        .insert([
+          {
+            full_name: form.fullName,
+            country: form.country,
+            id_type: form.documentType,
+            id_number: form.idNumber,
+            front_image: form.documentFront,
+            back_image: form.documentBack,
+            selfie_image: form.selfie,
+            status: "pending",
+          },
+        ]);
+
+      if (error) {
+        alert(error.message);
+        return;
+      }
+
+      alert(
+        "KYC submitted successfully! Redirecting to Seller Packages..."
+      );
+
+      router.push("/seller/packages");
+    } catch (error) {
+      console.error(error);
+      alert("Something went wrong.");
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -30,8 +68,8 @@ export default function SellerKYCPage() {
         </h1>
 
         <p className="mt-4 text-gray-400">
-          Complete your identity verification to
-          unlock marketplace features.
+          Complete your identity verification to unlock
+          marketplace features.
         </p>
 
         <form
@@ -49,6 +87,7 @@ export default function SellerKYCPage() {
                 fullName: e.target.value,
               })
             }
+            required
           />
 
           <input
@@ -62,6 +101,7 @@ export default function SellerKYCPage() {
                 country: e.target.value,
               })
             }
+            required
           />
 
           <select
@@ -87,6 +127,20 @@ export default function SellerKYCPage() {
 
           <input
             type="text"
+            placeholder="ID Number"
+            className="w-full rounded-xl bg-[#1F2937] p-4"
+            value={form.idNumber}
+            onChange={(e) =>
+              setForm({
+                ...form,
+                idNumber: e.target.value,
+              })
+            }
+            required
+          />
+
+          <input
+            type="text"
             placeholder="Document Front URL"
             className="w-full rounded-xl bg-[#1F2937] p-4"
             value={form.documentFront}
@@ -96,6 +150,7 @@ export default function SellerKYCPage() {
                 documentFront: e.target.value,
               })
             }
+            required
           />
 
           <input
@@ -109,6 +164,7 @@ export default function SellerKYCPage() {
                 documentBack: e.target.value,
               })
             }
+            required
           />
 
           <input
@@ -122,10 +178,15 @@ export default function SellerKYCPage() {
                 selfie: e.target.value,
               })
             }
+            required
           />
 
-          <button className="w-full rounded-xl bg-indigo-600 py-4 font-bold">
-            Submit KYC
+          <button
+            type="submit"
+            disabled={loading}
+            className="w-full rounded-xl bg-indigo-600 py-4 font-bold transition hover:bg-indigo-700 disabled:opacity-50"
+          >
+            {loading ? "Submitting..." : "Submit KYC"}
           </button>
         </form>
       </div>
