@@ -10,7 +10,6 @@ export default function SellerLoginPage() {
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-
   const [loading, setLoading] = useState(false);
 
   async function handleLogin(
@@ -18,29 +17,98 @@ export default function SellerLoginPage() {
   ) {
     e.preventDefault();
 
+    if (loading) {
+      return;
+    }
+
     try {
       setLoading(true);
 
+      // Clear any existing buyer/seller session first.
+      const { error: signOutError } =
+        await supabase.auth.signOut();
+
+      if (signOutError) {
+        console.warn(
+          "PRE-LOGIN SIGN OUT ERROR:",
+          signOutError
+        );
+      }
+
+      // Login with the account entered in this form.
       const { data, error } =
         await supabase.auth.signInWithPassword({
-          email,
+          email: email.trim(),
           password,
         });
 
-      console.log("LOGIN DATA:", data);
-      console.log("LOGIN ERROR:", error);
+      console.log("SELLER LOGIN DATA:", data);
+      console.log("SELLER LOGIN ERROR:", error);
 
       if (error) {
         alert(error.message);
         return;
       }
 
+      if (!data.user || !data.session) {
+        alert(
+          "Login succeeded but no authenticated session was created."
+        );
+        return;
+      }
+
+      // Verify which Supabase user is now active.
+      const {
+        data: { user: activeUser },
+        error: activeUserError,
+      } = await supabase.auth.getUser();
+
+      if (activeUserError || !activeUser) {
+        console.error(
+          "ACTIVE USER VERIFY ERROR:",
+          activeUserError
+        );
+
+        alert(
+          "Unable to verify the authenticated account."
+        );
+        return;
+      }
+
+      console.log(
+        "ACTIVE USER AFTER LOGIN:",
+        activeUser.id
+      );
+
+      console.log(
+        "ACTIVE USER EMAIL:",
+        activeUser.email
+      );
+
+      if (activeUser.id !== data.user.id) {
+        console.error(
+          "SESSION USER MISMATCH:",
+          {
+            loginUserId: data.user.id,
+            activeUserId: activeUser.id,
+          }
+        );
+
+        alert(
+          "Authentication session mismatch. Please try again."
+        );
+        return;
+      }
+
       alert("Login successful!");
 
-      router.push("/seller/dashboard");
+      router.replace("/seller/dashboard");
       router.refresh();
     } catch (error) {
-      console.error(error);
+      console.error(
+        "SELLER LOGIN ERROR:",
+        error
+      );
 
       alert("Something went wrong.");
     } finally {
@@ -76,7 +144,9 @@ export default function SellerLoginPage() {
                   setEmail(e.target.value)
                 }
                 placeholder="john@example.com"
-                className="w-full rounded-xl bg-[#0B1020] p-4 outline-none"
+                autoComplete="email"
+                disabled={loading}
+                className="w-full rounded-xl bg-[#0B1020] p-4 outline-none disabled:opacity-60"
                 required
               />
             </div>
@@ -93,7 +163,9 @@ export default function SellerLoginPage() {
                   setPassword(e.target.value)
                 }
                 placeholder="********"
-                className="w-full rounded-xl bg-[#0B1020] p-4 outline-none"
+                autoComplete="current-password"
+                disabled={loading}
+                className="w-full rounded-xl bg-[#0B1020] p-4 outline-none disabled:opacity-60"
                 required
               />
             </div>
@@ -101,9 +173,11 @@ export default function SellerLoginPage() {
             <button
               type="submit"
               disabled={loading}
-              className="w-full rounded-xl bg-indigo-600 py-4 font-semibold transition hover:bg-indigo-700 disabled:opacity-50"
+              className="w-full rounded-xl bg-indigo-600 py-4 font-semibold transition hover:bg-indigo-700 disabled:cursor-not-allowed disabled:opacity-50"
             >
-              {loading ? "Logging in..." : "Login"}
+              {loading
+                ? "Logging in..."
+                : "Login"}
             </button>
           </form>
         </div>

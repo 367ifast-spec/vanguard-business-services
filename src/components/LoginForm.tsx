@@ -21,7 +21,7 @@ export default function LoginForm() {
       setError("");
 
       const result = await login(
-        email,
+        email.trim(),
         password
       );
 
@@ -32,10 +32,13 @@ export default function LoginForm() {
         return;
       }
 
+      // Marketplace common login.
+      // For the current buyer escrow test,
+      // successful login goes to Buyer Dashboard.
       window.location.href =
-        "/seller/dashboard";
+        "/buyer/dashboard";
     } catch (error) {
-      console.error(error);
+      console.error("LOGIN FORM ERROR:", error);
 
       if (error instanceof Error) {
         setError(error.message);
@@ -67,6 +70,7 @@ export default function LoginForm() {
             onChange={(e) =>
               setEmail(e.target.value)
             }
+            autoComplete="email"
             className="w-full rounded-xl bg-[#0B1020] p-4 outline-none"
             required
           />
@@ -84,6 +88,7 @@ export default function LoginForm() {
             onChange={(e) =>
               setPassword(e.target.value)
             }
+            autoComplete="current-password"
             className="w-full rounded-xl bg-[#0B1020] p-4 outline-none"
             required
           />
@@ -103,16 +108,16 @@ export default function LoginForm() {
           </Link>
         </div>
 
-        {error && (
+        {error ? (
           <div className="rounded-xl border border-red-500/30 bg-red-500/10 p-4 text-sm text-red-300">
             {error}
           </div>
-        )}
+        ) : null}
 
         <button
           type="submit"
           disabled={loading}
-          className="w-full rounded-xl bg-indigo-600 py-4 font-semibold transition hover:bg-indigo-700 disabled:opacity-50"
+          className="w-full rounded-xl bg-indigo-600 py-4 font-semibold transition hover:bg-indigo-700 disabled:cursor-not-allowed disabled:opacity-50"
         >
           {loading
             ? "Logging in..."
@@ -121,7 +126,7 @@ export default function LoginForm() {
       </form>
 
       <p className="mt-8 text-center text-gray-400">
-        Don't have an account?{" "}
+        Don&apos;t have an account?{" "}
         <Link
           href="/register"
           className="text-indigo-400"

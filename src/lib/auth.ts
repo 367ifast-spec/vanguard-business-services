@@ -22,7 +22,7 @@ export async function createAdminSession(
       alg: ALGORITHM,
     })
     .setIssuedAt()
-    .setExpirationTime("30m")
+   .setExpirationTime("24h")
     .sign(secretKey);
 }
 
