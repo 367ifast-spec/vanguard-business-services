@@ -11,13 +11,16 @@ function sortObject(value: unknown): unknown {
     value !== null &&
     typeof value === "object"
   ) {
-    const objectValue = value as Record<string, unknown>;
+    const objectValue =
+      value as Record<string, unknown>;
 
     return Object.keys(objectValue)
       .sort()
       .reduce<Record<string, unknown>>(
         (result, key) => {
-          result[key] = sortObject(objectValue[key]);
+          result[key] =
+            sortObject(objectValue[key]);
+
           return result;
         },
         {}
@@ -32,24 +35,29 @@ function verifyNowPaymentsSignature(
   signature: string,
   secret: string
 ) {
-  const sortedPayload = sortObject(payload);
+  const sortedPayload =
+    sortObject(payload);
 
-  const message = JSON.stringify(sortedPayload);
+  const message =
+    JSON.stringify(sortedPayload);
 
-  const expectedSignature = crypto
-    .createHmac("sha512", secret)
-    .update(message)
-    .digest("hex");
+  const expectedSignature =
+    crypto
+      .createHmac("sha512", secret)
+      .update(message)
+      .digest("hex");
 
-  const receivedBuffer = Buffer.from(
-    signature.trim().toLowerCase(),
-    "utf8"
-  );
+  const receivedBuffer =
+    Buffer.from(
+      signature.trim().toLowerCase(),
+      "utf8"
+    );
 
-  const expectedBuffer = Buffer.from(
-    expectedSignature,
-    "utf8"
-  );
+  const expectedBuffer =
+    Buffer.from(
+      expectedSignature,
+      "utf8"
+    );
 
   if (
     receivedBuffer.length !==
@@ -64,10 +72,25 @@ function verifyNowPaymentsSignature(
   );
 }
 
+function isPaidStatus(
+  paymentStatus: string
+) {
+  return (
+    paymentStatus === "confirmed" ||
+    paymentStatus === "finished"
+  );
+}
+
 export async function POST(
   req: NextRequest
 ) {
   try {
+    /*
+     * ------------------------------------------------
+     * 1. Verify webhook configuration
+     * ------------------------------------------------
+     */
+
     const ipnSecret =
       process.env.NOWPAYMENTS_IPN_SECRET;
 
@@ -88,8 +111,29 @@ export async function POST(
       );
     }
 
+    if (!supabaseAdmin) {
+      return NextResponse.json(
+        {
+          success: false,
+          message:
+            "Supabase is not configured.",
+        },
+        {
+          status: 500,
+        }
+      );
+    }
+
+    /*
+     * ------------------------------------------------
+     * 2. Verify NOWPayments signature
+     * ------------------------------------------------
+     */
+
     const signature =
-      req.headers.get("x-nowpayments-sig");
+      req.headers.get(
+        "x-nowpayments-sig"
+      );
 
     if (!signature) {
       console.warn(
@@ -138,6 +182,12 @@ export async function POST(
       );
     }
 
+    /*
+     * ------------------------------------------------
+     * 3. Read webhook payload
+     * ------------------------------------------------
+     */
+
     const {
       payment_id,
       payment_status,
@@ -170,7 +220,8 @@ export async function POST(
     }
 
     if (
-      typeof payment_status !== "string" ||
+      typeof payment_status !==
+        "string" ||
       typeof order_id !== "string"
     ) {
       return NextResponse.json(
@@ -185,12 +236,54 @@ export async function POST(
       );
     }
 
-    if (!supabaseAdmin) {
+    const externalPaymentId =
+      String(payment_id);
+
+    const paid =
+      isPaidStatus(payment_status);
+
+    /*
+     * ------------------------------------------------
+     * 4. First check whether order_id is an internal
+     *    payments.id.
+     *
+     * Package payments use:
+     *
+     * NOWPayments order_id = payments.id
+     * ------------------------------------------------
+     */
+
+    const {
+      data: internalPayment,
+      error: internalPaymentError,
+    } = await supabaseAdmin
+      .from("payments")
+      .select(
+        `
+          id,
+          order_id,
+          payment_id,
+          payment_type,
+          seller_id,
+          package_id,
+          amount,
+          payment_status
+        `
+      )
+      .eq("id", order_id)
+      .maybeSingle();
+
+    if (internalPaymentError) {
+      console.error(
+        "Internal payment lookup error:",
+        internalPaymentError
+      );
+
       return NextResponse.json(
         {
           success: false,
           message:
-            "Supabase is not configured.",
+            "Unable to verify payment.",
         },
         {
           status: 500,
@@ -198,13 +291,401 @@ export async function POST(
       );
     }
 
+    /*
+     * ------------------------------------------------
+     * 5. PACKAGE PAYMENT FLOW
+     * ------------------------------------------------
+     */
+
+    if (
+      internalPayment &&
+      internalPayment.payment_type ===
+        "package"
+    ) {
+      if (
+        !internalPayment.seller_id ||
+        !internalPayment.package_id
+      ) {
+        console.error(
+          "Package payment is missing seller/package:",
+          internalPayment
+        );
+
+        return NextResponse.json(
+          {
+            success: false,
+            message:
+              "Package payment configuration is invalid.",
+          },
+          {
+            status: 500,
+          }
+        );
+      }
+
+      /*
+       * Update internal payment row.
+       */
+
+      const {
+        error: packagePaymentUpdateError,
+      } = await supabaseAdmin
+        .from("payments")
+        .update({
+          payment_id:
+            externalPaymentId,
+
+          payment_status,
+
+          pay_amount:
+            pay_amount ?? null,
+
+          pay_currency:
+            pay_currency ?? null,
+
+          price_amount:
+            price_amount ?? null,
+
+          price_currency:
+            price_currency ?? null,
+
+          actually_paid:
+            actually_paid ?? null,
+
+          actually_paid_at_fiat:
+            actually_paid_at_fiat ??
+            null,
+
+          outcome_amount:
+            outcome_amount ?? null,
+
+          outcome_currency:
+            outcome_currency ?? null,
+        })
+        .eq("id", internalPayment.id);
+
+      if (
+        packagePaymentUpdateError
+      ) {
+        console.error(
+          "Package payment update error:",
+          packagePaymentUpdateError
+        );
+
+        return NextResponse.json(
+          {
+            success: false,
+            message:
+              "Unable to update package payment.",
+          },
+          {
+            status: 500,
+          }
+        );
+      }
+
+      /*
+       * Waiting / confirming / failed / expired
+       * statuses should NOT activate package.
+       */
+
+      if (!paid) {
+        console.log(
+          "Package payment webhook processed without activation:",
+          {
+            payment_id:
+              externalPaymentId,
+            payment_status,
+            internal_payment_id:
+              internalPayment.id,
+          }
+        );
+
+        return NextResponse.json(
+          {
+            success: true,
+            received: true,
+            payment_id:
+              externalPaymentId,
+            payment_status,
+            order_id,
+            payment_type:
+              "package",
+            activated: false,
+            message:
+              "Package payment status updated.",
+          },
+          {
+            status: 200,
+          }
+        );
+      }
+
+      /*
+       * ------------------------------------------------
+       * 6. Idempotency
+       *
+       * If this exact internal payment already
+       * activated a subscription, do not insert
+       * another one.
+       * ------------------------------------------------
+       */
+
+      const {
+        data: existingSubscription,
+        error:
+          existingSubscriptionError,
+      } = await supabaseAdmin
+        .from("seller_subscriptions")
+        .select(
+          `
+            id,
+            seller_id,
+            package_id,
+            status,
+            payment_id
+          `
+        )
+        .eq(
+          "payment_id",
+          internalPayment.id
+        )
+        .maybeSingle();
+
+      if (
+        existingSubscriptionError
+      ) {
+        console.error(
+          "Package subscription lookup error:",
+          existingSubscriptionError
+        );
+
+        return NextResponse.json(
+          {
+            success: false,
+            message:
+              "Unable to verify package subscription.",
+          },
+          {
+            status: 500,
+          }
+        );
+      }
+
+      if (existingSubscription) {
+        console.log(
+          "Package subscription already activated:",
+          {
+            subscription_id:
+              existingSubscription.id,
+            payment_id:
+              internalPayment.id,
+          }
+        );
+
+        return NextResponse.json(
+          {
+            success: true,
+            received: true,
+            payment_id:
+              externalPaymentId,
+            payment_status,
+            order_id,
+            payment_type:
+              "package",
+            activated: true,
+            duplicate: true,
+            subscriptionId:
+              existingSubscription.id,
+            message:
+              "Package subscription was already activated.",
+          },
+          {
+            status: 200,
+          }
+        );
+      }
+
+      /*
+       * ------------------------------------------------
+       * 7. Cancel any previous active subscription.
+       *
+       * Normally checkout blocks buying while one is
+       * active. This is additional protection against
+       * duplicate active rows / race conditions.
+       * ------------------------------------------------
+       */
+
+      const {
+        error:
+          cancelPreviousError,
+      } = await supabaseAdmin
+        .from("seller_subscriptions")
+        .update({
+          status: "cancelled",
+          updated_at:
+            new Date().toISOString(),
+        })
+        .eq(
+          "seller_id",
+          internalPayment.seller_id
+        )
+        .eq("status", "active");
+
+      if (cancelPreviousError) {
+        console.error(
+          "Previous subscription cancel error:",
+          cancelPreviousError
+        );
+
+        return NextResponse.json(
+          {
+            success: false,
+            message:
+              "Unable to prepare package activation.",
+          },
+          {
+            status: 500,
+          }
+        );
+      }
+
+      /*
+       * ------------------------------------------------
+       * 8. Activate seller package
+       * ------------------------------------------------
+       */
+
+      const amountPaid =
+        actually_paid_at_fiat !==
+          undefined &&
+        actually_paid_at_fiat !== null
+          ? Number(
+              actually_paid_at_fiat
+            )
+          : price_amount !== undefined &&
+              price_amount !== null
+            ? Number(price_amount)
+            : Number(
+                internalPayment.amount ??
+                  0
+              );
+
+      const safeAmountPaid =
+        Number.isFinite(amountPaid)
+          ? amountPaid
+          : Number(
+              internalPayment.amount ??
+                0
+            );
+
+      const {
+        data: newSubscription,
+        error:
+          subscriptionInsertError,
+      } = await supabaseAdmin
+        .from("seller_subscriptions")
+        .insert({
+          seller_id:
+            internalPayment.seller_id,
+
+          package_id:
+            internalPayment.package_id,
+
+          status: "active",
+
+          payment_id:
+            internalPayment.id,
+
+          amount_paid:
+            safeAmountPaid,
+
+          auto_renew: false,
+
+          updated_at:
+            new Date().toISOString(),
+        })
+        .select("id")
+        .single();
+
+      if (
+        subscriptionInsertError ||
+        !newSubscription
+      ) {
+        console.error(
+          "Package subscription activation error:",
+          subscriptionInsertError
+        );
+
+        return NextResponse.json(
+          {
+            success: false,
+            message:
+              "Payment confirmed, but package activation failed.",
+          },
+          {
+            status: 500,
+          }
+        );
+      }
+
+      console.log(
+        "Seller package activated:",
+        {
+          seller_id:
+            internalPayment.seller_id,
+          package_id:
+            internalPayment.package_id,
+          payment_id:
+            internalPayment.id,
+          subscription_id:
+            newSubscription.id,
+        }
+      );
+
+      return NextResponse.json(
+        {
+          success: true,
+          received: true,
+          payment_id:
+            externalPaymentId,
+          payment_status,
+          order_id,
+          payment_type:
+            "package",
+          activated: true,
+          subscriptionId:
+            newSubscription.id,
+          message:
+            "Seller package activated successfully.",
+        },
+        {
+          status: 200,
+        }
+      );
+    }
+
+    /*
+     * ------------------------------------------------
+     * 9. NORMAL ORDER PAYMENT FLOW
+     *
+     * Normal orders use:
+     *
+     * NOWPayments order_id = orders.id
+     * ------------------------------------------------
+     */
+
     const {
       data: order,
       error: orderLookupError,
     } = await supabaseAdmin
       .from("orders")
       .select(
-        "id, payment_status, status"
+        `
+          id,
+          payment_status,
+          status
+        `
       )
       .eq("id", order_id)
       .maybeSingle();
@@ -232,7 +713,7 @@ export async function POST(
         {
           success: false,
           message:
-            "Order not found.",
+            "Payment reference not found.",
         },
         {
           status: 404,
@@ -240,13 +721,17 @@ export async function POST(
       );
     }
 
+    /*
+     * Update payment belonging to normal order.
+     */
+
     const {
       error: paymentError,
     } = await supabaseAdmin
       .from("payments")
       .update({
         payment_id:
-          String(payment_id),
+          externalPaymentId,
 
         payment_status,
 
@@ -266,7 +751,8 @@ export async function POST(
           actually_paid ?? null,
 
         actually_paid_at_fiat:
-          actually_paid_at_fiat ?? null,
+          actually_paid_at_fiat ??
+          null,
 
         outcome_amount:
           outcome_amount ?? null,
@@ -274,7 +760,8 @@ export async function POST(
         outcome_currency:
           outcome_currency ?? null,
       })
-      .eq("order_id", order_id);
+      .eq("order_id", order.id)
+      .eq("payment_type", "order");
 
     if (paymentError) {
       console.error(
@@ -294,25 +781,28 @@ export async function POST(
       );
     }
 
-    const isPaid =
-      payment_status === "confirmed" ||
-      payment_status === "finished";
+    /*
+     * Update normal order.
+     */
 
-    const orderUpdate = isPaid
-      ? {
-          payment_status: "paid",
-          status: "processing",
-        }
-      : {
-          payment_status,
-        };
+    const orderUpdate =
+      paid
+        ? {
+            payment_status:
+              "paid",
+            status:
+              "processing",
+          }
+        : {
+            payment_status,
+          };
 
     const {
       error: orderError,
     } = await supabaseAdmin
       .from("orders")
       .update(orderUpdate)
-      .eq("id", order_id);
+      .eq("id", order.id);
 
     if (orderError) {
       console.error(
@@ -333,9 +823,10 @@ export async function POST(
     }
 
     console.log(
-      "NOWPayments webhook processed:",
+      "NOWPayments order webhook processed:",
       {
-        payment_id,
+        payment_id:
+          externalPaymentId,
         payment_status,
         order_id,
       }
@@ -345,9 +836,12 @@ export async function POST(
       {
         success: true,
         received: true,
-        payment_id,
+        payment_id:
+          externalPaymentId,
         payment_status,
         order_id,
+        payment_type:
+          "order",
         message:
           "Webhook processed successfully.",
       },

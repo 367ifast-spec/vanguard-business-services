@@ -3,14 +3,36 @@
 import { useState } from "react";
 import { SELLER_PACKAGES } from "@/lib/seller-packages";
 
+type PackageInfo = {
+  id?: string;
+  name?: string;
+  slug?: string;
+  price?: number;
+  listingLimit?: number | null;
+  isUnlimited?: boolean;
+};
+
 type CheckoutResponse = {
   success?: boolean;
   error?: string;
   requiresPayment?: boolean;
-  package?: string;
+  sellerId?: string;
+  package?: PackageInfo;
   amount?: number;
   paymentProvider?: string;
   redirectUrl?: string;
+};
+
+type PaymentCreateResponse = {
+  success?: boolean;
+  error?: string;
+  requiresPayment?: boolean;
+  paymentProvider?: string;
+  paymentRecordId?: string;
+  paymentId?: string | null;
+  package?: PackageInfo;
+  amount?: number;
+  paymentUrl?: string;
 };
 
 export default function SellerPackagesPage() {
@@ -21,13 +43,22 @@ export default function SellerPackagesPage() {
     useState<string | null>(null);
 
   async function handleUpgrade(packageName: string) {
-    const packageSlug = packageName.toLowerCase();
+    const packageSlug =
+      packageName.trim().toLowerCase();
 
     try {
       setError(null);
       setLoadingPackage(packageName);
 
-      const response = await fetch(
+      /*
+       * Step 1:
+       * Validate seller + selected package.
+       *
+       * FREE package can be activated here.
+       * Paid packages continue to the dedicated
+       * package payment endpoint.
+       */
+      const checkoutResponse = await fetch(
         "/api/seller/packages/checkout",
         {
           method: "POST",
@@ -40,22 +71,96 @@ export default function SellerPackagesPage() {
         }
       );
 
-      const data: CheckoutResponse =
-        await response.json();
+      const checkoutData: CheckoutResponse =
+        await checkoutResponse.json();
 
-      if (!response.ok || !data.success) {
+      if (
+        !checkoutResponse.ok ||
+        !checkoutData.success
+      ) {
         throw new Error(
-          data.error || "Unable to start checkout."
+          checkoutData.error ||
+            "Unable to start package checkout."
         );
       }
 
-      if (!data.redirectUrl) {
+      /*
+       * Step 2:
+       * FREE package.
+       *
+       * Checkout route activates the subscription
+       * and returns the seller dashboard URL.
+       */
+      if (!checkoutData.requiresPayment) {
+        if (!checkoutData.redirectUrl) {
+          throw new Error(
+            "Package activation redirect URL was not returned."
+          );
+        }
+
+        window.location.assign(
+          checkoutData.redirectUrl
+        );
+
+        return;
+      }
+
+      /*
+       * Step 3:
+       * Paid package.
+       *
+       * Do NOT send the seller to the normal
+       * /payment or /checkout flow.
+       *
+       * Create a dedicated seller-package
+       * NOWPayments invoice instead.
+       */
+      const paymentResponse = await fetch(
+        "/api/seller/packages/payment/create",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            packageSlug,
+          }),
+        }
+      );
+
+      const paymentData: PaymentCreateResponse =
+        await paymentResponse.json();
+
+      if (
+        !paymentResponse.ok ||
+        !paymentData.success
+      ) {
         throw new Error(
-          "Checkout redirect URL was not returned."
+          paymentData.error ||
+            "Unable to create package payment."
         );
       }
 
-      window.location.href = data.redirectUrl;
+      /*
+       * Step 4:
+       * NOWPayments returns the hosted invoice URL.
+       */
+      if (!paymentData.paymentUrl) {
+        throw new Error(
+          "NOWPayments invoice URL was not returned."
+        );
+      }
+
+      /*
+       * Step 5:
+       * Redirect directly to NOWPayments.
+       *
+       * This completely bypasses the normal
+       * cart/order checkout flow.
+       */
+      window.location.assign(
+        paymentData.paymentUrl
+      );
     } catch (err) {
       console.error(
         "Seller package checkout error:",
@@ -141,7 +246,9 @@ export default function SellerPackagesPage() {
                     className="mt-8 w-full rounded-xl bg-indigo-600 py-4 font-semibold transition hover:bg-indigo-500 disabled:cursor-not-allowed disabled:opacity-50"
                   >
                     {isLoading
-                      ? "Processing..."
+                      ? pkg.price === 0
+                        ? "Activating..."
+                        : "Creating Payment..."
                       : pkg.price === 0
                         ? "Choose Free"
                         : "Upgrade"}
