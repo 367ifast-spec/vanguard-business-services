@@ -11,6 +11,21 @@ type MarketplaceListing = {
   status: string | null;
 };
 
+type SellerPackage = {
+  id: string;
+  name: string;
+  slug: string;
+  listing_limit: number | null;
+  is_unlimited: boolean | null;
+  badge_name: string | null;
+};
+
+type SellerSubscription = {
+  id: string;
+  package_id: string;
+  status: string;
+};
+
 export default function DashboardPage() {
   const [loading, setLoading] = useState(true);
   const [authRequired, setAuthRequired] =
@@ -28,12 +43,17 @@ export default function DashboardPage() {
   const [rejectedListings, setRejectedListings] =
     useState(0);
 
-  const FREE_LISTING_LIMIT = 15;
+  const [sellerPackage, setSellerPackage] =
+    useState<SellerPackage | null>(null);
+
+  const [hasActiveSubscription, setHasActiveSubscription] =
+    useState(false);
 
   useEffect(() => {
     async function loadDashboard() {
       try {
         setLoading(true);
+        setAuthRequired(false);
 
         const {
           data: { user },
@@ -52,17 +72,26 @@ export default function DashboardPage() {
           return;
         }
 
-        const { data, error } = await supabase
+        /*
+         * --------------------------------------------
+         * 1. Load seller listings
+         * --------------------------------------------
+         */
+
+        const {
+          data: listingData,
+          error: listingError,
+        } = await supabase
           .from("marketplace_listings")
           .select("id, status")
           .eq("seller_id", user.id);
 
-        if (error) {
-          throw error;
+        if (listingError) {
+          throw listingError;
         }
 
         const listings =
-          (data as MarketplaceListing[] | null) ??
+          (listingData as MarketplaceListing[] | null) ??
           [];
 
         const total = listings.length;
@@ -90,6 +119,125 @@ export default function DashboardPage() {
         setApprovedListings(approved);
         setPendingListings(pending);
         setRejectedListings(rejected);
+
+        /*
+         * --------------------------------------------
+         * 2. Look for active seller subscription
+         * --------------------------------------------
+         */
+
+        const {
+          data: subscriptionData,
+          error: subscriptionError,
+        } = await supabase
+          .from("seller_subscriptions")
+          .select(
+            `
+              id,
+              package_id,
+              status
+            `
+          )
+          .eq("seller_id", user.id)
+          .eq("status", "active")
+          .order("created_at", {
+            ascending: false,
+          })
+          .limit(1)
+          .maybeSingle();
+
+        if (subscriptionError) {
+          console.error(
+            "SELLER DASHBOARD SUBSCRIPTION ERROR:",
+            subscriptionError
+          );
+        }
+
+        const activeSubscription =
+          subscriptionData as SellerSubscription | null;
+
+        /*
+         * --------------------------------------------
+         * 3. Active subscription -> load its package
+         * --------------------------------------------
+         */
+
+        if (activeSubscription?.package_id) {
+          const {
+            data: packageData,
+            error: packageError,
+          } = await supabase
+            .from("seller_packages")
+            .select(
+              `
+                id,
+                name,
+                slug,
+                listing_limit,
+                is_unlimited,
+                badge_name
+              `
+            )
+            .eq(
+              "id",
+              activeSubscription.package_id
+            )
+            .maybeSingle();
+
+          if (packageError) {
+            console.error(
+              "SELLER DASHBOARD PACKAGE ERROR:",
+              packageError
+            );
+          }
+
+          if (packageData) {
+            setSellerPackage(
+              packageData as SellerPackage
+            );
+            setHasActiveSubscription(true);
+            return;
+          }
+        }
+
+        /*
+         * --------------------------------------------
+         * 4. No active subscription -> FREE fallback
+         * --------------------------------------------
+         */
+
+        const {
+          data: freePackageData,
+          error: freePackageError,
+        } = await supabase
+          .from("seller_packages")
+          .select(
+            `
+              id,
+              name,
+              slug,
+              listing_limit,
+              is_unlimited,
+              badge_name
+            `
+          )
+          .eq("slug", "free")
+          .maybeSingle();
+
+        if (freePackageError) {
+          console.error(
+            "SELLER DASHBOARD FREE PACKAGE ERROR:",
+            freePackageError
+          );
+        }
+
+        if (freePackageData) {
+          setSellerPackage(
+            freePackageData as SellerPackage
+          );
+        }
+
+        setHasActiveSubscription(false);
       } catch (error) {
         console.error(
           "SELLER DASHBOARD LOAD ERROR:",
@@ -103,10 +251,18 @@ export default function DashboardPage() {
     loadDashboard();
   }, []);
 
-  const remainingListings = Math.max(
-    FREE_LISTING_LIMIT - totalListings,
-    0
-  );
+  const listingLimit =
+    sellerPackage?.listing_limit ?? 15;
+
+  const isUnlimited =
+    sellerPackage?.is_unlimited === true;
+
+  const remainingListings = isUnlimited
+    ? null
+    : Math.max(
+        listingLimit - totalListings,
+        0
+      );
 
   if (loading) {
     return (
@@ -170,17 +326,37 @@ export default function DashboardPage() {
 
         {/* Seller Package */}
         <div className="mt-6 rounded-2xl border border-indigo-500/20 bg-indigo-500/10 p-5">
-          <h2 className="text-xl font-semibold">
-            Seller Package: FREE
-          </h2>
+          <div className="flex flex-wrap items-center gap-3">
+            <h2 className="text-xl font-semibold">
+              Seller Package:{" "}
+              {sellerPackage?.name ?? "FREE"}
+            </h2>
+
+            {sellerPackage?.badge_name ? (
+              <span className="rounded-full border border-indigo-400/30 bg-indigo-500/20 px-3 py-1 text-xs font-semibold text-indigo-200">
+                {sellerPackage.badge_name}
+              </span>
+            ) : null}
+          </div>
 
           <p className="mt-2 text-gray-300">
-            Remaining Listings: {remainingListings}
+            Remaining Listings:{" "}
+            {isUnlimited
+              ? "Unlimited"
+              : remainingListings}
           </p>
 
           <p className="mt-1 text-sm text-gray-400">
-            {totalListings} of {FREE_LISTING_LIMIT}{" "}
-            listing slots used.
+            {isUnlimited
+              ? `${totalListings} listings currently used.`
+              : `${totalListings} of ${listingLimit} listing slots used.`}
+          </p>
+
+          <p className="mt-1 text-sm text-gray-400">
+            Subscription:{" "}
+            {hasActiveSubscription
+              ? "Active"
+              : "Free Plan"}
           </p>
 
           {rejectedListings > 0 ? (
@@ -189,6 +365,22 @@ export default function DashboardPage() {
               {rejectedListings}
             </p>
           ) : null}
+
+          <div className="mt-4 flex flex-wrap gap-3">
+            <Link
+              href="/seller/packages"
+              className="inline-flex rounded-xl bg-indigo-600 px-4 py-2 text-sm font-semibold transition hover:bg-indigo-700"
+            >
+              View Packages
+            </Link>
+
+            <Link
+              href="/seller/subscription"
+              className="inline-flex rounded-xl border border-white/10 bg-white/5 px-4 py-2 text-sm font-semibold transition hover:bg-white/10"
+            >
+              Subscription Details
+            </Link>
+          </div>
         </div>
 
         {/* Stats */}
