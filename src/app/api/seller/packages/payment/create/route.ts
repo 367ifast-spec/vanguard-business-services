@@ -305,13 +305,13 @@ export async function POST(req: NextRequest) {
     }
 
     if (activeSubscription) {
-      return NextResponse.json(
+      console.log(
+        "Existing active subscription found; allowing paid package upgrade:",
         {
-          error:
-            "You already have an active seller subscription.",
-        },
-        {
-          status: 409,
+          subscriptionId: activeSubscription.id,
+          currentPackageId: activeSubscription.package_id,
+          targetPackageId: sellerPackage.id,
+          sellerId: user.id,
         }
       );
     }
